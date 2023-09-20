@@ -24,14 +24,17 @@ export const env = createEnv({
     STRIPE_PRO_MONTHLY_PLAN_ID: z.string().min(1),
     OPENAI_API_KEY: z.string().min(1).startsWith('sk-'),
     OPENAI_ORGANIZATION_ID: z.string().min(1),
+    CLERK_SECRET_KEY: z.string().min(1).startsWith('sk_'),
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().url(),
     NEXT_PUBLIC_JWT_PUBLIC_KEY: z.string().startsWith('-----BEGIN PUBLIC KEY-----').endsWith('-----END PUBLIC KEY-----'),
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().min(1).startsWith('pk_'),
   },
   runtimeEnv: {
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     NEXT_PUBLIC_JWT_PUBLIC_KEY: process.env.NEXT_PUBLIC_JWT_PUBLIC_KEY,
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
     JWT_ALGORITHM: process.env.JWT_ALGORITHM,
     JWT_EXPIRY_ACCESS_TOKEN: process.env.JWT_EXPIRY_ACCESS_TOKEN,
     JWT_EXPIRY_REFRESH_TOKEN: process.env.JWT_EXPIRY_REFRESH_TOKEN,
@@ -53,5 +56,6 @@ export const env = createEnv({
     STRIPE_PRO_MONTHLY_PLAN_ID: process.env.STRIPE_PRO_MONTHLY_PLAN_ID,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     OPENAI_ORGANIZATION_ID: process.env.OPENAI_ORGANIZATION_ID,
+    CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
   },
 })
