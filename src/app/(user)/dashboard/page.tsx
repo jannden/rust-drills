@@ -1,209 +1,71 @@
-import { Metadata } from 'next'
+'use server'
 
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { MainNav } from './components/main-nav'
-import { Overview } from './components/overview'
-import { RecentSales } from './components/recent-sales'
-import TeamSwitcher from './components/team-switcher'
-import { UserNav } from './components/user-nav'
-import { DemoCookieSettings } from './components/cookie-settings'
-import { DemoCreateAccount } from './components/create-account'
-import { DemoGithub } from './components/github-card'
-import { DemoNotifications } from './components/notifications'
-import { DemoPaymentMethod } from './components/payment-method'
-import { DemoReportAnIssue } from './components/report-an-issue'
-import { DemoShareDocument } from './components/share-document'
-import { DemoTeamMembers } from './components/team-members'
-import { cn } from '@/lib/utils'
+import { redirect } from 'next/navigation'
+import { DateTime } from 'luxon'
 
-export const metadata: Metadata = {
-  title: 'Dashboard',
-  description: 'Example dashboard app built using the components.',
+import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
+import { prisma } from '@/lib/prisma'
+
+import Chart from './Chart'
+import Scoreboard from './Scoreboard'
+import Badges from './Badges'
+import Streak from './Streak'
+import Totals from './Totals'
+
+const calculateChange = (current: number, previous: number) => {
+  if (current > previous) return previous === 0 ? 100 : Math.ceil((current / previous) * 100)
+  if (current < previous) return current === 0 ? -100 : -Math.floor((previous / current) * 100)
+  return 0
 }
 
-function DemoContainer({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn('flex items-center justify-center [&>div]:w-full', className)} {...props} />
-}
+export default async function Settings() {
+  const user = await getClerkWithDb()
+  if (!user) {
+    redirect('/')
+  }
 
-export default function DashboardPage() {
+  // Less than 14 days ago made with luxon
+  const oneWeekAgo = DateTime.utc().minus({ days: 7 }).toJSDate()
+  const twoWeeksAgo = DateTime.utc().minus({ days: 14 }).toJSDate()
+
+  const memories = await prisma.memory.findMany({
+    where: {
+      userId: user.db.id,
+      dateTimeRepeated: {
+        gte: twoWeeksAgo,
+      },
+    },
+  })
+
+  const memoriesCountOneWeekAgo = memories.filter((m) => {
+    return !!m.dateTimeRepeated && m.dateTimeRepeated >= oneWeekAgo
+  })
+  const memoriesCountTwoWeeksAgo = memories.filter((m) => {
+    return !!m.dateTimeRepeated && m.dateTimeRepeated < oneWeekAgo && m.dateTimeRepeated >= twoWeeksAgo
+  })
+  const memoriesChange = calculateChange(memoriesCountOneWeekAgo.length, memoriesCountTwoWeeksAgo.length)
+
   return (
     <>
-      <div className="hidden flex-col md:flex">
-        <div className="border-b">
-          <div className="flex h-16 items-center px-4">
-            <TeamSwitcher />
-            <MainNav className="mx-6" />
-            <div className="ml-auto flex items-center space-x-4">
-              <UserNav />
-            </div>
-          </div>
-        </div>
-        <div className="flex-1 space-y-4 p-8 pt-6">
-          <div className="flex items-center justify-between space-y-2">
-            <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
-            <div className="flex items-center space-x-2">
-              <Button>Download</Button>
-            </div>
-          </div>
-          <Tabs defaultValue="overview" className="space-y-4">
-            <TabsList>
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="analytics" disabled>
-                Analytics
-              </TabsTrigger>
-              <TabsTrigger value="reports" disabled>
-                Reports
-              </TabsTrigger>
-              <TabsTrigger value="notifications" disabled>
-                Notifications
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="overview" className="space-y-4">
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      className="h-4 w-4 text-muted-foreground"
-                    >
-                      <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-                    </svg>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">$45,231.89</div>
-                    <p className="text-xs text-muted-foreground">+20.1% from last month</p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Subscriptions</CardTitle>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      className="h-4 w-4 text-muted-foreground"
-                    >
-                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                      <circle cx="9" cy="7" r="4" />
-                      <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-                    </svg>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">+2350</div>
-                    <p className="text-xs text-muted-foreground">+180.1% from last month</p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Sales</CardTitle>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      className="h-4 w-4 text-muted-foreground"
-                    >
-                      <rect width="20" height="14" x="2" y="5" rx="2" />
-                      <path d="M2 10h20" />
-                    </svg>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">+12,234</div>
-                    <p className="text-xs text-muted-foreground">+19% from last month</p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Active Now</CardTitle>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      className="h-4 w-4 text-muted-foreground"
-                    >
-                      <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                    </svg>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">+573</div>
-                    <p className="text-xs text-muted-foreground">+201 since last hour</p>
-                  </CardContent>
-                </Card>
-              </div>
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-                <Card className="col-span-4">
-                  <CardHeader>
-                    <CardTitle>Overview</CardTitle>
-                  </CardHeader>
-                  <CardContent className="pl-2">
-                    <Overview />
-                  </CardContent>
-                </Card>
-                <Card className="col-span-3">
-                  <CardHeader>
-                    <CardTitle>Recent Sales</CardTitle>
-                    <CardDescription>You made 265 sales this month.</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <RecentSales />
-                  </CardContent>
-                </Card>
-              </div>
-            </TabsContent>
-          </Tabs>
-        </div>
+      <Streak />
+      <div className="mx-auto mt-12 border-t border-gray-200 pt-10 ">
+        <Totals memoriesCountOneWeekAgo={memoriesCountOneWeekAgo.length} memoriesChange={memoriesChange} />
       </div>
-      <div className="hidden items-start justify-center gap-6 rounded-lg p-8 md:grid lg:grid-cols-2 xl:grid-cols-3">
-        <div className="col-span-2 grid items-start gap-6 lg:col-span-1">
-          <DemoContainer>
-            <DemoCreateAccount />
-          </DemoContainer>
-          <DemoContainer>
-            <DemoPaymentMethod />
-          </DemoContainer>
-        </div>
-        <div className="col-span-2 grid items-start gap-6 lg:col-span-1">
-          <DemoContainer>
-            <DemoTeamMembers />
-          </DemoContainer>
-          <DemoContainer>
-            <DemoShareDocument />
-          </DemoContainer>
-          <DemoContainer>
-            <DemoNotifications />
-          </DemoContainer>
-        </div>
-        <div className="col-span-2 grid items-start gap-6 lg:col-span-2 lg:grid-cols-2 xl:col-span-1 xl:grid-cols-1">
-          <DemoContainer>
-            <DemoReportAnIssue />
-          </DemoContainer>
-          <DemoContainer>
-            <DemoGithub />
-          </DemoContainer>
-          <DemoContainer>
-            <DemoCookieSettings />
-          </DemoContainer>
-        </div>
+      <div className="mt-12 border-t border-gray-200 pt-10">
+        <div className="mb-12 whitespace-nowrap text-lg font-semibold leading-6">Past week</div>
+        <Chart
+          pastSevenDays={{
+            memories: memoriesCountOneWeekAgo,
+          }}
+        />
+      </div>
+      <div className="mt-12 border-t border-gray-200 pt-10">
+        <div className="mb-6 whitespace-nowrap text-lg font-semibold leading-6">Learning Scoreboard</div>
+        <Scoreboard />
+      </div>
+      <div className="mt-12 border-t border-gray-200 pt-10">
+        <div className="mb-6 whitespace-nowrap text-lg font-semibold leading-6">Your badges</div>
+        <Badges />
       </div>
     </>
   )

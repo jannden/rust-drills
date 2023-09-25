@@ -1,22 +1,146 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider          = "postgresql"
-  url               = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl         = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
-  shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING") // used for migrations
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+enum Role {
+  USER
+  ADMIN
 }
 
 model User {
-  id        String   @id @default(uuid())
-  clerkId   String   @unique
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
+  id                 String  @id @default(cuid())
+  clerkId            String  @unique
+  email              String  @unique
+  firstName          String?
+  publicName         String?
+  publicNameApproved Boolean @default(false)
+
+  role             Role @default(USER)
+  totalBadgeLevels Int  @default(0)
+
+  lastLogin DateTime?
+  updatedAt DateTime  @updatedAt
+  createdAt DateTime  @default(now())
+
+  stripe   Stripe?
+  streaks  Streak[]
+  prompts  Prompt[]
+  memories Memory[]
+}
+
+model Stripe {
+  id                     String    @id @default(cuid())
+  stripeCustomerId       String?   @unique
+  stripeSubscriptionId   String?   @unique
+  stripePriceId          String?
+  stripeCurrentPeriodEnd DateTime?
+  userId                 String    @unique
+  updatedAt              DateTime  @updatedAt
+  createdAt              DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Prompt {
+  id   String @id @default(cuid())
+  type String
+
+  prompt       Json
+  promptTokens Int?
+
+  completion       String?
+  completionTokens Int?
+  maxTokens        Int?
+
+  model             String?
+  temperature       Float?
+  openaiRunId       String?
+  openaiAssistantId String?
+  openaiThreadId    String?
+
+  userId   String
+  memoryId String?
+
   updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  memory Memory? @relation(fields: [memoryId], references: [id], onDelete: Cascade)
+}
+
+model Streak {
+  id String @id @default(cuid())
+
+  userId String
+
+  lastDate          DateTime
+  daysCount         Int      @default(1)
+  todayLearnedCount Int      @default(1)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model SignIn {
+  id String @id @default(cuid())
+
+  email String
+
+  createdAt DateTime @default(now())
+}
+
+model Article {
+  id String @id @default(cuid())
+
+  title    String
+  subtitle String
+  summary  String
+  url      String
+
+  snippets Snippet[]
+}
+
+model Snippet {
+  id String @id @default(cuid())
+
+  articleId String
+
+  heading String
+  content String
+  task    String
+
+  article  Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  memories Memory[]
+}
+
+model Memory {
+  id String @id @default(cuid())
+
+  userId    String
+  snippetId String
+
+  openaiThreadId String?
+  openaiChat     Json?
+
+  interval         Decimal @db.Decimal(9, 5)
+  repetition       Int
+  eFactor          Decimal @db.Decimal(4, 2)
+  numberOfMistakes Int[]
+
+  dateTimeRepeated    DateTime?
+  dateTimePlanned     DateTime
+  dateTimeLastMistake DateTime?
+  dateTimeClaimed     DateTime?
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  snippet Snippet  @relation(fields: [snippetId], references: [id], onDelete: Cascade)
+  prompts Prompt[]
 }

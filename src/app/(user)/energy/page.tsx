@@ -1,0 +1,166 @@
+'use server'
+
+import ModalComponent from '@/components/user/Modal'
+import Alert, { AlertVariant } from '@/components/user/Alert'
+import { ButtonType, ButtonVariant } from '@/components/user/Button'
+import Heading from '@/components/user/Heading'
+import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
+import { getSpentTokens } from '@/lib/server/getEnergy'
+import { DateTime } from 'luxon'
+import { redirect } from 'next/navigation'
+import { defaultAI } from '@/lib/config/ai'
+import { prisma } from '@/lib/prisma'
+
+const ModalBody = <p className="text-sm text-gray-500">Buy more energy...</p>
+
+export default async function EnergyPage() {
+  const user = await getClerkWithDb()
+  if (!user) {
+    return redirect('/sign-up')
+  }
+
+  const prompts = await prisma.prompt.findMany({
+    where: {
+      userId: user.db.id,
+      createdAt: {
+        gte: DateTime.now().minus({ days: 1 }).toJSDate(),
+      },
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+    include: {
+      memory: {
+        include: {
+          snippet: {
+            include: {
+              article: true,
+            },
+          }
+        },
+      },
+    },
+  })
+
+  const dailyLimit = defaultAI.dailyEnergy
+  const totalSpent = prompts.reduce((acc, completion) => acc + getSpentTokens(completion), 0)
+  const energy = dailyLimit - totalSpent
+
+  const showPurchase = false
+
+  return (
+    <>
+      <Heading
+        heading="Energy"
+        description="Learning consumes energy. Energy gets refilled over time."
+        className="mb-6 border-b-0 pb-0"
+      >
+        {showPurchase && (
+          <ModalComponent
+            buttonText="Get more energy"
+            buttonVariant={ButtonVariant.Primary}
+            buttonType={ButtonType.Button}
+            title="Refill energy"
+            body={ModalBody}
+            confirmText="Purchase"
+          />
+        )}
+      </Heading>
+      {prompts.length === 0 ? (
+        <Alert variant={AlertVariant.Yellow} message="No energy spent recently." />
+      ) : (
+        <table className="min-w-full divide-y divide-gray-300">
+          <thead>
+            <tr>
+              <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                Type
+              </th>
+              <th
+                scope="col"
+                className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
+              >
+                Story
+              </th>
+              <th
+                scope="col"
+                className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
+              >
+                Date
+              </th>
+              <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">
+                Energy
+              </th>
+            </tr>
+          </thead>
+
+          <tbody className="divide-y divide-gray-200 bg-white">
+            {prompts.map((prompt) => (
+              <tr key={prompt.id}>
+                <td className="hidden px-3 text-sm text-gray-500 lg:table-cell">{prompt.type}</td>
+                <td className="w-full px-3 text-sm font-medium text-gray-900">
+                  {prompt.memory?.snippet?.article?.title}
+                  <dl className="font-normal lg:hidden">
+                    <dt className="sr-only">Type</dt>
+                    <dd className="mt-1 truncate text-gray-700">{prompt.type}</dd>
+                    <dt className="sr-only sm:hidden">Date</dt>
+                    <dd className="mt-1 truncate text-gray-500 sm:hidden">
+                      {DateTime.fromJSDate(prompt.createdAt).toLocaleString()}
+                    </dd>
+                  </dl>
+                </td>
+                <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">
+                  {DateTime.fromJSDate(prompt.createdAt).toLocaleString()}
+                </td>
+                <td className="px-3 py-4 text-right text-sm text-gray-500">{getSpentTokens(prompt)}</td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot>
+            <tr>
+              <th className="hidden sm:table-cell" />
+              <th className="hidden lg:table-cell" />
+              <th
+                scope="row"
+                className="hidden pl-4 pr-3 pt-6 text-right text-sm font-normal text-gray-500 sm:table-cell sm:pl-0"
+              >
+                Total spent
+              </th>
+              <th scope="row" className="pl-4 pr-3 pt-6 text-left text-sm font-normal text-gray-500 sm:hidden">
+                Total spent
+              </th>
+              <td className="px-3 pt-6 text-right text-sm text-gray-500">{totalSpent}</td>
+            </tr>
+            <tr>
+              <th className="hidden sm:table-cell" />
+              <th className="hidden lg:table-cell" />
+              <th
+                scope="row"
+                className="hidden pl-4 pr-3 pt-4 text-right text-sm font-normal text-gray-500 sm:table-cell sm:pl-0"
+              >
+                Daily limit
+              </th>
+              <th scope="row" className="pl-4 pr-3 pt-4 text-left text-sm font-normal text-gray-500 sm:hidden">
+                Daily limit
+              </th>
+              <td className="px-3 pt-4 text-right text-sm text-gray-500">{dailyLimit}</td>
+            </tr>
+            <tr>
+              <th className="hidden sm:table-cell" />
+              <th className="hidden lg:table-cell" />
+              <th
+                scope="row"
+                className="hidden pl-4 pr-3 pt-4 text-right text-sm font-semibold text-gray-900 sm:table-cell sm:pl-0"
+              >
+                Energy left
+              </th>
+              <th scope="row" className="pl-4 pr-3 pt-4 text-left text-sm font-semibold text-gray-900 sm:hidden">
+                Energy left
+              </th>
+              <td className="px-3 pt-4 text-right text-sm font-semibold text-gray-900">{energy}</td>
+            </tr>
+          </tfoot>
+        </table>
+      )}
+    </>
+  )
+}

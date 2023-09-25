@@ -1,0 +1,15 @@
+[
+  {
+    "title": "Rust Enums: A Fun Guide with Examples",
+    "subtitle": "A fun but comprehensive guide for Enums in Rust with metaphors from The Matrix.",
+    "summary": "Welcome to the digital world of Rust. I will explain all about Enums, drawing parallels with “The Matrix” to make the journey fun and practical at the same time.",
+    "url": "https://medium.com/rustaceans/rust-enums-a-fun-guide-with-examples-f3bb0f590d93",
+    "snippets": [
+      {
+        "heading": "1. The Basics of Enums",
+        "content": "An Enum is a type that can be any one of several variants. It’s similar to how Neo must understand his identity: is he Thomas Anderson, a regular software engineer, or Neo, the chosen one?\n\nImagine a scenario where Morpheus offers Neo a choice between two pills.\n\n```rust\nenum Pill {\n    Red,\n    Blue,\n}\n\nfn main() {\n  let choice = Pill::Red; // Neo chooses the Red pill\n  match choice {\n    Pill::Red => println!(\"Welcome to the real world.\"),\n    Pill::Blue => println!(\"Stay in the dream.\"),\n  }\n}\n```\n\nHere, the `Pill` enum has two variants: `Red` and `Blue`. Neo's choice is represented by one of these variants. The `match` statement then acts like Morpheus, interpreting Neo's decision.",
+        "task": "We are going to drill a code snippet that utilizes an enum named `Pill` with two variants, `Red` and `Blue`. In the main function, the choice of pill determines the printed message. Here's the code with your part removed:\n```rust\nenum Pill {\nRed,\nBlue,\n}\nfn main() {\nlet choice = Pill::Red; // Neo chooses the Red pill\n}\n```\nThe code snippet acts as a decision-making process based on Neo's choice between the Red and Blue pills. Depending on the choice, it prints a specific message to the console.\nNow, let's break down the part you should write:\n1. Use a `match` statement to decide what message to print based on the value of `choice`. Remember, `choice` can be either `Pill::Red` or `Pill::Blue`.\n2. For each possible value of `choice`, write a branch in the match statement. Each branch should correspond to one of the variants of the `Pill` enum.\n3. For the `Pill::Red` variant, print 'Welcome to the real world.'.\n4. For the `Pill::Blue` variant, print 'Stay in the dream.'.\nStart by writing the match statement that takes `choice` as its expression."
+      }
+    ]
+  }
+]
