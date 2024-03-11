@@ -10,7 +10,6 @@ import Chart from './Chart'
 import Scoreboard from './Scoreboard'
 import Badges from './Badges'
 import Streak from './Streak'
-import Totals from './Totals'
 
 const calculateChange = (current: number, previous: number) => {
   if (current > previous) return previous === 0 ? 100 : Math.ceil((current / previous) * 100)
@@ -48,10 +47,7 @@ export default async function Settings() {
   return (
     <>
       <Streak />
-      <div className="mx-auto mt-12 border-t border-gray-200 pt-10 ">
-        <Totals memoriesCountOneWeekAgo={memoriesCountOneWeekAgo.length} memoriesChange={memoriesChange} />
-      </div>
-      <div className="mt-12 border-t border-gray-200 pt-10">
+      <div className="mt-12  pt-10">
         <div className="mb-12 whitespace-nowrap text-lg font-semibold leading-6">Past week</div>
         <Chart
           pastSevenDays={{

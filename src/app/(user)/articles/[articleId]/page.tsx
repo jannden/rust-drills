@@ -1,19 +1,8 @@
 'use server'
 
-import React, { useCallback, useEffect } from 'react'
-import { toast } from 'react-toastify'
-import { BookOpen, Loader2 } from 'lucide-react'
-
-import { useMounted } from '@/lib/hooks/use-mounted'
-import {
-  MemoryGETResponseType,
-  MemoryInfoType,
-  MemoryPUTRequestType,
-  MemoryPUTResponseType,
-} from '@/app/api/memories/validations'
+import React from 'react'
 import Alert, { AlertVariant } from '@/components/user/Alert'
 import Button, { ButtonVariant, ButtonType } from '@/components/user/Button'
-import CircularProgress from '@/components/user/CircularProgress'
 import Heading from '@/components/user/Heading'
 import { prisma } from '@/lib/prisma'
 
@@ -36,13 +25,14 @@ export default async function Article({ params }: Props) {
   return (
     <>
       <Heading heading={article.title} />
-      <div>{article.summary}</div>
+      <div className="mb-6">{article.summary}</div>
+      <div className="flex gap-3">
       <Button variant={ButtonVariant.Primary} type={ButtonType.Link} href={`/lesson/${article.id}`}>
         Practice
       </Button>
       <Button variant={ButtonVariant.Secondary} type={ButtonType.Link} href={article.url} target="_blank">
-        Open
-      </Button>
+        Read Article
+      </Button></div>
     </>
   )
 }

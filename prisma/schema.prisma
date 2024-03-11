@@ -97,6 +97,7 @@ model SignIn {
 model Article {
   id String @id @default(cuid())
 
+  order    Int
   title    String
   subtitle String
   summary  String
@@ -109,6 +110,7 @@ model Snippet {
   id String @id @default(cuid())
 
   articleId String
+  order     Int
 
   heading String
   content String

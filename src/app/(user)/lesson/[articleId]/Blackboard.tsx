@@ -108,7 +108,7 @@ export default function Blackboard({ articleId, articleTitle }: Props) {
       <>
         <Alert variant={AlertVariant.Green} message={`All snippets from this article learned.`} />
         <Button variant={ButtonVariant.Primary} type={ButtonType.Link} href={`/articles`}>
-          Open list of articles
+          Open list of topics
         </Button>
       </>
     )
@@ -119,7 +119,7 @@ export default function Blackboard({ articleId, articleTitle }: Props) {
       <>
         <Alert variant={AlertVariant.Blue} message={`No snippets to repeat.`} />
         <Button variant={ButtonVariant.Primary} type={ButtonType.Link} href={`/articles`}>
-          Open list of articles
+          Open list of topics
         </Button>
       </>
     )
@@ -147,7 +147,6 @@ export default function Blackboard({ articleId, articleTitle }: Props) {
       {currentMemory && (
         <>
           <div className="mb-6">
-            <div className="text-xl">Snippet Content:</div>
             <ReactMarkdown className="prose" rehypePlugins={[rehypeHighlight]}>
               {currentMemory.snippetContent}
             </ReactMarkdown>

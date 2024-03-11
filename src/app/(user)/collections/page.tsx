@@ -65,7 +65,7 @@ export default async function CollectionsPage() {
 
       {!parsedMemories?.length ? (
         <div className="mb-12">
-          <Alert variant={AlertVariant.Blue} message="No snippets yet. Add some by exploring the articles." />
+          <Alert variant={AlertVariant.Blue} message="No snippets yet. Add some by exploring the topics." />
           <Button variant={ButtonVariant.Primary} type={ButtonType.Link} href="/articles">
             Article list
           </Button>

@@ -96,7 +96,7 @@ export async function GET(req: Request): Promise<NextResponse<MemoryGETResponseT
           THEN "Memory"."dateTimePlanned"
           ELSE NOW() + INTERVAL '1 day'
         END ASC,
-        RANDOM() ASC
+        "Snippet"."order" ASC
       LIMIT 1;
     `
   } catch (error) {

@@ -5,12 +5,13 @@ import articles from './data/articles.json'
 const prisma = new PrismaClient()
 
 async function main() {
-  console.log('Seeding articles and snippets...')
+  console.log('Seeding topics and snippets...')
   await prisma.article.deleteMany()
   await prisma.snippet.deleteMany()
   for (const a of articles) {
     const article = await prisma.article.create({
       data: {
+        order: a.order,
         title: a.title,
         subtitle: a.subtitle,
         summary: a.summary,
