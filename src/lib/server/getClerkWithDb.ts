@@ -13,12 +13,12 @@ export type ClerkWithDb = {
 
 // * Get Clerk and Database data for User
 export async function getClerkWithDb() {
-  const userClerk = await currentUser()
-  if (!userClerk) {
-    return null
-  }
-
   try {
+    const userClerk = await currentUser()
+    if (!userClerk) {
+      return null
+    }
+
     const userDb = await prisma.user.findUnique({
       where: {
         clerkId: userClerk.id,
