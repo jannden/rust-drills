@@ -31,8 +31,20 @@ const config: Config = {
       typography: {
         DEFAULT: {
           css: {
-            pre: null,
-            code: null,
+            'pre': null,
+            'code': {
+              backgroundColor: 'hsl(var(--muted))',
+              padding: '0.1rem 0.25rem',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.875em',
+              fontWeight: '400',
+            },
+            'code::before': {
+              content: null,
+            },
+            'code::after': {
+              content: null,
+            },
           },
         },
       },
