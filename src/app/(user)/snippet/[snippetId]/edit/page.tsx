@@ -10,6 +10,7 @@ import Alert, { AlertVariant } from '@/components/user/Alert'
 import { Role } from '@prisma/client'
 import { updateSnippet } from './actions'
 import Form from './Form'
+import Heading from '@/components/user/Heading'
 
 type Props = {
   params: {
@@ -27,11 +28,19 @@ export default async function LessonPage({ params }: Props) {
     where: {
       id: params.snippetId,
     },
+    include: {
+      article: true,
+    },
   })
 
   if (!snippet) {
     return <Alert message="Snippet not found." variant={AlertVariant.Red} />
   }
 
-  return <Form snippet={snippet} />
+  return (
+    <>
+      <Heading heading={`${snippet.article.title}: ${snippet.heading}`} />
+      <Form snippet={snippet} />
+    </>
+  )
 }

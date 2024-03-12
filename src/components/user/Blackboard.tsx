@@ -145,7 +145,7 @@ export default function Blackboard({ articleId, articleTitle, isAdmin, memoryPre
               <Button
                 variant={ButtonVariant.Primary}
                 type={ButtonType.Link}
-                href={`/snippet/${currentMemory.snippetId}`}
+                href={`/snippet/${currentMemory.snippetId}/edit`}
               >
                 Edit
               </Button>
@@ -202,7 +202,7 @@ export default function Blackboard({ articleId, articleTitle, isAdmin, memoryPre
           type={ButtonType.Link}
           href={`/drills/${currentMemory.memoryId}/stream`}
         >
-          Drill Stream
+          Drill
         </Button>
         <div className="flex gap-1">
           <Button variant={ButtonVariant.Secondary} type={ButtonType.Button} onClick={() => saveAndMoveToNextMemory(2)}>

@@ -26,7 +26,7 @@ export async function updateSnippet(formData: FormData) {
   const { snippetId, heading, content, task } = body.data
 
   try {
-    await prisma.snippet.update({
+    const snippet = await prisma.snippet.update({
       where: {
         id: snippetId,
       },
@@ -36,6 +36,11 @@ export async function updateSnippet(formData: FormData) {
         task,
       },
     })
+
+    revalidatePath(`/snippet/${snippetId}`)
+    revalidatePath(`/snippet/${snippetId}/edit`)
+    revalidatePath(`/lesson/${snippet.articleId}`)
+
     return { ok: true, message: null }
   } catch (error) {
     const publicErrorMessage = 'Failed to update snippet'

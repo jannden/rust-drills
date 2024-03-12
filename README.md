@@ -88,9 +88,7 @@ These are propositions for code style. Not all of them are implemented yet.
 
 The `app` folder contains two groups: `(marketing)` which is the public part of the app and `(user)` which is the private part of the app.
 
-Authentication is handled by [Clerk](https://clerk.com/) and starts at `/sign-in` for both new and existing users. Sign in is done by password-less email link or by using Google or Apple account. Users are then redirected to `/sign-up`, where their account is created in our DB or their `lastLogin` is updated. Then the users are redirected to `/dashboard`.
-
-There are four major parts of the app: words, phrases, stories, chats.
+Authentication is handled by [Clerk](https://clerk.com/) and uses oAuth from Github. Users are then redirected to `/sign-up`, where their account is created in our DB or their `lastLogin` is updated. Then the users are redirected to `/dashboard`.
 
 ## OpenAI API
 

@@ -70,7 +70,7 @@ export default async function CollectionsPage() {
         <div className="mb-12">
           <Alert variant={AlertVariant.Blue} message="No snippets yet. Add some by exploring the topics." />
           <Button variant={ButtonVariant.Primary} type={ButtonType.Link} href="/articles">
-            Article list
+            New Snippets
           </Button>
         </div>
       ) : null}
@@ -79,7 +79,7 @@ export default async function CollectionsPage() {
         <div className="mb-12">
           <Alert variant={AlertVariant.Blue} message={`Nothing to repeat. Learn new snippets.`} />
           <Button variant={ButtonVariant.Primary} type={ButtonType.Link} href="/articles">
-            Article list
+            New Snippets
           </Button>
         </div>
       ) : null}

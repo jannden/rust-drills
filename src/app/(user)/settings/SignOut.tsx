@@ -9,7 +9,7 @@ export default function SignOut({ signOutText }: { signOutText: string }) {
   const { signOut } = useClerk()
 
   const handleSignOut = async () => {
-    signOut(() => router.push('/sign-in'))
+    signOut(() => router.push('/'))
   }
 
   return (

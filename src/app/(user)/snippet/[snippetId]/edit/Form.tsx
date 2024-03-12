@@ -85,7 +85,7 @@ export default function Form({ snippet }: { snippet: Snippet }) {
       <input type="hidden" name="snippetId" value={snippet.id} />
       <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
         <div className="col-span-full">
-          <label htmlFor="heading" className="mb-3 block text-2xl">
+          <label htmlFor="heading" className="mb-3 block text-xl">
             Heading
           </label>
           <input
@@ -97,7 +97,7 @@ export default function Form({ snippet }: { snippet: Snippet }) {
           />
         </div>
         <div className="col-span-full">
-          <label htmlFor="content" className="mb-3 block text-2xl">
+          <label htmlFor="content" className="mb-3 block text-xl">
             Content
           </label>
           <TextArea name="content" message={content} handleMessageChange={handleContentChange} />
@@ -106,7 +106,7 @@ export default function Form({ snippet }: { snippet: Snippet }) {
           </ReactMarkdown>
         </div>
         <div className="col-span-full">
-          <label htmlFor="task" className="mb-3 block text-2xl">
+          <label htmlFor="task" className="mb-3 block text-xl">
             Task
           </label>
           <TextArea name="task" message={task} handleMessageChange={handleTaskChange} />

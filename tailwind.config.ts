@@ -38,6 +38,7 @@ const config: Config = {
               fontFamily: 'var(--font-mono)',
               fontSize: '0.875em',
               fontWeight: '400',
+              textWrap: 'wrap',
             },
             'code::before': {
               content: null,

@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { Button } from '@/components/marketing/Button'
 import { Container } from '@/components/marketing/Container'
 import backgroundImage from '@/images/background-newsletter.jpg'
-import { SignedIn, SignedOut } from '@clerk/nextjs'
+import { SignInButton, SignedIn, SignedOut } from '@clerk/nextjs'
 import { env } from '@/env.mjs'
 
 function ArrowRightIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
@@ -46,7 +46,9 @@ export function CTA() {
                 <Button href={env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL}>Start</Button>
               </SignedIn>
               <SignedOut>
-                <Button href="/sign-in">Sign In</Button>
+                <SignInButton mode="modal">
+                  <Button>Sign In</Button>
+                </SignInButton>
               </SignedOut>
             </div>
           </div>
