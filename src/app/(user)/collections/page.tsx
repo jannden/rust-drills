@@ -10,7 +10,7 @@ import { CardDetails, CollectionType } from '@/lib/types'
 
 import Heading from '@/components/user/Heading'
 import Button, { ButtonType, ButtonVariant } from '@/components/user/Button'
-import ItemCard from './ItemCard'
+import ItemCard from '@/components/user/ItemCard'
 import Alert, { AlertVariant } from '@/components/user/Alert'
 
 export default async function CollectionsPage() {
@@ -41,8 +41,11 @@ export default async function CollectionsPage() {
   })
 
   const parsedMemories: CardDetails[] = memories.map((m) => ({
+    articleId: m.snippet.article.id,
+    articleTitle: m.snippet.article.title,
+    snippetId: m.snippet.id,
+    snippetHeading: m.snippet.heading,
     memoryId: m.id,
-    snippetId: m.snippet.id ?? '',
     memoryStrength: calculateMemoryStrength(m.dateTimePlanned.toISOString()),
     dateTimePlanned: m.dateTimePlanned,
   }))

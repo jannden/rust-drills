@@ -64,14 +64,14 @@ export default async function Streak() {
   }
 
   return (
-    <>
+    <div>
       <div className="mb-1 whitespace-nowrap text-center text-lg font-semibold leading-6">
         Current Streak: {currentStreak?.daysCount ?? 0}
       </div>
       <div className="mb-6 whitespace-nowrap text-center text-sm leading-6 text-gray-500">
         Longest Streak: {maxStreak._max.daysCount ?? 0}
       </div>
-      <ol role="list" className="mx-auto mb-12 flex justify-center" aria-hidden="true">
+      <ol role="list" className="mx-auto flex justify-center" aria-hidden="true">
         {streakData.map((step, stepIdx) => (
           <li key={stepIdx} className={cn(stepIdx !== streakData.length - 1 ? 'pr-8 sm:pr-20' : '', 'relative')}>
             {step === StreakStep.FILLED ? (
@@ -116,6 +116,6 @@ export default async function Streak() {
           </li>
         ))}
       </ol>
-    </>
+    </div>
   )
 }

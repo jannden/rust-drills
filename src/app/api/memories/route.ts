@@ -122,6 +122,7 @@ export async function GET(req: Request): Promise<NextResponse<MemoryGETResponseT
     return NextResponse.json({ error: publicErrorMessage }, { status: 500 })
   }
 
+  // TODO: This should probably be in the LESSON and SNIPPET server page
   let memoryId = nextMemory.memoryId
   if (!memoryId) {
     try {

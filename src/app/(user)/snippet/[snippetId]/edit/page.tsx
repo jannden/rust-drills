@@ -5,39 +5,33 @@ import { redirect } from 'next/navigation'
 
 import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
 
-import Blackboard from '@/components/user/Blackboard'
 import { prisma } from '@/lib/prisma'
 import Alert, { AlertVariant } from '@/components/user/Alert'
 import { Role } from '@prisma/client'
+import { updateSnippet } from './actions'
+import Form from './Form'
 
 type Props = {
   params: {
-    articleId: string
+    snippetId: string
   }
 }
 
 export default async function LessonPage({ params }: Props) {
   const user = await getClerkWithDb()
-  if (!user) {
+  if (!user || user.db.role !== Role.ADMIN) {
     redirect(`/sign-up`)
   }
 
-  const article = await prisma.article.findUnique({
+  const snippet = await prisma.snippet.findUnique({
     where: {
-      id: params.articleId,
+      id: params.snippetId,
     },
   })
 
-  if (!article) {
-    return <Alert message="Article not found." variant={AlertVariant.Red} />
+  if (!snippet) {
+    return <Alert message="Snippet not found." variant={AlertVariant.Red} />
   }
 
-  return (
-    <Blackboard
-      articleId={article.id}
-      articleTitle={article.title}
-      isAdmin={user.db.role === Role.ADMIN}
-      memoryPreview={null}
-    />
-  )
+  return <Form snippet={snippet} />
 }

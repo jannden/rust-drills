@@ -21,7 +21,9 @@ export function Header() {
             <Button href={env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL}>Start</Button>
           </SignedIn>
           <SignedOut>
-            <Button href="/sign-in">Sign In</Button>
+            <SignInButton mode="modal">
+              <Button>Sign In</Button>
+            </SignInButton>
           </SignedOut>
         </div>
       </Container>

@@ -45,24 +45,15 @@ export default async function Settings() {
   const memoriesChange = calculateChange(memoriesCountOneWeekAgo.length, memoriesCountTwoWeeksAgo.length)
 
   return (
-    <>
+    <div className="flex flex-col gap-12">
       <Streak />
-      <div className="mt-12  pt-10">
-        <div className="mb-12 whitespace-nowrap text-lg font-semibold leading-6">Past week</div>
-        <Chart
-          pastSevenDays={{
-            memories: memoriesCountOneWeekAgo,
-          }}
-        />
-      </div>
-      <div className="mt-12 border-t border-gray-200 pt-10">
-        <div className="mb-6 whitespace-nowrap text-lg font-semibold leading-6">Learning Scoreboard</div>
-        <Scoreboard />
-      </div>
-      <div className="mt-12 border-t border-gray-200 pt-10">
-        <div className="mb-6 whitespace-nowrap text-lg font-semibold leading-6">Your badges</div>
-        <Badges />
-      </div>
-    </>
+      <Chart
+        pastSevenDays={{
+          memories: memoriesCountOneWeekAgo,
+        }}
+      />
+      <Badges />
+      <Scoreboard />
+    </div>
   )
 }
