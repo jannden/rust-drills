@@ -14,7 +14,6 @@ async function main() {
         order: a.order,
         title: a.title,
         subtitle: a.subtitle,
-        summary: a.summary,
         url: a.url,
         snippets: {
           create: a.snippets,

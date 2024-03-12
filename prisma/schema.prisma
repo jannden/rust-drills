@@ -100,7 +100,6 @@ model Article {
   order    Int
   title    String
   subtitle String
-  summary  String
   url      String
 
   snippets Snippet[]

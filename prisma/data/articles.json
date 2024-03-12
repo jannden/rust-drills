@@ -2,8 +2,7 @@
   {
     "order": 1,
     "title": "Enums",
-    "subtitle": "Understanding Enums in Rust with generic examples.",
-    "summary": "This section is dedicated to understanding Enums in Rust, providing clear and practical examples.",
+    "subtitle": "The Basics of Enums, Enums with Data, Methods in Enums, Option handling with Enums, Error handling with Enums, Enums with Match Guards, Enums with Generics, Enum Forwarding with Delegation, Enums in State Design Pattern, Recursive Enums",
     "url": "",
     "snippets": [
       {
@@ -26,13 +25,13 @@
       },
       {
         "order": 4,
-        "heading": "Option handling with enums",
+        "heading": "Option handling with Enums",
         "content": "The `Option` enum in Rust is a powerful tool for handling the presence or absence of a value. It can take the values `Some(value)` or `None`, helping to avoid null-related errors common in other languages. Here is a straightforward example:\n\n```rust\nfn main() {\n  let some_value: Option<&str> = Some(\"A value\");\n\n  match some_value {\n    Some(inner_value) => println!(\"The value is {}\", inner_value),\n    None => println!(\"There is no value.\"),\n  }\n}\n```\nIn this example, `some_value` is an `Option` that is currently `Some(\"A value\")`. The `match` expression then either prints this value (if it exists) or states that there is no value (if it doesn’t).",
         "task": "Complete the missing parts in the following Rust code based on Option enums:\n\n```rust\nfn main() {\n  let some_value: Option<&str> = >>>Insert either Some with a string or None<<<;\n\n  match some_value {\n    Some(inner_value) => println!(\"The value is {}\", inner_value),\n    None => println!(\"There is no value.\"),\n  }\n}\n```\nIn this task, you need to:\n1. Decide whether `some_value` should contain a `Some` with a string value or `None`.\n2. Insert the appropriate Rust syntax to represent your decision in the assignment of `some_value`."
       },
       {
         "order": 5,
-        "heading": "Error handling with enums",
+        "heading": "Error handling with Enums",
         "content": "Error handling is essential for robust Rust programs, and enums are central to Rust's approach. Specifically, the `Result` type is a variant of an enum that represents either success (`Ok`) or failure (`Err`). Here's how it can be applied:\n\n```rust\nenum ServerError {\n  Timeout,\n  Unauthorized,\n  ResourceNotFound,\n}\n\nfn request_data() -> Result<String, ServerError> {\n  if rand::random() {\n      Ok(\"Data successfully retrieved\".to_string())\n    } else {\n      Err(ServerError::Unauthorized)\n    }\n}\n\nfn main() {\n  match request_data() {\n      Ok(data) => println!(\"Success: {}\", data),\n      Err(ServerError::Timeout) => println!(\"Error: Request timed out.\"),\n      Err(ServerError::Unauthorized) => println!(\"Error: Unauthorized access.\"),\n      Err(ServerError::ResourceNotFound) => println!(\"Error: Resource not found.\"),\n  }\n}\n```\nIn this code, `ServerError` lists potential errors. `request_data` simulates a request, returning either data or an error. The `main` function uses a `match` to handle these outcomes.",
         "task": "Your task is to fill in the missing parts of this Rust code snippet regarding error handling:\n\n```rust\nenum ServerError {\n  Timeout,\n  Unauthorized,\n  ResourceNotFound,\n}\n\nfn request_data() -> Result<String, ServerError> {\n  // Simulate a data request\n  if rand::random() {\n      Ok(>>>Insert successful data message<<<)\n    } else {\n      Err(ServerError::>>>Choose an error<<<)\n    }\n}\n\nfn main() {\n  match request_data() {\n      Ok(data) => println!(\"Success: {}\", data),\n      Err(ServerError::Timeout) => println!(\"Error: Request timed out.\"),\n      Err(ServerError::Unauthorized) => println!(\"Error: Unauthorized access.\"),\n      Err(ServerError::ResourceNotFound) => println!(\"Error: Resource not found.\"),\n  }\n}\n```\n1. Provide a message for successful data retrieval in the `Ok` branch of the `request_data` function.\n2. Select an appropriate error variant for the `Err` branch in the `request_data` function."
       },
