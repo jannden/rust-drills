@@ -1,4 +1,4 @@
-import { Bookmark, Calendar } from 'lucide-react'
+import { Bookmark, Calendar, SearchCode } from 'lucide-react'
 import { redirect } from 'next/navigation'
 
 import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
@@ -8,14 +8,20 @@ const defaultBadges = [
   {
     id: 1,
     icon: Bookmark,
-    title: 'snippetCollector',
+    title: 'Snippet Collector',
     levels: [0, 10, 50, 100, 500, 1000],
   },
   {
     id: 2,
     icon: Calendar,
-    title: 'streak',
+    title: 'Streak Master',
     levels: [0, 3, 7, 14, 21, 30],
+  },
+  {
+    id: 3,
+    icon: SearchCode,
+    title: 'Code Dweller',
+    levels: [50, 100, 200, 500, 1000],
   },
 ]
 
@@ -46,6 +52,14 @@ export async function getBadges() {
       '1000 Snippets Collected',
     ],
     2: ['', 'Three Days Streak', 'One Week Streak', 'Two Weeks Streak', 'Three Weeks Streak', 'One Month Streak'],
+    3: [
+      '',
+      '50 Snippets Repeated',
+      '100 Snippets Repeated',
+      '200 Snippets Repeated',
+      '500 Snippets Repeated',
+      '1000 Snippets Repeated',
+    ],
   }
 
   const memories = await prisma.memory.findMany({
@@ -79,6 +93,13 @@ export async function getBadges() {
         }
       case 2:
         lev = getLevel(b.levels, streakCount)
+        return {
+          ...b,
+          level: lev,
+          description: badgeDescriptions[b.id]?.[lev],
+        }
+      case 3:
+        lev = 0 // TODO
         return {
           ...b,
           level: lev,

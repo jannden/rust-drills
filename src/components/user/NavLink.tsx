@@ -1,7 +1,7 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import { Book, BookOpen, Bookmark, BarChart2, User } from 'lucide-react'
+import { Book, SquarePlus, SquareCode, BarChart2, User } from 'lucide-react'
 
 import { NavType } from '@/lib/config/global'
 import { cn } from '@/lib/utils'
@@ -11,12 +11,10 @@ const Icon = ({ icon, className }: { icon: string; className: ClassValue }) => {
   switch (icon) {
     case 'Dashboard':
       return <BarChart2 aria-hidden="true" className={cn(className)} />
-    case 'Book':
-      return <Book aria-hidden="true" className={cn(className)} />
-    case 'Bookmark':
-      return <Bookmark aria-hidden="true" className={cn(className)} />
-    case 'BookOpen':
-      return <BookOpen aria-hidden="true" className={cn(className)} />
+    case 'SquareCode':
+      return <SquareCode aria-hidden="true" className={cn(className)} />
+    case 'SquarePlus':
+      return <SquarePlus aria-hidden="true" className={cn(className)} />
     case 'User':
       return <User aria-hidden="true" className={cn(className)} />
     default:

@@ -75,7 +75,7 @@ export const differenceInDays = (futureIso: string | null, pastIso?: string | nu
   return differenceInDays.days
 }
 
-export const calculateMemoryStrength = (dateTimePlanned: string | null): number => {
+export const calculateMemoryStrength = (dateTimePlanned: string | null): MemoryStrength => {
   const inFutureDays = differenceInDays(dateTimePlanned)
 
   if (inFutureDays >= 1) {

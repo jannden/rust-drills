@@ -107,9 +107,9 @@ export type VirtualKeyboardContextType = {
 /* NORTHFLANK (some might not be used anymore, needs cleaning) */
 
 export enum MemoryStrength {
-  'Strong',
-  'Medium',
-  'Weak',
+  'Strong' = 'Strong',
+  'Medium' = 'Medium',
+  'Weak' = 'Weak',
 }
 
 export type GetNextFlashcardQueryDto = {}
@@ -222,22 +222,16 @@ export type CategoryWithImportance = {
 
 export type DialoguePrompt = (props: { about?: string; history?: string }) => string
 
-export enum CEFR {
-  A1 = 'A1',
-  A2 = 'A2',
-  B1 = 'B1',
-  B2 = 'B2',
-  C1 = 'C1',
-  C2 = 'C2',
-}
-
 export type WordForPhrasesPrompt = { id: string; original: string; translation: string }
 
 export type WordInPhrase = { wordProgressId: string; preview: string }
 
 export type CardDetails = {
-  memoryId: string
+  articleId: string
+  articleTitle: string
   snippetId: string
-  memoryStrength: MemoryStrength
+  snippetHeading: string
+  memoryId: string | null
   dateTimePlanned: Date | null
+  memoryStrength: MemoryStrength | null
 }
