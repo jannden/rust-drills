@@ -29,7 +29,7 @@ export default async function Articles() {
           <li key={a.id} className="group relative flex justify-between gap-x-6 px-4 py-5 hover:bg-gray-50 sm:px-6">
             <div className="flex min-w-0 items-center justify-center gap-x-6">
               {isLearned ? (
-                <Check className="size-12 text-indigo-600" aria-hidden="true" />
+                <Check className="size-6 text-indigo-600" aria-hidden="true" />
               ) : (
                 <CircularProgress percent={progress}>
                   <Bookmark className={'size-3 flex-none text-indigo-600'} aria-hidden="true" />

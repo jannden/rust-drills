@@ -16,7 +16,12 @@ async function main() {
         subtitle: a.subtitle,
         url: a.url,
         snippets: {
-          create: a.snippets,
+          create: a.snippets.map((s, index) => ({
+            ...s,
+            content: s.content.replaceAll('\\"', '"'),
+            task: s.task.replaceAll('\\"', '"'),
+            order: index + 1,
+          })),
         },
       },
     })

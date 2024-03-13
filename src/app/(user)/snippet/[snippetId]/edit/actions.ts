@@ -4,10 +4,32 @@ import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 
 import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
-import { Role } from '@prisma/client'
+import { Role, Snippet } from '@prisma/client'
 import { UpdateSnippetActionRequest } from './validations'
 import { logError } from '@/lib/utils'
 import { prisma } from '@/lib/prisma'
+import fs from 'fs'
+
+function sanitizeFilename(input: string): string {
+  return input.replace(/[^a-z0-9]/gi, '_').toLowerCase()
+}
+
+function saveSnippetToDisk(snippet: Snippet, articleOrder: number) {
+  const data = {
+    heading: snippet.heading,
+    content: snippet.content,
+    task: snippet.task,
+  }
+
+  const jsonString = JSON.stringify(data)
+  const sanitizedHeading = sanitizeFilename(snippet.heading)
+  const filename = `./prisma/data/updates/${articleOrder}_${snippet.order}_${sanitizedHeading}.json`
+  try {
+    fs.writeFileSync(filename, jsonString)
+  } catch (error) {
+    console.error('Failed to save snippet to disk')
+  }
+}
 
 export async function updateSnippet(formData: FormData) {
   const user = await getClerkWithDb()
@@ -35,7 +57,13 @@ export async function updateSnippet(formData: FormData) {
         content,
         task,
       },
+      include: {
+        article: true,
+      },
     })
+
+    // Also save the snippet to disk as JSON in the format {heading, content, task} with filename of snippet.article.id + date
+    saveSnippetToDisk(snippet, snippet.article.order)
 
     revalidatePath(`/snippet/${snippetId}`)
     revalidatePath(`/snippet/${snippetId}/edit`)
