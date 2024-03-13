@@ -5,6 +5,7 @@ import { Prompt } from '@prisma/client'
 
 import { prisma } from '@/lib/prisma'
 import { defaultAI } from '@/lib/config/ai'
+import { calculateTotalTokens } from '../utils'
 
 type EnergyData = {
   prompts: Prompt[]
@@ -37,7 +38,7 @@ export async function getEnergy(userId: string): Promise<EnergyData | null> {
 
   const dailyLimit = defaultAI.dailyEnergy
 
-  const totalSpent = prompts.reduce((acc, completion) => acc + getSpentTokens(completion), 0)
+  const totalSpent = prompts.reduce((acc, completion) => acc + calculateTotalTokens(completion), 0)
 
   const energy = dailyLimit - totalSpent
 
@@ -47,13 +48,4 @@ export async function getEnergy(userId: string): Promise<EnergyData | null> {
     totalSpent,
     prompts,
   }
-}
-
-// * Get spent tokens for prompt
-export const getSpentTokens = (prompt: Prompt) => {
-  const maxTokens = prompt?.maxTokens ?? 0
-  const completionTokens = prompt?.completionTokens
-  const requestTokens = prompt?.promptTokens ?? 0
-  const responseTokens = completionTokens ?? maxTokens
-  return requestTokens + responseTokens
 }

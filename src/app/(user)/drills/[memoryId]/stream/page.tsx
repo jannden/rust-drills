@@ -46,7 +46,7 @@ export default async function ChatDetailPage({ params }: Props) {
   })
 
   if (!memory) {
-    return <Alert message="The chat does not exist or you don't have access to it." variant={AlertVariant.Red} />
+    return <Alert message="The drill does not exist or you don't have access to it." variant={AlertVariant.Red} />
   }
 
   let promptId = memory.prompts?.[0]?.id
@@ -83,7 +83,6 @@ export default async function ChatDetailPage({ params }: Props) {
     ]
     const prompt = await prisma.prompt.create({
       data: {
-        type: 'chat',
         model: defaultAI.model,
         prompt: initialMessages,
         promptTokens: 0,
@@ -129,10 +128,10 @@ export default async function ChatDetailPage({ params }: Props) {
 
   return (
     <div className="pb-36">
-      <Heading heading={memory.snippet.heading} description={memory.snippet.article.title}>
+      <Heading heading={memory.snippet.heading} description={memory.snippet.article.subtitle}>
         <Energy />
       </Heading>
-      <Chat chatId={memory.id} promptId={promptId} articleId={memory.snippet.articleId} initialMessages={messages} />
+      <Chat articleId={memory.snippet.articleId} memoryId={memory.id} promptId={promptId} initialMessages={messages} />
     </div>
   )
 }

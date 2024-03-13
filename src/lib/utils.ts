@@ -6,6 +6,7 @@ import { env } from '@/env.mjs'
 import { projectSettings } from '@/lib/config/global'
 import { diacriticChars, keyboardLayouts } from '@/lib/config/keyboard'
 import { MemoryStrength } from './types'
+import { Prompt } from '@prisma/client'
 
 export const allDiacritics: string = Object.keys(diacriticChars).join('')
 
@@ -213,7 +214,7 @@ export function pickFromObject<T extends object, K extends keyof T>(obj: T, keys
     console.error('pickFromObject: obj is null or undefined')
     return {} as Pick<T, K>
   }
-  
+
   const result: Partial<Pick<T, K>> = {}
   keys.forEach((key) => {
     if (key in obj) {
@@ -246,6 +247,24 @@ export function nFormatter(num: number, digits: number) {
 /**
  * Determining whether user has enough elements (such as words) to create new combinations (such as phrases)
  */
-export function canGenerateNewCombinations(elementsCount: number, oldCombinationsCount: number, newCombinationsCount: number): boolean {
-  return newCombinationsCount * projectSettings.oneCombinationPerXElements <= elementsCount - oldCombinationsCount * projectSettings.oneCombinationPerXElements
+export function canGenerateNewCombinations(
+  elementsCount: number,
+  oldCombinationsCount: number,
+  newCombinationsCount: number
+): boolean {
+  return (
+    newCombinationsCount * projectSettings.oneCombinationPerXElements <=
+    elementsCount - oldCombinationsCount * projectSettings.oneCombinationPerXElements
+  )
+}
+
+// * Get spent tokens for prompt
+export function calculateTotalTokens(prompt: Prompt): number {
+  const maxTokens = prompt?.maxTokens ?? 0
+  const completionTokens = prompt?.completionTokens
+  const requestTokens = prompt?.promptTokens ?? 0
+  const responseTokens = completionTokens ?? maxTokens
+  const totalTokens = requestTokens + responseTokens
+
+  return totalTokens
 }

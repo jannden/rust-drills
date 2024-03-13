@@ -48,8 +48,7 @@ model Stripe {
 }
 
 model Prompt {
-  id   String @id @default(cuid())
-  type String
+  id String @id @default(cuid())
 
   prompt       Json
   promptTokens Int?

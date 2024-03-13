@@ -6,7 +6,7 @@ import { DateTime } from 'luxon'
 import { prisma } from '@/lib/prisma'
 import { calculateMemoryStrength } from '@/lib/utils'
 import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
-import { CardDetails, CollectionType } from '@/lib/types'
+import { CardDetails } from '@/lib/types'
 
 import Heading from '@/components/user/Heading'
 import Button, { ButtonType, ButtonVariant } from '@/components/user/Button'

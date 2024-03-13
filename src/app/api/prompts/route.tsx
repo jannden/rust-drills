@@ -35,11 +35,12 @@ export async function PATCH(req: Request): Promise<NextResponse<{ error: string 
     } else {
       where = {
         userId: user.db.id,
-        type: body.data.promptType,
         completionTokens: null,
         createdAt: {
           gte: new Date(new Date().getTime() - 1000 * 60 * 10),
         },
+        memoryId: body.data.memoryId,
+        openaiThreadId: body.data.openaiThreadId,
       }
     }
 
@@ -48,7 +49,6 @@ export async function PATCH(req: Request): Promise<NextResponse<{ error: string 
       data: {
         completion: body.data.completion,
         completionTokens,
-        memoryId: body.data.threadId,
       },
     })
 

@@ -2,7 +2,7 @@ import { spacedRepetitionAlgorithm } from '@/lib/algorithm'
 import { algorithmDefaults } from '@/lib/config/global'
 import { prisma } from '@/lib/prisma'
 import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
-import { AlgorithmInput, CollectionType, QueryFlashcard } from '@/lib/types'
+import { AlgorithmInput } from '@/lib/types'
 import {
   ChatMessageType,
   MemoryGETRequest,
@@ -122,7 +122,6 @@ export async function GET(req: Request): Promise<NextResponse<MemoryGETResponseT
     return NextResponse.json({ error: publicErrorMessage }, { status: 500 })
   }
 
-  // TODO: This should probably be in the LESSON and SNIPPET server page
   let memoryId = nextMemory.memoryId
   if (!memoryId) {
     try {

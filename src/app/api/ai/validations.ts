@@ -8,7 +8,6 @@ const responseTypes = z.enum(['text', 'json_object'] as const)
 export const AiPOST = z.object({
   stream: z.boolean().optional(),
   promptId: z.string().cuid().optional(),
-  promptType: z.string(),
 
   prompt: z.string().optional(),
   messages: z.array(z.object({ role: roles, content: z.string() })).optional(),
@@ -19,8 +18,6 @@ export const AiPOST = z.object({
   temperature: z.number().min(0).max(2).optional(),
   responseType: responseTypes.optional(),
 
-  phraseId: z.string().cuid().optional(),
-  storyId: z.string().cuid().optional(),
-  chatId: z.string().cuid().optional(),
-  threadId: z.string().cuid().optional(),
+  memoryId: z.string().cuid().optional(),
+  openaiThreadId: z.string().cuid().optional(),
 })

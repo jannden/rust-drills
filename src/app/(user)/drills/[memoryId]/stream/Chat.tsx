@@ -13,14 +13,14 @@ import { StoryMessage } from './page'
 import UserAvatar from '@/components/user/UserAvatar'
 
 export default function Chat({
-  chatId,
-  promptId,
   articleId,
+  memoryId,
+  promptId,
   initialMessages,
 }: {
-  chatId: string
-  promptId: string
   articleId: string
+  memoryId: string
+  promptId: string
   initialMessages: StoryMessage[]
 }) {
   const [errorMessage, setErrorMessage] = useState('')
@@ -33,7 +33,7 @@ export default function Chat({
     input,
     handleInputChange,
   } = useChat({
-    id: chatId,
+    id: memoryId,
     api: '/api/ai',
     initialMessages: [
       ...(!!initialMessages?.length
@@ -53,10 +53,9 @@ export default function Chat({
     ],
     body: {
       stream: true,
-      chatId,
+      memoryId,
       promptId,
       maxTokens: defaultAI.maxTokens.default,
-      promptType: 'chat',
     },
     onError: (error) => {
       setErrorMessage(error.message)
@@ -66,8 +65,7 @@ export default function Chat({
       const responseSaveCompletion = await fetch('/api/prompts', {
         method: 'PATCH',
         body: JSON.stringify({
-          chatId,
-          promptType: 'chat',
+          memoryId,
           completion: JSON.stringify(message),
         }),
       })
@@ -85,7 +83,7 @@ export default function Chat({
         await fetch('/api/chats', {
           method: 'PATCH',
           body: JSON.stringify({
-            chatId,
+            memoryId,
             content: JSON.stringify([
               ...(input
                 ? [
@@ -125,7 +123,7 @@ export default function Chat({
       {requireStart ? (
         <form onSubmit={handleStart}>
           <Button type={ButtonType.Submit} variant={ButtonVariant.Primary}>
-            Start chat
+            Start
           </Button>
         </form>
       ) : (
@@ -151,7 +149,9 @@ export default function Chat({
                 <UserAvatar />
               </div>
             </div>
-            {!!messages?.find((m) => m.content?.includes('We finished drilling this one!')) ? (
+            {!!messages?.find(
+              (m) => m.role === 'assistant' && m.content?.includes('We finished drilling this one!')
+            ) ? (
               <Button type={ButtonType.Link} variant={ButtonVariant.Primary} href={`/lesson/${articleId}`}>
                 Back to drills
               </Button>

@@ -23,20 +23,20 @@ export async function PATCH(req: Request): Promise<NextResponse<{ error: string 
   }
 
   try {
-    const chat = await prisma.memory.findUniqueOrThrow({
+    const memory = await prisma.memory.findUniqueOrThrow({
       where: {
-        id: body.data.chatId,
+        id: body.data.memoryId,
         userId: user.db.id,
       },
     })
 
-    const oldMessages = (chat.openaiChat as ChatMessageType[]) ?? []
+    const oldMessages = (memory.openaiChat as ChatMessageType[]) ?? []
     const newMessages = JSON.parse(body.data.content) as ChatMessageType[]
     const updatedContent = [...oldMessages, ...newMessages]
 
     await prisma.memory.update({
       where: {
-        id: body.data.chatId,
+        id: body.data.memoryId,
         userId: user.db.id,
       },
       data: {

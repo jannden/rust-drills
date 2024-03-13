@@ -1,47 +1,19 @@
-import { type Message } from 'ai'
-import { z } from 'zod'
-
 declare global {
   interface Window {
     LOQ: any
   }
 }
 
-export const StoryContent = z.array(
-  z.object({
-    name: z.string(),
-    sentence: z.string(),
-  })
-)
-
-export type StoryContentType = z.infer<typeof StoryContent>
-
-export const StoriesPUT = z.object({
-  storyId: z.string().cuid(),
-  content: StoryContent.optional(),
-  title: z.string().min(1).optional(),
-})
-
-export interface Story extends Record<string, any> {
-  id: string
-  title: string
-  createdAt: Date
-  userId: string
-  path: string
-  messages: Message[]
-  sharePath?: string
+// Every page receives these props by default
+export type PageParams = {
+  params: { [key: string]: string }
+  searchParams?: { [key: string]: string | string[] | undefined }
 }
 
 // Type FormState is used for form submission with new (experimental) React hooks.
 export type FormState = {
   message: string | null
   ok: boolean | null
-}
-
-// Every page receives these props by default
-export type PageParams = {
-  params: { [key: string]: string }
-  searchParams?: { [key: string]: string | string[] | undefined }
 }
 
 /**
@@ -85,120 +57,10 @@ export type UserSubscriptionPlan = {
   stripeCustomerId: string | null
 } & SubscriptionPlan
 
-export enum CharType {
-  NEW,
-  CORRECT,
-  INCORRECT,
-  INCORRECT_FIXED,
-  EXEMPTED,
-}
-
-export type CharInfo = {
-  letter: string
-  type: CharType
-  isActive: boolean
-  isHidden: boolean
-}
-
-export type VirtualKeyboardContextType = {
-  setKeyboardHeight: React.Dispatch<React.SetStateAction<number>>
-}
-
-/* NORTHFLANK (some might not be used anymore, needs cleaning) */
-
 export enum MemoryStrength {
   'Strong' = 'Strong',
   'Medium' = 'Medium',
   'Weak' = 'Weak',
-}
-
-export type GetNextFlashcardQueryDto = {}
-
-export type SaveProgressBodyDto = {
-  wordId: number
-  numberOfMistakes: number
-}
-
-export type GetAllUserProgressQueryDto = {
-  paginationPage: number
-}
-
-export type SaveCorrectionBodyDto = {
-  wordId: number
-  correctionText: string
-}
-
-export type AddSuggestionBodyDto = {
-  suggestion: string
-}
-
-export type UpvoteSuggestionBodyDto = {
-  suggestionId: number
-}
-
-export type GetLearningGoalDto = {}
-
-export type SetLearningGoalDto = {
-  goal: string
-}
-
-export type Suggestion = {
-  id: number
-  suggestion: string
-  score: number
-  isOwner: boolean
-  hasVoted: boolean
-}
-
-export type AppRoute = {
-  id: string
-  path: string
-  element: React.ReactNode
-  nav?: string
-}
-
-/* SAME FRONTEND AND BACKEND TYPES */
-
-export enum CollectionType {
-  WORDS = 'words',
-  PHRASES = 'phrases',
-}
-
-export type SimpleFlashcard = {
-  memoryId: string
-  flashcardId: string
-  question: string
-  answer: string
-  isFinished?: boolean
-  memoryStrength?: number
-}
-
-export type QueryFlashcard = {
-  memoryId: string
-  flashcardId: string
-}
-
-export type AllUserProgress = {
-  userProgress: SimpleFlashcard[]
-  totalPages: number
-}
-
-export type UserSettings = {
-  finishedWalktours: Array<string>
-  continuousMode: boolean
-  leaderboardName: string
-}
-
-export type LeaderboardData = {
-  isThisUser: boolean
-  leaderboardName: string
-  memoryStrength: number
-  numberOfWords: number
-}
-
-export type LearningGoal = {
-  goal: string
-  categories: string[]
 }
 
 export type AlgorithmInput = {
@@ -214,17 +76,6 @@ export type AlgorithmOutput = {
   interval: number
   dateTimePlanned: string
 }
-
-export type CategoryWithImportance = {
-  categoryName: string
-  importance: number
-}
-
-export type DialoguePrompt = (props: { about?: string; history?: string }) => string
-
-export type WordForPhrasesPrompt = { id: string; original: string; translation: string }
-
-export type WordInPhrase = { wordProgressId: string; preview: string }
 
 export type CardDetails = {
   articleId: string

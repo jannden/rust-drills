@@ -79,7 +79,7 @@ export default async function ThreadDetailPage({ params }: Props) {
     <form action={startThread}>
       <input type="hidden" name="memoryId" value={memory.id} />
       <Button type={ButtonType.Submit} variant={ButtonVariant.Primary}>
-        Start chat
+        Start drilling
       </Button>
     </form>
   )

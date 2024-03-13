@@ -44,8 +44,6 @@ export default async function Scoreboard() {
     take: 5,
   })
 
-  console.log(streaks)
-
   return (
     <table className="min-w-full divide-y divide-gray-300">
       <tbody>

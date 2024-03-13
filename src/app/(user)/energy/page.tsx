@@ -5,11 +5,11 @@ import Alert, { AlertVariant } from '@/components/user/Alert'
 import { ButtonType, ButtonVariant } from '@/components/user/Button'
 import Heading from '@/components/user/Heading'
 import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
-import { getSpentTokens } from '@/lib/server/getEnergy'
 import { DateTime } from 'luxon'
 import { redirect } from 'next/navigation'
 import { defaultAI } from '@/lib/config/ai'
 import { prisma } from '@/lib/prisma'
+import { calculateTotalTokens } from '@/lib/utils'
 
 const ModalBody = <p className="text-sm text-gray-500">Buy more energy...</p>
 
@@ -36,14 +36,14 @@ export default async function EnergyPage() {
             include: {
               article: true,
             },
-          }
+          },
         },
       },
     },
   })
 
   const dailyLimit = defaultAI.dailyEnergy
-  const totalSpent = prompts.reduce((acc, completion) => acc + getSpentTokens(completion), 0)
+  const totalSpent = prompts.reduce((acc, p) => acc + calculateTotalTokens(p), 0)
   const energy = dailyLimit - totalSpent
 
   const showPurchase = false
@@ -72,14 +72,14 @@ export default async function EnergyPage() {
         <table className="min-w-full divide-y divide-gray-300">
           <thead>
             <tr>
-              <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                Type
-              </th>
               <th
                 scope="col"
                 className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
               >
-                Story
+                Article
+              </th>
+              <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 ">
+                Snippet
               </th>
               <th
                 scope="col"
@@ -96,22 +96,24 @@ export default async function EnergyPage() {
           <tbody className="divide-y divide-gray-200 bg-white">
             {prompts.map((prompt) => (
               <tr key={prompt.id}>
-                <td className="hidden px-3 text-sm text-gray-500 lg:table-cell">{prompt.type}</td>
-                <td className="w-full px-3 text-sm font-medium text-gray-900">
+                <td className="hidden px-3 text-sm text-gray-500 lg:table-cell">
                   {prompt.memory?.snippet?.article?.title}
+                </td>
+                <td className="w-full px-3 text-sm font-medium text-gray-900">
+                  {prompt.memory?.snippet?.heading}
                   <dl className="font-normal lg:hidden">
-                    <dt className="sr-only">Type</dt>
-                    <dd className="mt-1 truncate text-gray-700">{prompt.type}</dd>
+                    <dt className="sr-only">Name</dt>
+                    <dd className="mt-1 truncate text-gray-700">{prompt.memory?.snippet?.article?.title}</dd>
                     <dt className="sr-only sm:hidden">Date</dt>
                     <dd className="mt-1 truncate text-gray-500 sm:hidden">
-                      {DateTime.fromJSDate(prompt.createdAt).toLocaleString()}
+                      {DateTime.fromJSDate(prompt.createdAt).toLocaleString(DateTime.DATETIME_SHORT)}
                     </dd>
                   </dl>
                 </td>
                 <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">
-                  {DateTime.fromJSDate(prompt.createdAt).toLocaleString()}
+                  {DateTime.fromJSDate(prompt.createdAt).toLocaleString(DateTime.DATETIME_SHORT)}
                 </td>
-                <td className="px-3 py-4 text-right text-sm text-gray-500">{getSpentTokens(prompt)}</td>
+                <td className="px-3 py-4 text-right text-sm text-gray-500">{calculateTotalTokens(prompt)}</td>
               </tr>
             ))}
           </tbody>

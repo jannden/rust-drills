@@ -12,7 +12,9 @@ export function Hero() {
           </h1>
           <div className="font-display mt-6 space-y-6 text-2xl tracking-tight text-blue-900">
             <p>
-              We selected a collection of Rust code snippets. Your task is to practice coding them. AI will help you along the way. Spaced repetition will make sure you remember what you learned.
+              Learn and practice your Rust skills with a hand-selected collection of common code snippets. Receive
+              feedback from AI to guide your learning, and benefit from our spaced repetition algorithm to ensure that
+              you remember what you have learned.
             </p>
           </div>
         </div>

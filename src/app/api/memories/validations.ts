@@ -28,7 +28,7 @@ export const MemoryGETResponse = z.object({
 export type MemoryGETResponseType = z.infer<typeof MemoryGETResponse>
 
 export const MemoryPUTRequest = z.object({
-  snippetId: z.string(),
+  snippetId: z.string().cuid(),
   numberOfMistakes: z.number(),
 })
 export type MemoryPUTRequestType = z.infer<typeof MemoryPUTRequest>

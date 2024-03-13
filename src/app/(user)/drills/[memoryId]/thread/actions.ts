@@ -81,7 +81,6 @@ export async function startThread(formData: FormData) {
     data: {
       userId: user.db.id,
       maxTokens: defaultAI.maxTokens.default,
-      type: 'assistant',
       prompt: initialMessages,
       memoryId: memory.id,
       openaiThreadId: messageThread.id,
@@ -169,7 +168,6 @@ export async function sendMessage(prevState: any, formData: FormData) {
     data: {
       userId: user.db.id,
       maxTokens,
-      type: 'assistant',
       prompt: [comment],
       memoryId: thread.id,
       openaiThreadId: threadMessages.thread_id,

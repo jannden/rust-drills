@@ -1,10 +1,10 @@
 export const defaultAI = {
   model: 'gpt-4-turbo-preview',
   temperature: 0.7,
-  dailyEnergy: 10000,
+  dailyEnergy: 20000,
   maxTokens: {
-    default: 500,
-    min: 50,
+    default: 1000,
+    min: 100,
     max: 5000,
   },
 }

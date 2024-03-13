@@ -46,7 +46,6 @@ export async function POST(req: Request) {
 
   let createNewPrompt = true
   if (promptId) {
-    console.log('PromptId ->', promptId)
     // Get the promptContent from the DB if we have promptId from the request
     // This way we are able to hide the prompt from the frontend
     const prompt = await prisma.prompt.findUnique({
@@ -88,7 +87,6 @@ export async function POST(req: Request) {
     if (createNewPrompt) {
       const prompt = await prisma.prompt.create({
         data: {
-          type: body.data.promptType,
           model,
           prompt: promptContent.map((p) => {
             const chatCompletionMessage = {
@@ -101,7 +99,8 @@ export async function POST(req: Request) {
           temperature: temperature,
           userId: user.db.id,
           maxTokens: maxTokens,
-          memoryId: body.data.threadId,
+          memoryId: body.data.memoryId,
+          openaiThreadId: body.data.openaiThreadId,
         },
       })
       promptId = prompt.id
@@ -111,7 +110,6 @@ export async function POST(req: Request) {
           id: promptId,
         },
         data: {
-          type: body.data.promptType,
           model,
           prompt: promptContent.map((p) => {
             const chatCompletionMessage = {
@@ -124,7 +122,8 @@ export async function POST(req: Request) {
           temperature: temperature,
           userId: user.db.id,
           maxTokens: maxTokens,
-          memoryId: body.data.threadId,
+          memoryId: body.data.memoryId,
+          openaiThreadId: body.data.openaiThreadId,
         },
       })
     }

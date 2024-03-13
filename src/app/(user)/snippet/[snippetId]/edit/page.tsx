@@ -39,7 +39,7 @@ export default async function LessonPage({ params }: Props) {
 
   return (
     <>
-      <Heading heading={`${snippet.article.title}: ${snippet.heading}`} />
+      <Heading heading={snippet.heading} description={snippet.article.subtitle} />
       <Form snippet={snippet} />
     </>
   )
