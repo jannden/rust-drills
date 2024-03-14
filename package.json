@@ -11,7 +11,7 @@
   },
   "scripts": {
     "dev": "dotenv -e .env.local -- next dev",
-    "build": "prisma generate && prisma db push --force-reset && prisma db seed && next build",
+    "build": "prisma generate && prisma migrate resolve --applied 0_init && next build",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
