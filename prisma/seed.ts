@@ -4,10 +4,11 @@ import articles from './data/articles.json'
 
 const prisma = new PrismaClient()
 
-async function main() {
+export async function seed() {
   console.log('Seeding topics and snippets...')
   await prisma.article.deleteMany()
   await prisma.snippet.deleteMany()
+  await prisma.memory.deleteMany()
   for (const a of articles) {
     const article = await prisma.article.create({
       data: {
@@ -29,7 +30,7 @@ async function main() {
   }
 }
 
-main()
+seed()
   .then(async () => {
     await prisma.$disconnect()
   })

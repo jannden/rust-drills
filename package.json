@@ -11,14 +11,15 @@
   },
   "scripts": {
     "dev": "dotenv -e .env.local -- next dev",
-    "build": "prisma generate && prisma migrate resolve --applied 0_init && next build",
+    "build": "prisma generate && prisma migrate deploy && next build",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
     "db:studio": "dotenv -e .env.local -- prisma studio",
     "db:generate": "prisma format && dotenv -e .env.local -- prisma generate",
     "db:migrate": "prisma format && dotenv -e .env.local -- prisma migrate dev && dotenv -e .env.local -- prisma db seed",
-    "db:push": "prisma format && dotenv -e .env.local -- prisma db push && dotenv -e .env.local -- prisma db seed"
+    "db:push": "prisma format && dotenv -e .env.local -- prisma db push && dotenv -e .env.local -- prisma db seed",
+    "db:seed": "dotenv -e .env.local -- prisma db seed"
   },
   "dependencies": {
     "@clerk/localizations": "^1.26.16",

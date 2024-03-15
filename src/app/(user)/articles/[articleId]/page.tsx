@@ -19,7 +19,11 @@ export default async function Article({ params }: Props) {
       id: params.articleId,
     },
     include: {
-      snippets: true,
+      snippets: {
+        orderBy: {
+          order: 'asc',
+        },
+      },
     },
   })
   if (!article) {

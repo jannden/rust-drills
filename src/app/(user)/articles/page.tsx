@@ -8,6 +8,7 @@ import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
 import { prisma } from '@/lib/prisma'
 import Heading from '@/components/user/Heading'
 import CircularProgress from '@/components/user/CircularProgress'
+import { Prisma, Role } from '@prisma/client'
 
 export default async function Articles() {
   const user = await getClerkWithDb()
@@ -15,7 +16,15 @@ export default async function Articles() {
     redirect(`/sign-up`)
   }
 
-  const articles = await prisma.article.findMany()
+  let whereArg: Prisma.ArticleWhereInput = {}
+  if (user.db.role !== Role.ADMIN) {
+    whereArg = { isVisible: true }
+  }
+
+  const articles = await prisma.article.findMany({
+    where: whereArg,
+    orderBy: { order: 'asc' },
+  })
 
   // TODO: get user's progress for each article
   const isLearned = true

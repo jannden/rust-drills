@@ -1,17 +1,16 @@
 'use client'
 
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useFormState, useFormStatus } from 'react-dom'
-import { Loader2, Zap } from 'lucide-react'
+import { Loader2, ShieldAlert } from 'lucide-react'
 
 import Button, { ButtonType, ButtonVariant } from '@/components/user/Button'
 import TextareaAutosize from 'react-textarea-autosize'
 import { updateSnippet } from './actions'
-import { useEnterSubmit } from '@/lib/hooks/use-enter-submit'
 import Alert, { AlertVariant } from '@/components/user/Alert'
 import ReactMarkdown from 'react-markdown'
 import rehypeHighlight from 'rehype-highlight'
-import { Prisma, Snippet } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 
 const initialState = {
   message: '',
@@ -28,7 +27,7 @@ function SubmitButton() {
       disabled={pending}
       className="flex items-center gap-3"
     >
-      {pending ? <Loader2 className="size-5 animate-spin" /> : <Zap className="size-5" aria-hidden="true" />}
+      {pending ? <Loader2 className="size-5 animate-spin" /> : <ShieldAlert className="size-5" aria-hidden="true" />}
       Save
     </Button>
   )
@@ -60,7 +59,13 @@ function TextArea({
   )
 }
 
-export default function Form({ snippet }: { snippet: Snippet }) {
+export default function Form({
+  snippet,
+}: {
+  snippet: Prisma.SnippetGetPayload<{
+    include: { article: true }
+  }>
+}) {
   const [content, setContent] = useState(snippet.content)
   const [task, setTask] = useState(snippet.task)
 
@@ -80,7 +85,7 @@ export default function Form({ snippet }: { snippet: Snippet }) {
 
   return (
     <form action={formAction}>
-      {state.message && <Alert variant={AlertVariant.Yellow} message={state.message} />}
+      {state.message && <Alert variant={state.ok ? AlertVariant.Green : AlertVariant.Red} message={state.message} />}
 
       <input type="hidden" name="snippetId" value={snippet.id} />
       <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -116,9 +121,14 @@ export default function Form({ snippet }: { snippet: Snippet }) {
         </div>
       </div>
 
-      {state.message && <Alert variant={AlertVariant.Yellow} message={state.message} className="mt-6" />}
+      {state.message && (
+        <Alert variant={state.ok ? AlertVariant.Green : AlertVariant.Red} message={state.message} className="mt-6" />
+      )}
       <div className="mt-6 flex items-center justify-end gap-x-6">
         <SubmitButton />
+        <Button variant={ButtonVariant.Secondary} type={ButtonType.Link} href={`/articles/${snippet.article.id}`}>
+          Back to all snippets
+        </Button>
       </div>
     </form>
   )

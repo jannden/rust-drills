@@ -1,0 +1,20 @@
+'use server'
+
+import { redirect } from 'next/navigation'
+import { revalidatePath } from 'next/cache'
+
+import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
+import { Role } from '@prisma/client'
+import { seed } from '../../../../prisma/seed'
+
+export async function updateSnippet(formData: FormData) {
+  const user = await getClerkWithDb()
+  if (!user || user.db.role !== Role.ADMIN) {
+    redirect('/sign-up')
+  }
+
+  seed()
+
+  revalidatePath('/')
+  return { ok: true, message: 'Seeding complete.' }
+}

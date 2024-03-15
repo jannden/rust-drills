@@ -141,6 +141,9 @@ export default function Blackboard({ articleId, articleTitle, isAdmin, memoryPre
         <div className="flex flex-wrap items-center justify-between gap-x-6 sm:flex-nowrap">
           <h3 className="mb-3 text-2xl font-semibold leading-6 text-gray-900 [text-wrap:balance]">{`${articleTitle}: ${currentMemory.snippetHeading}`}</h3>
           <div className="mt-3 flex shrink-0 gap-3 sm:ml-3 sm:mt-0">
+            <Button variant={ButtonVariant.Secondary} type={ButtonType.Link} href={`/articles/${articleId}`}>
+              Back
+            </Button>
             {isAdmin ? (
               <Button
                 variant={ButtonVariant.Primary}

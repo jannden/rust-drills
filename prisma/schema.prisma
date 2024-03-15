@@ -97,6 +97,7 @@ model Article {
   id String @id @default(cuid())
 
   order    Int
+  isVisible Boolean @default(false)
   title    String
   subtitle String
   url      String
