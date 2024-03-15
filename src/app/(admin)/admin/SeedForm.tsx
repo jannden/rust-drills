@@ -23,7 +23,7 @@ function SubmitButton() {
       className="flex items-center gap-3"
     >
       {pending ? <Loader2 className="size-5 animate-spin" /> : <ShieldAlert className="size-5" aria-hidden="true" />}
-      Danger: Seed DB
+      Danger: Update articles and snippets from JSON
     </Button>
   )
 }

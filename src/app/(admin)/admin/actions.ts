@@ -5,7 +5,7 @@ import { revalidatePath } from 'next/cache'
 
 import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
 import { Role } from '@prisma/client'
-import { seed } from '../../../../prisma/seed'
+import { update } from '../../../../prisma/seed'
 
 export async function updateSnippet(formData: FormData) {
   const user = await getClerkWithDb()
@@ -13,8 +13,12 @@ export async function updateSnippet(formData: FormData) {
     redirect('/sign-up')
   }
 
-  seed()
+  try {
+    await update()
+  } catch (error) {
+    return { ok: false, message: `Failed ${error}` }
+  }
 
   revalidatePath('/')
-  return { ok: true, message: 'Seeding complete.' }
+  return { ok: true, message: 'Update complete.' }
 }
