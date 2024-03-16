@@ -7,48 +7,11 @@ import { cn } from '@/lib/utils'
 import { usePathname } from 'next/navigation'
 import { useMounted } from '@/lib/hooks/use-mounted'
 import { useEffect, useState } from 'react'
-import { useUser } from '@clerk/nextjs'
-
-import LogRocket from 'logrocket'
-import setupLogRocketReact from 'logrocket-react'
 
 export default function Energy() {
   const pathname = usePathname()
   const mounted = useMounted()
-  const { isLoaded, isSignedIn, user } = useUser()
   const [energyPercentage, setEnergyPercentage] = useState<number | null>(null)
-
-  // LogRocket
-  useEffect(() => {
-    if (!isLoaded || !mounted || !user?.emailAddresses) return
-    if (typeof window !== 'undefined') {
-      LogRocket.init('wwsywf/rust-drills')
-      LogRocket.identify(user.id, {
-        email: user.emailAddresses[0].emailAddress,
-      })
-      setupLogRocketReact(LogRocket)
-      console.log('LogRocket initialized')
-    } else {
-      console.error('window is undefined')
-    }
-  }, [mounted, isLoaded, isSignedIn, user])
-
-  // Lucky Orange
-  useEffect(() => {
-    if (!isLoaded || !mounted || !user?.emailAddresses) return
-    window.LOQ = window.LOQ || []
-    window.LOQ.push([
-      'ready',
-      function (LO: any) {
-        LO.$internal.ready('privacy').then(function () {
-          LO.privacy.setConsentStatus(true) // TODO: This should be accepted by the user (GDPR)
-        })
-        LO.$internal.ready('visitor').then(function () {
-          LO.visitor.identify({ email: user.emailAddresses[0].emailAddress })
-        })
-      },
-    ])
-  }, [mounted, user?.emailAddresses, isLoaded])
 
   useEffect(() => {
     if (!mounted) return

@@ -11,9 +11,13 @@ import Logo from '@/components/user/Logo'
 import NavLink from '@/components/user/NavLink'
 import UserAvatar from '@/components/user/UserAvatar'
 import { env } from '@/env.mjs'
+import { useMounted } from '@/lib/hooks/use-mounted'
+import { useUser } from '@clerk/nextjs'
 
 export default function Header({ navigation, copyright }: { navigation: NavType[]; copyright: string }) {
   const pathname = usePathname()
+  const mounted = useMounted()
+  const { isLoaded, user } = useUser()
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const year = new Date().getFullYear()
@@ -22,6 +26,23 @@ export default function Header({ navigation, copyright }: { navigation: NavType[
     // hide sidebar on path change
     setMobileMenuOpen(false)
   }, [pathname])
+
+  // Lucky Orange
+  useEffect(() => {
+    if (!isLoaded || !mounted || !user?.emailAddresses) return
+    window.LOQ = window.LOQ || []
+    window.LOQ.push([
+      'ready',
+      function (LO: any) {
+        LO.$internal.ready('privacy').then(function () {
+          LO.privacy.setConsentStatus(true) // TODO: This should be accepted by the user (GDPR)
+        })
+        LO.$internal.ready('visitor').then(function () {
+          LO.visitor.identify({ email: user.emailAddresses[0].emailAddress })
+        })
+      },
+    ])
+  }, [mounted, user?.emailAddresses, isLoaded])
 
   return (
     <header className="absolute inset-x-0 top-0 z-50 flex h-16 border-b border-gray-900/10">
