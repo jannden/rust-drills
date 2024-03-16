@@ -9,6 +9,8 @@ import Sidebar from '@/components/user/Sidebar'
 import 'react-toastify/dist/ReactToastify.css'
 import 'highlight.js/styles/atom-one-light.css'
 import { navigation } from '@/lib/config/global'
+import Script from 'next/script'
+import { env } from '@/env.mjs'
 
 interface TailwindLayoutProps {
   children: React.ReactNode
@@ -32,6 +34,7 @@ export default async function TailwindLayout({ children }: TailwindLayoutProps) 
         <main className="flex-1 px-4 py-6 sm:px-6 sm:py-12 md:flex-auto md:px-12">{children}</main>
       </div>
       <ToastContainer />
+      <Script async defer src={`https://tools.luckyorange.com/core/lo.js?site-id=${env.NEXT_PUBLIC_LO_SITE_ID}`} />
     </>
   )
 }

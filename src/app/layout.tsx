@@ -1,5 +1,4 @@
 import { type Metadata } from 'next'
-import Script from 'next/script'
 import { ClerkProvider } from '@clerk/nextjs'
 
 import { env } from '@/env.mjs'
@@ -27,7 +26,6 @@ export default async function MainLayout({ children }: { children: React.ReactNo
           <TailwindIndicator />
           <Analytics />
         </body>
-        <script async defer src="https://tools.luckyorange.com/core/lo.js?site-id=8e27f3e1"></script>
       </html>
     </ClerkProvider>
   )
