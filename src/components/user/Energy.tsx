@@ -27,6 +27,9 @@ export default function Energy() {
         email: user.emailAddresses[0].emailAddress,
       })
       setupLogRocketReact(LogRocket)
+      console.log('LogRocket initialized')
+    } else {
+      console.error('window is undefined')
     }
   }, [mounted, isLoaded, isSignedIn, user])
 
