@@ -27,7 +27,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
           <TailwindIndicator />
           <Analytics />
         </body>
-        <Script async defer src={`https://tools.luckyorange.com/core/lo.js?site-id=${env.NEXT_PUBLIC_LO_SITE_ID}`} />
+        <script async defer src="https://tools.luckyorange.com/core/lo.js?site-id=8e27f3e1"></script>
       </html>
     </ClerkProvider>
   )
