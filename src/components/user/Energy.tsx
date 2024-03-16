@@ -9,11 +9,26 @@ import { useMounted } from '@/lib/hooks/use-mounted'
 import { useEffect, useState } from 'react'
 import { useUser } from '@clerk/nextjs'
 
+import LogRocket from 'logrocket'
+import setupLogRocketReact from 'logrocket-react'
+
 export default function Energy() {
   const pathname = usePathname()
   const mounted = useMounted()
   const { isLoaded, isSignedIn, user } = useUser()
   const [energyPercentage, setEnergyPercentage] = useState<number | null>(null)
+
+  // LogRocket
+  useEffect(() => {
+    if (!isLoaded || !mounted || !user?.emailAddresses) return
+    if (typeof window !== 'undefined') {
+      LogRocket.init('wwsywf/rust-drills')
+      LogRocket.identify(user.id, {
+        email: user.emailAddresses[0].emailAddress,
+      })
+      setupLogRocketReact(LogRocket)
+    }
+  }, [mounted, isLoaded, isSignedIn, user])
 
   // Lucky Orange
   useEffect(() => {
