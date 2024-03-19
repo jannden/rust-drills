@@ -19,8 +19,10 @@ export default async function AdminPage() {
   return (
     <>
       <Heading heading="Admin Actions" />
-      <SeedForm />
-      <ToggleAdminForm isAdmin={user.db.role === Role.ADMIN} />
+      <div className="flex flex-col gap-6">
+        <SeedForm />
+        <ToggleAdminForm isAdmin={user.db.role === Role.ADMIN} />
+      </div>
     </>
   )
 }

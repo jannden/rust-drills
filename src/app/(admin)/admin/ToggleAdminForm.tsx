@@ -4,7 +4,7 @@ import { useFormState, useFormStatus } from 'react-dom'
 import { Loader2, ShieldAlert } from 'lucide-react'
 
 import Button, { ButtonType, ButtonVariant } from '@/components/user/Button'
-import { updateSnippet } from './actions'
+import { toggleAdmin, updateSnippet } from './actions'
 import Alert, { AlertVariant } from '@/components/user/Alert'
 
 const initialState = {
@@ -30,7 +30,7 @@ function SubmitButton() {
 
 export default function ToggleAdminForm({ isAdmin }: { isAdmin: boolean }) {
   const handleFormAction = (_prevState: any, formData: FormData) => {
-    return updateSnippet(formData)
+    return toggleAdmin()
   }
   const [state, formAction] = useFormState(handleFormAction, initialState)
 

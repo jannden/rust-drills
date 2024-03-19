@@ -37,7 +37,7 @@ export default function SeedForm() {
   return (
     <form action={formAction}>
       {state.message && <Alert variant={state.ok ? AlertVariant.Green : AlertVariant.Red} message={state.message} />}
-      <div className="flex items-center gap-1">
+      <div className="mb-3 flex items-center gap-1">
         <input type="checkbox" name="reset" id="reset" /> Reset altogether?
       </div>
       <SubmitButton />
