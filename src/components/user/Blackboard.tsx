@@ -118,7 +118,7 @@ export default function Blackboard({ articleId, articleTitle, isAdmin, memoryPre
       <>
         <Alert variant={AlertVariant.Green} message={`All snippets from this article learned.`} />
         <Button variant={ButtonVariant.Primary} type={ButtonType.Link} href={`/articles`}>
-          Open list of topics
+          Open list of articles
         </Button>
       </>
     )
@@ -129,7 +129,7 @@ export default function Blackboard({ articleId, articleTitle, isAdmin, memoryPre
       <>
         <Alert variant={AlertVariant.Blue} message={`No snippets to repeat.`} />
         <Button variant={ButtonVariant.Primary} type={ButtonType.Link} href={`/articles`}>
-          Open list of topics
+          Open list of articles
         </Button>
       </>
     )

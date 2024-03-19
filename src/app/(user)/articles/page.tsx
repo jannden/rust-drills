@@ -32,7 +32,7 @@ export default async function Articles() {
 
   return (
     <>
-      <Heading heading="Topics" />
+      <Heading heading="Articles" />
       <ul role="list" className="divide-y divide-gray-100">
         {articles.map((a) => (
           <li key={a.id} className="group relative flex justify-between gap-x-6 px-4 py-5 hover:bg-gray-50 sm:px-6">

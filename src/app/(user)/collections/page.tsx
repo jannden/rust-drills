@@ -50,7 +50,6 @@ export default async function CollectionsPage() {
     dateTimePlanned: m.dateTimePlanned,
   }))
 
-  //"Collection"."dateTimePlanned" < NOW() + INTERVAL '1 day' -> DO THIS WITH DateTime FROM LUXON
   const hasWordsToRepeat =
     parsedMemories.filter(
       (m) => m.dateTimePlanned && DateTime.fromISO(m.dateTimePlanned.toISOString()).diffNow('days').as('days') < 1
@@ -68,7 +67,7 @@ export default async function CollectionsPage() {
 
       {!parsedMemories?.length ? (
         <div className="mb-12">
-          <Alert variant={AlertVariant.Blue} message="No snippets yet. Add some by exploring the topics." />
+          <Alert variant={AlertVariant.Blue} message="No snippets yet. Add some by exploring the articles." />
           <Button variant={ButtonVariant.Primary} type={ButtonType.Link} href="/articles">
             New Snippets
           </Button>

@@ -5,7 +5,7 @@ import { revalidatePath } from 'next/cache'
 
 import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
 import { Role } from '@prisma/client'
-import { update } from '../../../../prisma/seed'
+import { reset, update } from '../../../../prisma/seed'
 
 export async function updateSnippet(formData: FormData) {
   const user = await getClerkWithDb()
@@ -14,7 +14,11 @@ export async function updateSnippet(formData: FormData) {
   }
 
   try {
-    await update()
+    if (!!formData.get('reset')) {
+      await reset()
+    } else {
+      await update()
+    }
   } catch (error) {
     return { ok: false, message: `Failed ${error}` }
   }

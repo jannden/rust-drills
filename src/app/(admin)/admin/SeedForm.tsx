@@ -23,7 +23,7 @@ function SubmitButton() {
       className="flex items-center gap-3"
     >
       {pending ? <Loader2 className="size-5 animate-spin" /> : <ShieldAlert className="size-5" aria-hidden="true" />}
-      Danger: Update articles and snippets from JSON
+      Danger: Update/Reset articles and snippets from JSON
     </Button>
   )
 }
@@ -37,6 +37,9 @@ export default function SeedForm() {
   return (
     <form action={formAction}>
       {state.message && <Alert variant={state.ok ? AlertVariant.Green : AlertVariant.Red} message={state.message} />}
+      <div className="flex items-center gap-1">
+        <input type="checkbox" name="reset" id="reset" /> Reset altogether?
+      </div>
       <SubmitButton />
     </form>
   )

@@ -27,7 +27,14 @@ export default async function Settings() {
   return (
     <>
       <Heading heading="Settings" className="mb-0">
-        {(!isFirstTimeLogin || createdMoreThan5MinutesAgo) && <SignOut signOutText="Sign Out" />}
+        <div className="flex gap-3">
+          {user.db.role === 'ADMIN' && (
+            <Button type={ButtonType.Link} variant={ButtonVariant.Primary} href="/admin">
+              Admin
+            </Button>
+          )}
+          {(!isFirstTimeLogin || createdMoreThan5MinutesAgo) && <SignOut signOutText="Sign Out" />}
+        </div>
       </Heading>
 
       <dl className="mb-12 space-y-6 divide-y divide-gray-100 text-sm leading-6">
