@@ -7,7 +7,6 @@ import Header from '@/components/user/Header'
 import Sidebar from '@/components/user/Sidebar'
 
 import 'react-toastify/dist/ReactToastify.css'
-import 'highlight.js/styles/atom-one-light.css'
 import { navigation } from '@/lib/config/global'
 
 interface TailwindLayoutProps {
