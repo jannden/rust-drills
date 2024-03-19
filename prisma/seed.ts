@@ -5,34 +5,37 @@ import articles from './data/articles.json'
 const prisma = new PrismaClient()
 
 export async function update() {
-  console.log('Updating articles and snippets...')
+  console.log('Updating from JSON...')
   for (const a of articles) {
+    // Match article by url
     const article = await prisma.article.findFirst({
       where: { url: a.url },
       include: { snippets: true },
     })
     if (article) {
-      console.log(`Updating article ${article.title}...`)
+      console.log(`Updating article ${article.title}${article.title !== a.title ? ` (${a.title})` : ''}...`)
+      await prisma.article.update({
+        where: { id: article.id },
+        data: {
+          ...a,
+          snippets: undefined,
+        },
+      })
+      console.log(`Updating snippets for this article...`)
       for (const s of a.snippets) {
+        // Match snippet by order
         const snippet = article.snippets.find((sn) => sn.order === s.order)
         if (snippet) {
           console.log(`Updating snippet ${snippet.order}...`)
           await prisma.snippet.update({
             where: { id: snippet.id },
-            data: {
-              heading: s.heading,
-              content: s.content.replaceAll('\\"', '"'),
-              task: s.task.replaceAll('\\"', '"'),
-            },
+            data: s,
           })
         } else {
           console.log(`Creating snippet ${s.order}...`)
           await prisma.snippet.create({
             data: {
-              order: s.order,
-              heading: s.heading,
-              content: s.content.replaceAll('\\"', '"'),
-              task: s.task.replaceAll('\\"', '"'),
+              ...s,
               article: { connect: { id: article.id } },
             },
           })
@@ -42,15 +45,10 @@ export async function update() {
       console.log(`Creating article ${a.title}...`)
       await prisma.article.create({
         data: {
-          order: a.order,
-          title: a.title,
-          subtitle: a.subtitle,
-          url: a.url,
+          ...a,
           snippets: {
             create: a.snippets.map((s, index) => ({
               ...s,
-              content: s.content.replaceAll('\\"', '"'),
-              task: s.task.replaceAll('\\"', '"'),
             })),
           },
         },
@@ -67,16 +65,10 @@ export async function reset() {
   for (const a of articles) {
     const article = await prisma.article.create({
       data: {
-        order: a.order,
-        title: a.title,
-        subtitle: a.subtitle,
-        url: a.url,
+        ...a,
         snippets: {
-          create: a.snippets.map((s, index) => ({
+          create: a.snippets.map((s) => ({
             ...s,
-            content: s.content.replaceAll('\\"', '"'),
-            task: s.task.replaceAll('\\"', '"'),
-            order: index + 1,
           })),
         },
       },
