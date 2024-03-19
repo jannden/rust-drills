@@ -3,6 +3,7 @@ import { z } from 'zod'
 
 export const env = createEnv({
   server: {
+    ADMIN_EMAIL: z.string().email(),
     POSTGRES_USER: z.string().min(1),
     POSTGRES_PASSWORD: z.string().min(1),
     POSTGRES_DB: z.string().min(1),
@@ -35,6 +36,7 @@ export const env = createEnv({
     NEXT_PUBLIC_POSTMARK_SENDER_NAME: z.string().min(1),
   },
   runtimeEnv: {
+    ADMIN_EMAIL: process.env.ADMIN_EMAIL,
     NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     NEXT_PUBLIC_APP_EMAIL: process.env.NEXT_PUBLIC_APP_EMAIL,

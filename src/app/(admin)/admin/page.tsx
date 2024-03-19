@@ -8,10 +8,11 @@ import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
 import { Role } from '@prisma/client'
 import SeedForm from './SeedForm'
 import Heading from '@/components/user/Heading'
+import ToggleAdminForm from './ToggleAdminForm'
 
 export default async function AdminPage() {
   const user = await getClerkWithDb()
-  if (!user || user.db.role !== Role.ADMIN) {
+  if (!user || (user.db.role !== Role.ADMIN && user.db.email !== process.env.ADMIN_EMAIL)) {
     redirect(`/sign-up`)
   }
 
@@ -19,6 +20,7 @@ export default async function AdminPage() {
     <>
       <Heading heading="Admin Actions" />
       <SeedForm />
+      <ToggleAdminForm isAdmin={user.db.role === Role.ADMIN} />
     </>
   )
 }
