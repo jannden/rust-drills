@@ -7,7 +7,7 @@ import { Loader2, Zap } from 'lucide-react'
 import Button, { ButtonType, ButtonVariant } from '@/components/user/Button'
 import TextareaAutosize from 'react-textarea-autosize'
 import { sendMessage } from './actions'
-import { useEnterSubmit } from '@/lib/hooks/use-shift-enter-submit'
+import { useCtrlEnterSubmit } from '@/lib/hooks/use-enter-submit'
 import Alert, { AlertVariant } from '@/components/user/Alert'
 
 interface StoryFormProps {
@@ -71,7 +71,7 @@ function TextArea({
 }
 
 export default function DialogueForm({ memoryId }: StoryFormProps) {
-  const { formRef, onKeyDown } = useEnterSubmit()
+  const { formRef, onKeyDown } = useCtrlEnterSubmit()
   const [message, setMessage] = useState('')
 
   const handleFormAction = (prevState: any, formData: FormData) => {

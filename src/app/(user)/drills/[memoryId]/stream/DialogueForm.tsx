@@ -4,7 +4,7 @@ import { FormEvent, ChangeEvent } from 'react'
 import { Loader2, Zap } from 'lucide-react'
 
 import Button, { ButtonType, ButtonVariant } from '@/components/user/Button'
-import { useShiftEnterSubmit } from '@/lib/hooks/use-shift-enter-submit'
+import { useCtrlEnterSubmit } from '@/lib/hooks/use-enter-submit'
 import { ChatRequestOptions } from 'ai'
 import CodeEditor from './CodeEditor'
 
@@ -16,7 +16,7 @@ interface StoryFormProps {
 }
 
 export default function DialogueForm({ handleSubmit, isLoadingContent, input, handleInputChange }: StoryFormProps) {
-  const { formRef, onKeyDown } = useShiftEnterSubmit()
+  const { formRef, onKeyDown } = useCtrlEnterSubmit()
   return (
     <form onSubmit={handleSubmit} className="w-full" ref={formRef}>
       <CodeEditor
