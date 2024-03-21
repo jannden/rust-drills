@@ -18,7 +18,7 @@ import { JsonObject } from '@prisma/client/runtime/library'
 export async function POST(req: Request) {
   const user = await getClerkWithDb()
   if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    return new Response('Unauthorized', { status: 401 })
   }
 
   const reqBody = await req.json()
@@ -26,11 +26,11 @@ export async function POST(req: Request) {
   if (!body.success) {
     const publicErrorMessage = 'Invalid request'
     logError(publicErrorMessage, body.error)
-    return NextResponse.json({ error: publicErrorMessage }, { status: 400 })
+    return new Response(publicErrorMessage, { status: 400 })
   }
 
   if (!body.data.prompt && !body.data.messages) {
-    return NextResponse.json({ error: 'Prompt or messages are required' }, { status: 400 })
+    return new Response('Prompt or messages are required', { status: 400 })
   }
 
   let promptId = body.data.promptId
@@ -41,7 +41,7 @@ export async function POST(req: Request) {
   const energyData = await getEnergy(user.db.id)
 
   if (!energyData) {
-    return NextResponse.json({ error: 'No energy data' }, { status: 400 })
+    return new Response('Missing AI credits data', { status: 400 })
   }
 
   let createNewPrompt = true
@@ -80,7 +80,7 @@ export async function POST(req: Request) {
 
   const promptTokens = encode(JSON.stringify(promptContent)).length ?? 0
   if (energyData.energy < maxTokens + promptTokens) {
-    return NextResponse.json({ error: 'Not enough energy' }, { status: 400 })
+    return new Response('Not enough AI credits', { status: 400 })
   }
 
   try {
@@ -130,13 +130,13 @@ export async function POST(req: Request) {
   } catch (error) {
     const publicErrorMessage = 'Internal server error'
     logError(publicErrorMessage, error)
-    return NextResponse.json({ error: publicErrorMessage }, { status: 500 })
+    return new Response(publicErrorMessage, { status: 500 })
   }
 
   if (!promptId) {
     const publicErrorMessage = 'Internal server error'
     console.error(publicErrorMessage, 'Prompt does not exist')
-    return NextResponse.json({ error: publicErrorMessage }, { status: 500 })
+    return new Response(publicErrorMessage, { status: 500 })
   }
 
   // Streaming response
@@ -198,6 +198,6 @@ export async function POST(req: Request) {
   } catch (error) {
     const publicErrorMessage = 'Internal server error'
     logError(publicErrorMessage, error)
-    return NextResponse.json({ error: publicErrorMessage }, { status: 500 })
+    return new Response(publicErrorMessage, { status: 500 })
   }
 }
