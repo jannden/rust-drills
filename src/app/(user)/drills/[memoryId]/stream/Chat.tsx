@@ -11,6 +11,14 @@ import Dialogue from './Dialogue'
 import DialogueForm from './DialogueForm'
 import { StoryMessage } from './page'
 import UserAvatar from '@/components/user/UserAvatar'
+import Energy from '@/components/user/Energy'
+import Heading from '@/components/user/Heading'
+import Alert, { AlertVariant } from '@/components/user/Alert'
+import { CircleAlert } from 'lucide-react'
+
+export const codify = (content: string) => {
+  return content.startsWith('```') ? content : '```rust\n' + content + '\n```'
+}
 
 export default function Chat({
   articleId,
@@ -24,6 +32,7 @@ export default function Chat({
   initialMessages: StoryMessage[]
 }) {
   const [errorMessage, setErrorMessage] = useState('')
+  const [energyTimestamp, setEnergyTimestamp] = useState(0)
 
   const {
     reload,
@@ -88,7 +97,7 @@ export default function Chat({
               ...(input
                 ? [
                     {
-                      content: input,
+                      content: codify(input),
                       role: 'user',
                     },
                   ]
@@ -103,6 +112,8 @@ export default function Chat({
       } catch (error) {
         setErrorMessage(`error: ${error}`)
       }
+
+      setEnergyTimestamp(Date.now())
     },
   })
 
@@ -115,11 +126,6 @@ export default function Chat({
 
   return (
     <div className="flow-root">
-      {errorMessage && (
-        <div className="mb-6">
-          <p className="text-sm text-gray-500">{errorMessage}</p>
-        </div>
-      )}
       {requireStart ? (
         <form onSubmit={handleStart}>
           <Button type={ButtonType.Submit} variant={ButtonVariant.Primary}>
@@ -132,10 +138,16 @@ export default function Chat({
             messages={
               messages
                 .map((m) => {
-                  if (m.role !== 'system') {
+                  if (m.role === 'assistant') {
                     return {
                       avatar: m.role,
                       sentences: [m.content],
+                    }
+                  }
+                  if (m.role === 'user') {
+                    return {
+                      avatar: m.role,
+                      sentences: [codify(m.content)],
                     }
                   }
                   return null
@@ -143,6 +155,16 @@ export default function Chat({
                 .filter((m) => m !== null) as StoryMessage[]
             }
           />
+          {errorMessage && (
+            <div className="mt-6 flex gap-x-3">
+              <div className="relative">
+                <div className="rounded-full bg-white p-1.5 ring-8 ring-white">
+                  <CircleAlert className="size-7" />
+                </div>
+              </div>
+              <Alert variant={AlertVariant.Red} message={errorMessage} />
+            </div>
+          )}
           <div className="mt-6 flex gap-x-3">
             <div className="relative">
               <div className="flex rounded-full bg-white ring-8 ring-white">
