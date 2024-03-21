@@ -34,7 +34,9 @@ export default function Dialogue({ messages }: Props) {
                 {message.avatar === 'user' ? (
                   <UserAvatar />
                 ) : (
-                  <Image src={logoSvg} alt={`Assistant`} aria-hidden="true" height={35} width={35} />
+                  <div className="rounded-full bg-zinc-50 p-2">
+                    <Image src={logoSvg} alt={`Assistant`} aria-hidden="true" height={20} width={20} />{' '}
+                  </div>
                 )}
               </div>
               <div className="min-w-0 flex-1">

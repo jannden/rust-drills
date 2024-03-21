@@ -39,7 +39,7 @@ export default function CodeEditor({
         onKeyDown={onKeyDown}
         rehypePlugins={[rehypeHighlight as any]}
         className="mb-6 w-full shadow-sm ring-1 ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600 disabled:cursor-wait disabled:bg-gray-50"
-        minHeight={50}
+        minHeight={80}
       />
     </div>
   )
