@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation'
 import { useMounted } from '@/lib/hooks/use-mounted'
 import { useEffect, useState } from 'react'
 
-export default function Energy() {
+export default function Energy({ energyTimestamp }: { energyTimestamp: number }) {
   const pathname = usePathname()
   const mounted = useMounted()
   const [energyPercentage, setEnergyPercentage] = useState<number | null>(null)
@@ -16,20 +16,18 @@ export default function Energy() {
   useEffect(() => {
     if (!mounted) return
     const fetchEnergy = async () => {
-      const res = await fetch('/api/energy', {
-        cache: 'no-cache',
-      })
+      const res = await fetch('/api/energy', { cache: 'no-cache' })
       if (!res.ok) return
       try {
         const { energy, dailyLimit } = await res.json()
         const percentage = (energy / dailyLimit) * 100
-        setEnergyPercentage(percentage)
+        setEnergyPercentage(percentage > 0 ? percentage : 0)
       } catch (e) {
         console.error(e)
       }
     }
     fetchEnergy()
-  }, [mounted])
+  }, [mounted, energyTimestamp])
 
   return (
     <Link

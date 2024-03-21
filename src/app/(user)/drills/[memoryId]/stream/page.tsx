@@ -6,7 +6,6 @@ import Alert, { AlertVariant } from '@/components/user/Alert'
 import Heading from '@/components/user/Heading'
 import Chat from './Chat'
 import { defaultAI } from '@/lib/config/ai'
-import Energy from '@/components/user/Energy'
 import { ChatMessageType } from '@/app/api/memories/validations'
 
 export type StoryMessage = {
@@ -128,9 +127,7 @@ export default async function ChatDetailPage({ params }: Props) {
 
   return (
     <div className="pb-36">
-      <Heading heading={memory.snippet.heading} description={memory.snippet.article.subtitle}>
-        <Energy />
-      </Heading>
+      <Heading heading={memory.snippet.heading} description={memory.snippet.article.subtitle} />
       <Chat articleId={memory.snippet.articleId} memoryId={memory.id} promptId={promptId} initialMessages={messages} />
     </div>
   )
