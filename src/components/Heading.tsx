@@ -21,16 +21,16 @@ export default function Heading({ heading, description, children, tabs, classNam
   const pathname = usePathname()
 
   return (
-    <div className={cn('mb-6 border-b border-gray-200 pb-6', className)}>
+    <div className={cn('pb-8', className)}>
       <div className="flex flex-wrap items-center justify-between gap-x-6 sm:flex-nowrap">
         <div>
-          <h3 className="mb-3 text-2xl font-semibold leading-6 text-gray-900 [text-wrap:balance]">{heading}</h3>
+          <h3 className="text-2xl text-gray-900 [text-wrap:balance]">{heading}</h3>
           {description && <p className="mt-1 text-sm text-gray-500 [text-wrap:balance]">{description}</p>}
         </div>
         <div className="mt-3 shrink-0 sm:ml-3 sm:mt-0">{children}</div>
       </div>
       {tabs?.length && (
-        <div className="mt-3 sm:mt-4">
+        <div className="mt-3 border-b border-gray-200 sm:mt-4">
           <nav className="-mb-px flex space-x-8">
             {tabs.map((tab, tabIdx) => (
               <Link

@@ -4,7 +4,7 @@ import { useFormState, useFormStatus } from 'react-dom'
 import { Loader2, ShieldAlert } from 'lucide-react'
 
 import Button, { ButtonType, ButtonVariant } from '@/components/Button'
-import { updateSnippet } from './actions'
+import { updateSnippets } from './actions'
 import Alert, { AlertVariant } from '@/components/Alert'
 
 const initialState = {
@@ -30,7 +30,7 @@ function SubmitButton() {
 
 export default function SeedForm() {
   const handleFormAction = (_prevState: any, formData: FormData) => {
-    return updateSnippet(formData)
+    return updateSnippets(formData)
   }
   const [state, formAction] = useFormState(handleFormAction, initialState)
 

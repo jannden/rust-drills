@@ -9,14 +9,14 @@ import ItemCard from '@/components/ItemCard'
 
 type Props = {
   params: {
-    deckId: string
+    slug: string
   }
 }
 
 export default async function Deck({ params }: Props) {
   const deck = await prisma.deck.findUnique({
     where: {
-      id: params.deckId,
+      slug: params.slug,
     },
     include: {
       snippets: {

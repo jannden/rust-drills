@@ -4,7 +4,7 @@ import { useFormState, useFormStatus } from 'react-dom'
 import { Loader2, ShieldAlert } from 'lucide-react'
 
 import Button, { ButtonType, ButtonVariant } from '@/components/Button'
-import { toggleAdmin, updateSnippet } from './actions'
+import { toggleAdmin } from './actions'
 import Alert, { AlertVariant } from '@/components/Alert'
 
 const initialState = {

@@ -98,11 +98,16 @@ model Deck {
 
   order     Int
   isVisible Boolean @default(false)
-  title     String
-  subtitle  String
-  url       String
+
+  title        String
+  subtitle     String
+  url          String
+  canonicalUrl String
+  slug         String
 
   snippets Snippet[]
+
+  @@unique([slug])
 }
 
 model Snippet {

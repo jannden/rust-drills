@@ -1,5 +1,3 @@
-import { env } from '@/env.mjs'
-import { projectSettings } from '@/lib/config/global'
 import { cn } from '@/lib/utils'
 import { ClassValue } from 'clsx'
 import Link from 'next/link'

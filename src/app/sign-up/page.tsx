@@ -22,14 +22,11 @@ export default async function SignUp() {
 
     if (userDb.lastLogin) {
       // User has already logged in before
-      redirect('/dashboard')
     }
 
     // New user
     // TODO: Send a welcome email to new users
-    redirect('/settings')
   }
 
-  // Not signed in
   redirect('/')
 }

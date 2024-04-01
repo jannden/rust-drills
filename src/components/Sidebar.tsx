@@ -1,6 +1,6 @@
 import NavLink from '@/components/NavLink'
 import { env } from '@/env.mjs'
-import { navigation } from '@/lib/config/global'
+import { navigation } from '@/lib/config/sr'
 
 export default async function Sidebar() {
   const year = new Date().getFullYear()

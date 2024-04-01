@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation'
 import { SquarePlus, SquareCode, BarChart2, User } from 'lucide-react'
 
-import { NavType } from '@/lib/config/global'
+import { NavType } from '@/lib/config/sr'
 import { cn } from '@/lib/utils'
 import { ClassValue } from 'clsx'
 

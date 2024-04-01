@@ -1,5 +1,5 @@
 import { spacedRepetitionAlgorithm } from '@/lib/algorithm'
-import { algorithmDefaults } from '@/lib/config/global'
+import { algorithmDefaults } from '@/lib/config/sr'
 import { prisma } from '@/lib/prisma'
 import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
 import { AlgorithmInput } from '@/lib/types'
@@ -336,7 +336,6 @@ export async function PUT(req: Request): Promise<NextResponse<MemoryPUTResponseT
     }
   }
 
-  revalidatePath('/dashboard')
   revalidatePath('/lesson')
   revalidatePath('/decks')
   revalidatePath('/api/memories')

@@ -3,7 +3,9 @@
     "order": 1,
     "isVisible": true,
     "title": "Flow Control",
-    "subtitle": "With examples from The Dune",
+    "subtitle": "A fun but comprehensive guide for Control Flow in Rust with metaphors from the world of Dune.",
+    "slug": "flow-control",
+    "canonicalUrl": "https://medium.com/rustaceans/rust-conditionals-a-fun-guide-with-examples-85e831c86501",
     "url": "https://medium.com/rustaceans/rust-conditionals-a-fun-guide-with-examples-85e831c86501?sk=94edf6b826f7e5fe350f8d5f082ca6bd",
     "snippets": [
       {
@@ -72,7 +74,9 @@
     "order": 2,
     "isVisible": true,
     "title": "Enums",
-    "subtitle": "With examples from The Matrix",
+    "subtitle": "A fun but comprehensive guide for Enums in Rust with metaphors from The Matrix.",
+    "slug": "enums",
+    "canonicalUrl": "https://medium.com/rustaceans/rust-enums-a-fun-guide-with-examples-f3bb0f590d93",
     "url": "https://medium.com/rustaceans/rust-enums-a-fun-guide-with-examples-f3bb0f590d93?sk=08825ba512c2cf2638c1fa3e177a643a",
     "snippets": [
       {
@@ -141,7 +145,9 @@
     "order": 3,
     "isVisible": true,
     "title": "Structs",
-    "subtitle": "With examples from The Game of Thrones",
+    "subtitle": "A fun but comprehensive guide for Structs in Rust with metaphors from The Game of Thrones.",
+    "slug": "structs",
+    "canonicalUrl": "https://medium.com/rustaceans/rust-structs-a-fun-guide-with-examples-c2851dfb96c6str",
     "url": "https://medium.com/rustaceans/rust-structs-a-fun-guide-with-examples-c2851dfb96c6?sk=a1493ed9de65e20c38aa7960d4312588",
     "snippets": [
       {
@@ -180,7 +186,9 @@
     "order": 4,
     "isVisible": true,
     "title": "Strings",
-    "subtitle": "With examples from The Witcher",
+    "subtitle": "A fun but comprehensive guide for Strings in Rust with metaphors from The Witcher.",
+    "slug": "strings",
+    "canonicalUrl": "https://medium.com/rustaceans/rust-strings-a-fun-guide-with-examples-e412ff963465",
     "url": "https://medium.com/rustaceans/rust-strings-a-fun-guide-with-examples-e412ff963465?sk=f7c6a09b38b4f3b2de76945cd16ae40a",
     "snippets": [
       {
@@ -232,7 +240,9 @@
     "order": 5,
     "isVisible": true,
     "title": "Vectors",
-    "subtitle": "With examples from The Lord of the Rings",
+    "subtitle": "A fun but comprehensive guide for Vectors in Rust with metaphors from The Lord of the Rings.",
+    "slug": "vectors",
+    "canonicalUrl": "https://medium.com/rustaceans/rust-strings-a-fun-guide-with-examples-e412ff963465",
     "url": "https://medium.com/rustaceans/rust-vectors-a-fun-guide-with-examples-ba9402139e5a?sk=a928927b3dd3108a4c9e4b7e8a5a6936",
     "snippets": [
       {
@@ -313,7 +323,9 @@
     "order": 6,
     "isVisible": true,
     "title": "Functions",
-    "subtitle": "With examples from Star Wars",
+    "subtitle": "A fun but comprehensive guide for functions in Rust with metaphors from Star Wars.",
+    "slug": "functions",
+    "canonicalUrl": "https://medium.com/rustaceans/rust-functions-a-fun-guide-with-examples-e9b43833a39b",
     "url": "https://medium.com/rustaceans/rust-functions-a-fun-guide-with-examples-e9b43833a39b?sk=93bcd3e3cfca4bf54ab54cbbe7137cd0",
     "snippets": [
       {
@@ -365,6 +377,8 @@
     "isVisible": false,
     "title": "XXXXX",
     "subtitle": "With examples from XXXXX",
+    "slug": "xxxxx",
+    "canonicalUrl": "xxx",
     "url": "XXXXX",
     "snippets": [
       {

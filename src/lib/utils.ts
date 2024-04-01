@@ -3,7 +3,6 @@ import { twMerge } from 'tailwind-merge'
 import { DateTime } from 'luxon'
 
 import { env } from '@/env.mjs'
-import { projectSettings } from '@/lib/config/global'
 import { diacriticChars, keyboardLayouts } from '@/lib/config/keyboard'
 import { MemoryStrength } from './types'
 import { Prompt } from '@prisma/client'
@@ -242,20 +241,6 @@ export function nFormatter(num: number, digits: number) {
       return num >= item.value
     })
   return item ? (num / item.value).toFixed(digits).replace(rx, '$1') + item.symbol : '0'
-}
-
-/**
- * Determining whether user has enough elements (such as words) to create new combinations (such as phrases)
- */
-export function canGenerateNewCombinations(
-  elementsCount: number,
-  oldCombinationsCount: number,
-  newCombinationsCount: number
-): boolean {
-  return (
-    newCombinationsCount * projectSettings.oneCombinationPerXElements <=
-    elementsCount - oldCombinationsCount * projectSettings.oneCombinationPerXElements
-  )
 }
 
 // * Get spent tokens for prompt

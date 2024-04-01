@@ -28,6 +28,9 @@ const config: Config = {
       '9xl': ['8rem', { lineHeight: '1' }],
     },
     extend: {
+      screens: {
+        xs: '400px',
+      },
       typography: {
         DEFAULT: {
           css: {

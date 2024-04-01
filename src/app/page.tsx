@@ -1,13 +1,13 @@
 'use server'
 
-import Link from 'next/link'
-import { Bookmark, Check, ChevronRight } from 'lucide-react'
+import Image from 'next/image'
 import { Prisma, Role } from '@prisma/client'
+import { DateTime } from 'luxon'
 
 import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
 import { prisma } from '@/lib/prisma'
 import Heading from '@/components/Heading'
-import CircularProgress from '@/components/CircularProgress'
+import { deckLocalImages } from '@/lib/config/decks'
 
 export default async function Decks() {
   const user = await getClerkWithDb()
@@ -22,49 +22,50 @@ export default async function Decks() {
     orderBy: { order: 'asc' },
   })
 
-  // TODO: get user's progress for each deck
-  const isLearned = true
-  const progress = 50
+  // TODO: This is a workaround for Next.js to optimize local images (can't load the url from DB to use SSR)
+  const enrichedDecks = deckLocalImages.map((localImage, index) => {
+    const deckData = decks.find((d) => d.order === index + 1)
+    if (!deckData) {
+      return null
+    }
+    return {
+      ...deckData,
+      imageUrl: localImage,
+    }
+  })
 
   return (
     <>
       <Heading heading="Decks" />
-      <ul role="list" className="divide-y divide-gray-100">
-        {decks.map((a) => (
-          <li key={a.id} className="group relative flex justify-between gap-x-6 px-4 py-5 hover:bg-gray-50 sm:px-6">
-            <div className="flex min-w-0 items-center justify-center gap-x-6">
-              {isLearned ? (
-                <Check className="size-6 text-indigo-600" aria-hidden="true" />
-              ) : (
-                <CircularProgress percent={progress}>
-                  <Bookmark className={'size-3 flex-none text-indigo-600'} aria-hidden="true" />
-                </CircularProgress>
-              )}
-              <div className="min-w-0 flex-auto">
-                <p className="text-sm font-semibold leading-6 text-gray-900">
-                  <Link href={`/decks/${a.id}`}>
-                    <span className="absolute inset-x-0 -top-px bottom-0" />
-                    {a.title}
-                  </Link>
-                </p>
-                <p className="mt-1 flex text-xs leading-5 text-gray-500">{a.subtitle}</p>
-              </div>
-            </div>
-            <div className="flex shrink-0 items-center gap-x-6">
-              <div className="hidden sm:flex sm:flex-col sm:items-end">
-                <p className="text-sm leading-6 text-gray-900">{null}</p>
-                <p className="mt-1 text-xs leading-5 text-gray-500">{null}</p>
-              </div>
-              <div className="-mr-2 w-7">
-                <ChevronRight
-                  className="size-5 flex-none text-gray-400 transition group-hover:size-7 group-hover:text-indigo-600"
-                  aria-hidden="true"
-                />
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <div className="mx-auto grid grid-cols-1 gap-x-8 gap-y-20 sm:grid-cols-2 lg:mx-0 lg:grid-cols-3 xl:grid-cols-4">
+        {enrichedDecks.map(
+          (deck) =>
+            deck && (
+              <article key={deck.id} className="group relative flex flex-col items-start justify-between">
+                <div className="xs:aspect-[32/9] relative aspect-[16/9] w-full sm:aspect-[16/9]">
+                  <Image
+                    src={deck.imageUrl}
+                    alt=""
+                    aria-hidden="true"
+                    className="rounded-2xl object-cover"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 15vw"
+                  />
+                </div>
+                <div className="mt-6 max-w-xl">
+                  <a
+                    href={`decks/${deck.slug}`}
+                    className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600"
+                  >
+                    <span className="absolute inset-0" />
+                    {deck.title}
+                  </a>
+                  <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">{deck.subtitle}</p>
+                </div>
+              </article>
+            )
+        )}
+      </div>
     </>
   )
 }

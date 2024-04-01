@@ -35,7 +35,7 @@ export default function Dialogue({ messages }: Props) {
                   <UserAvatar />
                 ) : (
                   <div className="rounded-full bg-zinc-50 p-2">
-                    <Image src={logoSvg} alt={`Assistant`} aria-hidden="true" height={20} width={20} />{' '}
+                    <Image src={logoSvg} alt={`Assistant`} aria-hidden="true" />{' '}
                   </div>
                 )}
               </div>

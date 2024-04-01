@@ -1,7 +1,6 @@
 import { DateTime, Duration } from 'luxon'
 
 import { AlgorithmInput, AlgorithmOutput } from '@/lib/types'
-import { projectSettings } from '@/lib/config/global'
 import { differenceInDays } from '@/lib/utils'
 
 /**
@@ -31,7 +30,7 @@ export const spacedRepetitionAlgorithm = (
     if (numberOfMistakes === 2) {
       // Repeat almost immediately and reset repetition count
       exactInterval = Duration.fromObject({
-        seconds: projectSettings.secondsToRepeatWhenFailed,
+        seconds: 600,
       })
       repetition = 0
       fuzzedInterval = exactInterval // No fuzzing for failed learning phase
@@ -60,7 +59,7 @@ export const spacedRepetitionAlgorithm = (
     if (numberOfMistakes === 2) {
       // Failed, so force re-review almost immediately and reset repetition count
       exactInterval = Duration.fromObject({
-        seconds: projectSettings.secondsToRepeatWhenFailed,
+        seconds: 600,
       })
       repetition = 0
 

@@ -9,7 +9,7 @@ import Blackboard from '@/components/Blackboard'
 import { prisma } from '@/lib/prisma'
 import Alert, { AlertVariant } from '@/components/Alert'
 import { Role } from '@prisma/client'
-import { algorithmDefaults } from '@/lib/config/global'
+import { algorithmDefaults } from '@/lib/config/sr'
 import { DateTime } from 'luxon'
 
 type Props = {

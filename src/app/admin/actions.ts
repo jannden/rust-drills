@@ -9,7 +9,7 @@ import { reset, update } from '../../../prisma/seed'
 import { env } from '@/env.mjs'
 import { prisma } from '@/lib/prisma'
 
-export async function updateSnippet(formData: FormData) {
+export async function updateSnippets(formData: FormData) {
   const user = await getClerkWithDb()
   if (!user || user.db.role !== Role.ADMIN) {
     redirect('/sign-up')
