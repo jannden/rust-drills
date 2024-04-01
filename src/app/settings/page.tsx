@@ -41,7 +41,7 @@ export default async function Settings() {
         <Input label="Public name" defaultValue={user.db.publicName ?? ''} placeholder="Your public name" />
       </dl>
 
-      <Button type={ButtonType.Link} variant={ButtonVariant.Primary} href="/articles">
+      <Button type={ButtonType.Link} variant={ButtonVariant.Primary} href="/decks">
         Continue
       </Button>
     </>

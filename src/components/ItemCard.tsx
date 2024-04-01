@@ -15,7 +15,7 @@ export default async function ItemCard({ cardDetails }: { cardDetails: CardDetai
                 {cardDetails.snippetHeading}
               </Link>
             </p>
-            <p className="mt-1 text-sm text-gray-500">{cardDetails.articleTitle}</p>
+            <p className="mt-1 text-sm text-gray-500">{cardDetails.deckTitle}</p>
           </div>
           {cardDetails.memoryStrength !== null && (
             <div className="mt-1">

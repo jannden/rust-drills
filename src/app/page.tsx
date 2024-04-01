@@ -9,28 +9,28 @@ import { prisma } from '@/lib/prisma'
 import Heading from '@/components/Heading'
 import CircularProgress from '@/components/CircularProgress'
 
-export default async function Articles() {
+export default async function Decks() {
   const user = await getClerkWithDb()
 
-  let whereArg: Prisma.ArticleWhereInput = {}
+  let whereArg: Prisma.DeckWhereInput = {}
   if (user?.db.role !== Role.ADMIN) {
     whereArg = { isVisible: true }
   }
 
-  const articles = await prisma.article.findMany({
+  const decks = await prisma.deck.findMany({
     where: whereArg,
     orderBy: { order: 'asc' },
   })
 
-  // TODO: get user's progress for each article
+  // TODO: get user's progress for each deck
   const isLearned = true
   const progress = 50
 
   return (
     <>
-      <Heading heading="Articles" />
+      <Heading heading="Decks" />
       <ul role="list" className="divide-y divide-gray-100">
-        {articles.map((a) => (
+        {decks.map((a) => (
           <li key={a.id} className="group relative flex justify-between gap-x-6 px-4 py-5 hover:bg-gray-50 sm:px-6">
             <div className="flex min-w-0 items-center justify-center gap-x-6">
               {isLearned ? (
@@ -42,7 +42,7 @@ export default async function Articles() {
               )}
               <div className="min-w-0 flex-auto">
                 <p className="text-sm font-semibold leading-6 text-gray-900">
-                  <Link href={`/articles/${a.id}`}>
+                  <Link href={`/decks/${a.id}`}>
                     <span className="absolute inset-x-0 -top-px bottom-0" />
                     {a.title}
                   </Link>

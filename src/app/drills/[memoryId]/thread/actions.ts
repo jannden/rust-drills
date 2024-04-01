@@ -120,7 +120,7 @@ export async function startThread(formData: FormData) {
     })
   }
 
-  revalidatePath('/articles')
+  revalidatePath('/decks')
   return { ok: true, message: null }
 }
 
@@ -207,6 +207,6 @@ export async function sendMessage(prevState: any, formData: FormData) {
     })
   }
 
-  revalidatePath('/articles')
+  revalidatePath('/decks')
   return { ok: true, message: null }
 }

@@ -63,7 +63,7 @@ export default function Form({
   snippet,
 }: {
   snippet: Prisma.SnippetGetPayload<{
-    include: { article: true }
+    include: { deck: true }
   }>
 }) {
   const [content, setContent] = useState(snippet.content)
@@ -126,7 +126,7 @@ export default function Form({
       )}
       <div className="mt-6 flex items-center justify-end gap-x-6">
         <SubmitButton />
-        <Button variant={ButtonVariant.Secondary} type={ButtonType.Link} href={`/articles/${snippet.article.id}`}>
+        <Button variant={ButtonVariant.Secondary} type={ButtonType.Link} href={`/decks/${snippet.deck.id}`}>
           Back to all snippets
         </Button>
       </div>

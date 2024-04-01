@@ -14,7 +14,7 @@ function sanitizeFilename(input: string): string {
   return input.replace(/[^a-z0-9]/gi, '_').toLowerCase()
 }
 
-function saveSnippetToDisk(snippet: Snippet, articleOrder: number): boolean {
+function saveSnippetToDisk(snippet: Snippet, deckOrder: number): boolean {
   const data = {
     heading: snippet.heading,
     content: snippet.content,
@@ -23,7 +23,7 @@ function saveSnippetToDisk(snippet: Snippet, articleOrder: number): boolean {
 
   const jsonString = JSON.stringify(data)
   const sanitizedHeading = sanitizeFilename(snippet.heading)
-  const filename = `./prisma/data/updates/${articleOrder}_${snippet.order}_${sanitizedHeading}.json`
+  const filename = `./prisma/data/updates/${deckOrder}_${snippet.order}_${sanitizedHeading}.json`
 
   try {
     fs.writeFileSync(filename, jsonString)
@@ -61,16 +61,16 @@ export async function updateSnippet(formData: FormData) {
         task,
       },
       include: {
-        article: true,
+        deck: true,
       },
     })
 
-    // Also save the snippet to disk as JSON in the format {heading, content, task} with filename of snippet.article.id + date
-    const isSavedToDisk = saveSnippetToDisk(snippet, snippet.article.order)
+    // Also save the snippet to disk as JSON in the format {heading, content, task} with filename of snippet.deck.id + date
+    const isSavedToDisk = saveSnippetToDisk(snippet, snippet.deck.order)
 
     revalidatePath(`/snippet/${snippetId}`)
     revalidatePath(`/snippet/${snippetId}/edit`)
-    revalidatePath(`/lesson/${snippet.articleId}`)
+    revalidatePath(`/lesson/${snippet.deckId}`)
 
     return { ok: true, message: `Updated DB ${isSavedToDisk ? 'and' : 'but NOT'} saved to disk.` }
   } catch (error) {

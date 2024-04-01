@@ -29,7 +29,7 @@ export default async function LessonPage({ params }: Props) {
       id: params.snippetId,
     },
     include: {
-      article: true,
+      deck: true,
     },
   })
 
@@ -39,7 +39,7 @@ export default async function LessonPage({ params }: Props) {
 
   return (
     <>
-      <Heading heading={snippet.heading} description={snippet.article.subtitle} />
+      <Heading heading={snippet.heading} description={snippet.deck.subtitle} />
       <Form snippet={snippet} />
     </>
   )

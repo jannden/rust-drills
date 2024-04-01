@@ -21,12 +21,12 @@ export const codify = (content: string) => {
 }
 
 export default function Chat({
-  articleId,
+  deckId,
   memoryId,
   promptId,
   initialMessages,
 }: {
-  articleId: string
+  deckId: string
   memoryId: string
   promptId: string
   initialMessages: StoryMessage[]
@@ -174,7 +174,7 @@ export default function Chat({
             {!!messages?.find(
               (m) => m.role === 'assistant' && m.content?.includes('We finished drilling this one!')
             ) ? (
-              <Button type={ButtonType.Link} variant={ButtonVariant.Primary} href={`/lesson/${articleId}`}>
+              <Button type={ButtonType.Link} variant={ButtonVariant.Primary} href={`/lesson/${deckId}`}>
                 Back to drills
               </Button>
             ) : (

@@ -37,7 +37,7 @@ export default async function ChatDetailPage({ params }: Props) {
     include: {
       snippet: {
         include: {
-          article: true,
+          deck: true,
         },
       },
       prompts: true,
@@ -103,7 +103,7 @@ export default async function ChatDetailPage({ params }: Props) {
       include: {
         snippet: {
           include: {
-            article: true,
+            deck: true,
           },
         },
         prompts: true,
@@ -127,8 +127,8 @@ export default async function ChatDetailPage({ params }: Props) {
 
   return (
     <div className="pb-36">
-      <Heading heading={memory.snippet.heading} description={memory.snippet.article.subtitle} />
-      <Chat articleId={memory.snippet.articleId} memoryId={memory.id} promptId={promptId} initialMessages={messages} />
+      <Heading heading={memory.snippet.heading} description={memory.snippet.deck.subtitle} />
+      <Chat deckId={memory.snippet.deckId} memoryId={memory.id} promptId={promptId} initialMessages={messages} />
     </div>
   )
 }

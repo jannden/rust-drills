@@ -93,7 +93,7 @@ model SignIn {
   createdAt DateTime @default(now())
 }
 
-model Article {
+model Deck {
   id String @id @default(cuid())
 
   order     Int
@@ -108,14 +108,14 @@ model Article {
 model Snippet {
   id String @id @default(cuid())
 
-  articleId String
-  order     Int
+  deckId String
+  order  Int
 
   heading String
   content String
   task    String
 
-  article  Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  deck     Deck     @relation(fields: [deckId], references: [id], onDelete: Cascade)
   memories Memory[]
 }
 

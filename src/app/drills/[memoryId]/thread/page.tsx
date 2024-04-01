@@ -60,7 +60,7 @@ export default async function ThreadDetailPage({ params }: Props) {
     include: {
       snippet: {
         include: {
-          article: true,
+          deck: true,
         },
       },
     },
@@ -118,7 +118,7 @@ export default async function ThreadDetailPage({ params }: Props) {
 
   return (
     <div className="pb-36">
-      <Heading heading={memory.snippet.article.title}>
+      <Heading heading={memory.snippet.deck.title}>
         <Energy energyTimestamp={0} />
       </Heading>
       {pageContent}

@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 export const MemoryGETRequest = z.object({
-  articleId: z.string().cuid().optional(),
+  deckId: z.string().cuid().optional(),
 })
 
 export const ChatMessage = z.object({

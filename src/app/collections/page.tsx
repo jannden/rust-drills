@@ -32,7 +32,7 @@ export default async function CollectionsPage() {
     include: {
       snippet: {
         include: {
-          article: true,
+          deck: true,
         },
       },
     },
@@ -41,8 +41,8 @@ export default async function CollectionsPage() {
   })
 
   const parsedMemories: CardDetails[] = memories.map((m) => ({
-    articleId: m.snippet.article.id,
-    articleTitle: m.snippet.article.title,
+    deckId: m.snippet.deck.id,
+    deckTitle: m.snippet.deck.title,
     snippetId: m.snippet.id,
     snippetHeading: m.snippet.heading,
     memoryId: m.id,
@@ -67,8 +67,8 @@ export default async function CollectionsPage() {
 
       {!parsedMemories?.length ? (
         <div className="mb-12">
-          <Alert variant={AlertVariant.Blue} message="No snippets yet. Add some by exploring the articles." />
-          <Button variant={ButtonVariant.Primary} type={ButtonType.Link} href="/articles">
+          <Alert variant={AlertVariant.Blue} message="No snippets yet. Add some by exploring the decks." />
+          <Button variant={ButtonVariant.Primary} type={ButtonType.Link} href="/decks">
             New Snippets
           </Button>
         </div>
@@ -77,7 +77,7 @@ export default async function CollectionsPage() {
       {parsedMemories?.length && !hasWordsToRepeat ? (
         <div className="mb-12">
           <Alert variant={AlertVariant.Blue} message={`Nothing to repeat. Learn new snippets.`} />
-          <Button variant={ButtonVariant.Primary} type={ButtonType.Link} href="/articles">
+          <Button variant={ButtonVariant.Primary} type={ButtonType.Link} href="/decks">
             New Snippets
           </Button>
         </div>

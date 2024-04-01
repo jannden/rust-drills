@@ -34,7 +34,7 @@ export default async function EnergyPage() {
         include: {
           snippet: {
             include: {
-              article: true,
+              deck: true,
             },
           },
         },
@@ -76,7 +76,7 @@ export default async function EnergyPage() {
                 scope="col"
                 className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
               >
-                Article
+                Deck
               </th>
               <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 ">
                 Snippet
@@ -97,13 +97,13 @@ export default async function EnergyPage() {
             {prompts.map((prompt) => (
               <tr key={prompt.id}>
                 <td className="hidden px-3 text-sm text-gray-500 lg:table-cell">
-                  {prompt.memory?.snippet?.article?.title}
+                  {prompt.memory?.snippet?.deck?.title}
                 </td>
                 <td className="w-full px-3 text-sm font-medium text-gray-900">
                   {prompt.memory?.snippet?.heading}
                   <dl className="font-normal lg:hidden">
                     <dt className="sr-only">Name</dt>
-                    <dd className="mt-1 truncate text-gray-700">{prompt.memory?.snippet?.article?.title}</dd>
+                    <dd className="mt-1 truncate text-gray-700">{prompt.memory?.snippet?.deck?.title}</dd>
                     <dt className="sr-only sm:hidden">Date</dt>
                     <dd className="mt-1 truncate text-gray-500 sm:hidden">
                       {DateTime.fromJSDate(prompt.createdAt).toLocaleString(DateTime.DATETIME_SHORT)}

@@ -1,54 +1,54 @@
 import { PrismaClient } from '@prisma/client'
 
-import articles from './data/articles.json'
+import decks from './data/decks.json'
 
 const prisma = new PrismaClient()
 
 export async function update() {
   console.log('Updating from JSON...')
-  for (const a of articles) {
-    // Match article by url
-    const article = await prisma.article.findFirst({
-      where: { url: a.url },
+  for (const deck of decks) {
+    // Match deck by url
+    const foundDeck = await prisma.deck.findFirst({
+      where: { url: deck.url },
       include: { snippets: true },
     })
-    if (article) {
-      console.log(`Updating article ${article.title}${article.title !== a.title ? ` (${a.title})` : ''}...`)
-      await prisma.article.update({
-        where: { id: article.id },
+    if (foundDeck) {
+      console.log(`Updating deck ${deck.title}${deck.title !== deck.title ? ` (${foundDeck.title})` : ''}...`)
+      await prisma.deck.update({
+        where: { id: foundDeck.id },
         data: {
-          ...a,
+          ...deck,
           snippets: undefined,
         },
       })
-      console.log(`Updating snippets for this article...`)
-      for (const s of a.snippets) {
+      console.log(`Updating snippets for this deck...`)
+      for (const snippet of deck.snippets) {
         // Match snippet by order
-        const snippet = article.snippets.find((sn) => sn.order === s.order)
-        if (snippet) {
+        const foundSnippet = deck.snippets.find((sn) => sn.order === snippet.order)
+        if (foundSnippet) {
           console.log(`Updating snippet ${snippet.order}...`)
-          await prisma.snippet.update({
-            where: { id: snippet.id },
-            data: s,
+          await prisma.snippet.updateMany({
+            where: { order: foundSnippet.order },
+            data: snippet,
           })
         } else {
-          console.log(`Creating snippet ${s.order}...`)
+          console.log(`Creating snippet ${snippet.order}...`)
           await prisma.snippet.create({
             data: {
-              ...s,
-              article: { connect: { id: article.id } },
+              ...snippet,
+              deck: { connect: { id: foundDeck.id } },
             },
           })
         }
       }
     } else {
-      console.log(`Creating article ${a.title}...`)
-      await prisma.article.create({
+      console.log(`Creating deck ${deck.title}...`)
+      await prisma.deck.create({
         data: {
-          ...a,
+          ...deck,
           snippets: {
-            create: a.snippets.map((s, index) => ({
-              ...s,
+            create: deck.snippets.map((snippet, index) => ({
+              ...snippet,
             })),
           },
         },
@@ -58,22 +58,22 @@ export async function update() {
 }
 
 export async function reset() {
-  console.log('Resetting articles and snippets...')
-  await prisma.article.deleteMany()
+  console.log('Resetting decks and snippets...')
+  await prisma.deck.deleteMany()
   await prisma.snippet.deleteMany()
   await prisma.memory.deleteMany()
-  for (const a of articles) {
-    const article = await prisma.article.create({
+  for (const deck of decks) {
+    await prisma.deck.create({
       data: {
-        ...a,
+        ...deck,
         snippets: {
-          create: a.snippets.map((s) => ({
-            ...s,
+          create: deck.snippets.map((snippet) => ({
+            ...snippet,
           })),
         },
       },
     })
-    console.log(`Created article ${article.title}.`)
+    console.log(`Created deck ${deck.title}.`)
   }
 }
 

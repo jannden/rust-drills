@@ -20,13 +20,13 @@ import { cn } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
 
 type Props = {
-  articleId?: string
-  articleTitle?: string
+  deckId?: string
+  deckTitle?: string
   isAdmin: boolean
   memoryPreview: MemoryInfoType | null
 }
 
-export default function Blackboard({ articleId, articleTitle, isAdmin, memoryPreview }: Props) {
+export default function Blackboard({ deckId, deckTitle, isAdmin, memoryPreview }: Props) {
   const mounted = useMounted()
   const router = useRouter()
   const [currentMemory, setCurrentMemory] = React.useState<MemoryInfoType | null>(memoryPreview)
@@ -37,7 +37,7 @@ export default function Blackboard({ articleId, articleTitle, isAdmin, memoryPre
   const getNextMemory = useCallback(async () => {
     setIsLoading(true)
     try {
-      const res = await fetch(`/api/memories/?articleId=${articleId}`)
+      const res = await fetch(`/api/memories/?deckId=${deckId}`)
       const data = (await res.json()) as MemoryGETResponseType | { error: string }
 
       // If error
@@ -55,7 +55,7 @@ export default function Blackboard({ articleId, articleTitle, isAdmin, memoryPre
       console.error('error ----->', error)
       return null
     }
-  }, [articleId])
+  }, [deckId])
 
   useEffect(() => {
     if (!mounted || !!memoryPreview) return
@@ -96,13 +96,13 @@ export default function Blackboard({ articleId, articleTitle, isAdmin, memoryPre
       }
 
       if (!!memoryPreview) {
-        router.push(`/articles/${articleId}`)
+        router.push(`/decks/${deckId}`)
         return
       }
 
       getNextMemory().then(setCurrentMemory)
     },
-    [articleId, currentMemory, getNextMemory, memoryPreview, router]
+    [deckId, currentMemory, getNextMemory, memoryPreview, router]
   )
 
   if (isLoading) {
@@ -113,12 +113,12 @@ export default function Blackboard({ articleId, articleTitle, isAdmin, memoryPre
     )
   }
 
-  if (!currentMemory && articleId) {
+  if (!currentMemory && deckId) {
     return (
       <>
-        <Alert variant={AlertVariant.Green} message={`All snippets from this article learned.`} />
-        <Button variant={ButtonVariant.Primary} type={ButtonType.Link} href={`/articles`}>
-          Open list of articles
+        <Alert variant={AlertVariant.Green} message={`All snippets from this deck learned.`} />
+        <Button variant={ButtonVariant.Primary} type={ButtonType.Link} href={`/decks`}>
+          Open list of decks
         </Button>
       </>
     )
@@ -128,8 +128,8 @@ export default function Blackboard({ articleId, articleTitle, isAdmin, memoryPre
     return (
       <>
         <Alert variant={AlertVariant.Blue} message={`No snippets to repeat.`} />
-        <Button variant={ButtonVariant.Primary} type={ButtonType.Link} href={`/articles`}>
-          Open list of articles
+        <Button variant={ButtonVariant.Primary} type={ButtonType.Link} href={`/decks`}>
+          Open list of decks
         </Button>
       </>
     )
@@ -139,9 +139,9 @@ export default function Blackboard({ articleId, articleTitle, isAdmin, memoryPre
     <>
       <div className="mb-6 border-b border-gray-200">
         <div className="flex flex-wrap items-center justify-between gap-x-6 sm:flex-nowrap">
-          <h3 className="mb-3 text-2xl font-semibold leading-6 text-gray-900 [text-wrap:balance]">{`${articleTitle}: ${currentMemory.snippetHeading}`}</h3>
+          <h3 className="mb-3 text-2xl font-semibold leading-6 text-gray-900 [text-wrap:balance]">{`${deckTitle}: ${currentMemory.snippetHeading}`}</h3>
           <div className="mt-3 flex shrink-0 gap-3 sm:ml-3 sm:mt-0">
-            <Button variant={ButtonVariant.Secondary} type={ButtonType.Link} href={`/articles/${articleId}`}>
+            <Button variant={ButtonVariant.Secondary} type={ButtonType.Link} href={`/decks/${deckId}`}>
               Back
             </Button>
             {isAdmin ? (

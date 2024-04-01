@@ -12,7 +12,7 @@ import { Role } from '@prisma/client'
 
 type Props = {
   params: {
-    articleId: string
+    deckId: string
   }
 }
 
@@ -22,22 +22,17 @@ export default async function LessonPage({ params }: Props) {
     redirect(`/sign-up`)
   }
 
-  const article = await prisma.article.findUnique({
+  const deck = await prisma.deck.findUnique({
     where: {
-      id: params.articleId,
+      id: params.deckId,
     },
   })
 
-  if (!article) {
-    return <Alert message="Article not found." variant={AlertVariant.Red} />
+  if (!deck) {
+    return <Alert message="Deck not found." variant={AlertVariant.Red} />
   }
 
   return (
-    <Blackboard
-      articleId={article.id}
-      articleTitle={article.title}
-      isAdmin={user.db.role === Role.ADMIN}
-      memoryPreview={null}
-    />
+    <Blackboard deckId={deck.id} deckTitle={deck.title} isAdmin={user.db.role === Role.ADMIN} memoryPreview={null} />
   )
 }

@@ -1,18 +1,18 @@
 'use client'
 
 import Image from 'next/image'
-import { useUser } from '@clerk/nextjs'
-import { User } from 'lucide-react'
 import Link from 'next/link'
+import { SignedIn, SignedOut, SignInButton, useUser } from '@clerk/nextjs'
+import { User } from 'lucide-react'
 
 export default function UserAvatar() {
   const { isLoaded, isSignedIn, user } = useUser()
-  if (!isLoaded || !isSignedIn) {
+  if (!isLoaded) {
     return null
   }
 
-  const name = user.firstName || 'Profile'
-  const image = user.imageUrl
+  const name = user?.firstName || 'Profile'
+  const image = user?.imageUrl
 
   const icon = !!image ? (
     <div className="relative flex size-7 shrink-0 overflow-hidden rounded-full">
@@ -26,8 +26,23 @@ export default function UserAvatar() {
   )
 
   return (
-    <Link href="/settings" className="rounded-full border-4 border-transparent transition hover:border-indigo-300">
-      {icon}
-    </Link>
+    <>
+      <SignedIn>
+        <Link
+          href="/settings"
+          className="cursor-pointer rounded-full border-4 border-transparent transition hover:border-indigo-300"
+        >
+          {icon}
+        </Link>
+      </SignedIn>
+      <SignedOut>
+        <SignInButton mode="modal">
+          <div className="bg-muted cursor-pointer rounded-full border-4 border-transparent p-1 transition hover:border-indigo-300">
+            <span className="sr-only">Sign In</span>
+            <User aria-hidden="true" className="size-4 rounded-full" />
+          </div>
+        </SignInButton>
+      </SignedOut>
+    </>
   )
 }

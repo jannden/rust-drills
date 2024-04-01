@@ -78,8 +78,8 @@ export type AlgorithmOutput = {
 }
 
 export type CardDetails = {
-  articleId: string
-  articleTitle: string
+  deckId: string
+  deckTitle: string
   snippetId: string
   snippetHeading: string
   memoryId: string | null

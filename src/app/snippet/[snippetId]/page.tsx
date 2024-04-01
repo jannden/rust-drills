@@ -34,7 +34,7 @@ export default async function LessonPage({ params }: Props) {
           userId: user.db.id,
         },
       },
-      article: true,
+      deck: true,
     },
   })
 
@@ -60,8 +60,8 @@ export default async function LessonPage({ params }: Props) {
 
   return (
     <Blackboard
-      articleId={snippet.article.id}
-      articleTitle={snippet.article.title}
+      deckId={snippet.deck.id}
+      deckTitle={snippet.deck.title}
       isAdmin={user.db.role === Role.ADMIN}
       memoryPreview={{
         snippetId: snippet.id,

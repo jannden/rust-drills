@@ -27,7 +27,7 @@ export async function GET(req: Request): Promise<NextResponse<MemoryGETResponseT
 
   const { searchParams } = new URL(req.url)
   const body = MemoryGETRequest.safeParse({
-    articleId: searchParams.get('articleId') ?? undefined,
+    deckId: searchParams.get('deckId') ?? undefined,
   })
   if (!body.success) {
     const publicErrorMessage = 'Invalid request'
@@ -35,7 +35,7 @@ export async function GET(req: Request): Promise<NextResponse<MemoryGETResponseT
     return NextResponse.json({ error: publicErrorMessage }, { status: 400 })
   }
 
-  const { articleId } = body.data
+  const { deckId } = body.data
 
   let memories: MemoryInfoType[] | null = null
   try {
@@ -51,10 +51,10 @@ export async function GET(req: Request): Promise<NextResponse<MemoryGETResponseT
       LEFT JOIN "Memory"
         ON "Memory"."userId" = ${user.db.id}
         AND "Memory"."snippetId" = "Snippet"."id"
-      ${!articleId ? Prisma.sql` WHERE ` : Prisma.sql` WHERE "Snippet"."articleId" = ${articleId} AND`}
+      ${!deckId ? Prisma.sql` WHERE ` : Prisma.sql` WHERE "Snippet"."deckId" = ${deckId} AND`}
 
       ${
-        articleId
+        deckId
           ? Prisma.sql`
           -- Both new and to be repeated
           (
@@ -338,7 +338,7 @@ export async function PUT(req: Request): Promise<NextResponse<MemoryPUTResponseT
 
   revalidatePath('/dashboard')
   revalidatePath('/lesson')
-  revalidatePath('/articles')
+  revalidatePath('/decks')
   revalidatePath('/api/memories')
 
   return NextResponse.json({ newItemLearned, newBadgeEarned }, { status: 200 })

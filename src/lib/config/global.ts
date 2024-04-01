@@ -9,7 +9,7 @@ export type NavType = {
 
 export const navigation: NavType[] = [
   { name: 'Dashboard', icon: 'Dashboard', href: '/dashboard', activePathnames: ['/dashboard'] },
-  { name: 'New Snippets', icon: 'SquarePlus', href: '/articles', activePathnames: ['/articles'] },
+  { name: 'New Snippets', icon: 'SquarePlus', href: '/decks', activePathnames: ['/decks'] },
   {
     name: 'My Collection',
     icon: 'SquareCode',
