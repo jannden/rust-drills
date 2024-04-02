@@ -30,7 +30,6 @@ export default async function Layout({ children }: LayoutProps) {
             <Footer />
             <ToastContainer />
           </div>
-          <Script async defer src={`https://tools.luckyorange.com/core/lo.js?site-id=${env.NEXT_PUBLIC_LO_SITE_ID}`} />
           <TailwindIndicator />
         </body>
       </html>

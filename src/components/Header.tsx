@@ -7,26 +7,26 @@ import { useUser } from '@clerk/nextjs'
 import { useMounted } from '@/lib/hooks/use-mounted'
 import Logo from '@/components/Logo'
 import UserAvatar from '@/components/UserAvatar'
+import LogRocket from 'logrocket'
+import setupLogRocketReact from 'logrocket-react'
 
 export default function Header() {
   const mounted = useMounted()
   const { isLoaded, user } = useUser()
 
-  // Lucky Orange
   useEffect(() => {
-    if (!isLoaded || !mounted || !user?.emailAddresses) return
-    window.LOQ = window.LOQ || []
-    window.LOQ.push([
-      'ready',
-      function (LO: any) {
-        LO.$internal.ready('privacy').then(function () {
-          LO.privacy.setConsentStatus(true) // TODO: This should be accepted by the user (GDPR)
-        })
-        LO.$internal.ready('visitor').then(function () {
-          LO.visitor.identify({ email: user.emailAddresses[0].emailAddress })
-        })
-      },
-    ])
+    if (!isLoaded || !mounted) return
+    if (typeof window !== 'undefined') {
+      LogRocket.init('wwsywf/rust-drills')
+
+      if (user?.emailAddresses?.[0]?.emailAddress) {
+        LogRocket.identify(user.emailAddresses[0].emailAddress)
+      }
+
+      if (typeof setupLogRocketReact === 'function') {
+        setupLogRocketReact(LogRocket)
+      }
+    }
   }, [mounted, user?.emailAddresses, isLoaded])
 
   return (
