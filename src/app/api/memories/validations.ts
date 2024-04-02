@@ -1,11 +1,11 @@
 import { z } from 'zod'
 
-// export const MemoryGETRequest = z.object({
-//   deckId: z.string().cuid().optional(),
-// })
 export const MemoryGETRequest = z.object({
-  snippetId: z.string().cuid(),
+  deckId: z.string().cuid().optional(),
 })
+// export const MemoryGETRequest = z.object({
+//   snippetId: z.string().cuid(),
+// })
 
 export const ChatMessage = z.object({
   role: z.enum(['user', 'system', 'assistant']),
@@ -24,16 +24,16 @@ export const MemoryInfo = z.object({
 })
 export type MemoryInfoType = z.infer<typeof MemoryInfo>
 
-// export const MemoryGETResponse = z.object({
-//   data: MemoryInfo.or(z.null()),
-//   learnedPercentage: z.number().or(z.null()),
-// })
-// export type MemoryGETResponseType = z.infer<typeof MemoryGETResponse>
-
 export const MemoryGETResponse = z.object({
-  dateTimePlanned: z.string().or(z.null()),
+  data: MemoryInfo.or(z.null()),
+  learnedPercentage: z.number().or(z.null()),
 })
 export type MemoryGETResponseType = z.infer<typeof MemoryGETResponse>
+
+// export const MemoryGETResponse = z.object({
+//   dateTimePlanned: z.string().or(z.null()),
+// })
+// export type MemoryGETResponseType = z.infer<typeof MemoryGETResponse>
 
 export const MemoryPUTRequest = z.object({
   snippetId: z.string().cuid(),

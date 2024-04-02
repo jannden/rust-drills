@@ -19,7 +19,6 @@ import { logError } from '@/lib/utils'
 import { getBadges } from '@/lib/server/getBadges'
 
 // * Get next memory in queue
-/*
 export async function GET(req: Request): Promise<NextResponse<MemoryGETResponseType | { error: string }>> {
   const user = await getClerkWithDb()
   if (!user) {
@@ -160,46 +159,45 @@ export async function GET(req: Request): Promise<NextResponse<MemoryGETResponseT
     { status: 200 }
   )
 }
-*/
 
-export async function GET(req: Request): Promise<NextResponse<MemoryGETResponseType | { error: string }>> {
-  const user = await getClerkWithDb()
-  if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
+// export async function GET(req: Request): Promise<NextResponse<MemoryGETResponseType | { error: string }>> {
+//   const user = await getClerkWithDb()
+//   if (!user) {
+//     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+//   }
 
-  const { searchParams } = new URL(req.url)
-  const body = MemoryGETRequest.safeParse({
-    snippetId: searchParams.get('snippetId') ?? undefined,
-  })
-  if (!body.success) {
-    const publicErrorMessage = 'Invalid request'
-    logError(publicErrorMessage, body.error)
-    return NextResponse.json({ error: publicErrorMessage }, { status: 400 })
-  }
+//   const { searchParams } = new URL(req.url)
+//   const body = MemoryGETRequest.safeParse({
+//     snippetId: searchParams.get('snippetId') ?? undefined,
+//   })
+//   if (!body.success) {
+//     const publicErrorMessage = 'Invalid request'
+//     logError(publicErrorMessage, body.error)
+//     return NextResponse.json({ error: publicErrorMessage }, { status: 400 })
+//   }
 
-  const snippet = await prisma.snippet.findUnique({
-    where: {
-      id: body.data.snippetId,
-    },
-    include: {
-      memories: {
-        where: {
-          userId: user.db.id,
-        },
-      },
+//   const snippet = await prisma.snippet.findUnique({
+//     where: {
+//       id: body.data.snippetId,
+//     },
+//     include: {
+//       memories: {
+//         where: {
+//           userId: user.db.id,
+//         },
+//       },
     
-    }
-  })
+//     }
+//   })
 
-  if (!snippet) {
-    return NextResponse.json({ error: 'Snippet not found' }, { status: 404 })
-  }
+//   if (!snippet) {
+//     return NextResponse.json({ error: 'Snippet not found' }, { status: 404 })
+//   }
 
-  return NextResponse.json({
-    dateTimePlanned: snippet.memories?.[0]?.dateTimePlanned.toISOString() || null,
-  })
-}
+//   return NextResponse.json({
+//     dateTimePlanned: snippet.memories?.[0]?.dateTimePlanned.toISOString() || null,
+//   })
+// }
 
 // * Saves the memory for a user
 export async function PUT(req: Request): Promise<NextResponse<MemoryPUTResponseType | { error: string }>> {
