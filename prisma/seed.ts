@@ -28,7 +28,7 @@ export async function update() {
         if (foundSnippet) {
           console.log(`Updating snippet ${snippet.order}...`)
           await prisma.snippet.updateMany({
-            where: { order: foundSnippet.order },
+            where: { order: foundSnippet.order, deck: { slug: deck.slug } },
             data: snippet,
           })
         } else {
