@@ -3,16 +3,6 @@ import { DateTime, Duration } from 'luxon'
 import { AlgorithmInput, AlgorithmOutput } from '@/lib/types'
 import { differenceInDays } from '@/lib/utils'
 
-/**
- * This is the algorithm is based on the general ideas of SM-2
- * and makes these adjustments:
- *
- * - give bonus if card is reviewed late, but still remembered correctly
- * - don't adjust eFactor if card is being learned
- * - go back to "learning" stage if you fail a card, to avoid being punished
- *   each time you get it wrong
- * - review times are "fuzzed" to avoid bunching up the same cards in lessons
- */
 export const spacedRepetitionAlgorithm = (
   previousValues: AlgorithmInput,
   numberOfMistakes: number
@@ -33,20 +23,20 @@ export const spacedRepetitionAlgorithm = (
     eFactor = previousValues.eFactor
 
     if (numberOfMistakes === 1) {
-      // * MEANS DIFFICULT
+      // * MEANS DIFFICULT WHEN NEW
       // Repeat soon and reset repetition count
       exactInterval = Duration.fromObject({ days: 1 })
       repetition = 0
       fuzzedInterval = exactInterval // No fuzzing for failed learning phase
     } else if (numberOfMistakes === 0) {
-      // * MEANS EASY
+      // * MEANS EASY WHEN NEW
       repetition = previousValues.repetition + 1
       if (repetition === 1) {
         exactInterval = Duration.fromObject({ days: 3 })
       } else if (repetition === 2) {
-        exactInterval = Duration.fromObject({ days: 5 })
-      } else {
         exactInterval = Duration.fromObject({ days: 7 })
+      } else {
+        exactInterval = Duration.fromObject({ days: 14 })
       }
       // Add 10% "fuzz" to interval to avoid bunching up reviews
       fuzzedInterval = Duration.fromObject({
@@ -59,7 +49,7 @@ export const spacedRepetitionAlgorithm = (
     // Reviewing phase
 
     if (numberOfMistakes === 1) {
-      // * Difficult
+      // * MEANS DIFFICULT WHEN REPEATED
       // Failed, so force re-review almost immediately and reset repetition count
       exactInterval = Duration.fromObject({ days: 1 })
       repetition = 0
@@ -72,7 +62,7 @@ export const spacedRepetitionAlgorithm = (
         eFactor = Math.max(maxEFactor, previousValues.eFactor - eFactorAdjustmentNormal)
       }
     } else {
-      // * Easy
+      // * MEANS EASY WHEN REPEATED
       // Passed, so adjust eFactor and compute interval
 
       repetition = previousValues.repetition + 1

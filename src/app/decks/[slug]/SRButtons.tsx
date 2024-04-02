@@ -73,7 +73,7 @@ export default function SRButtons({
         <Button
           variant={ButtonVariant.Secondary}
           type={ButtonType.Button}
-          onClick={() => handleSave(1)}
+          onClick={() => handleSave(0)}
           disabled={loading}
         >
           Easy
@@ -87,7 +87,7 @@ export default function SRButtons({
         <Button
           variant={ButtonVariant.Secondary}
           type={ButtonType.Button}
-          onClick={() => handleSave(3)}
+          onClick={() => handleSave(1)}
           disabled={loading}
           className="flex items-center justify-center gap-3"
         >
