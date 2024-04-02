@@ -6,6 +6,17 @@ import Button, { ButtonVariant, ButtonType } from '@/components/Button'
 import Heading from '@/components/Heading'
 import { prisma } from '@/lib/prisma'
 import ItemCard from '@/components/ItemCard'
+import Blackboard from '@/components/Blackboard'
+import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
+import { Prisma, Role } from '@prisma/client'
+import ReactMarkdown from 'react-markdown'
+import rehypeHighlight from 'rehype-highlight'
+import SaveButton from './SRButtons'
+import { ResolvingMetadata, Metadata } from 'next'
+import { Drill } from 'lucide-react'
+import ModalLogin from '@/components/ModalLogin'
+import SRButtons from './SRButtons'
+import { DateTime } from 'luxon'
 
 type Props = {
   params: {
@@ -13,7 +24,28 @@ type Props = {
   }
 }
 
+export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+  const deck = await prisma.deck.findUnique({
+    where: {
+      slug: params.slug,
+    },
+  })
+
+  return {
+    alternates: {
+      canonical: deck?.canonicalUrl,
+    },
+  }
+}
+
 export default async function Deck({ params }: Props) {
+  const user = await getClerkWithDb()
+
+  let includeMemory: Prisma.SnippetInclude = {}
+  if (user) {
+    includeMemory = { memories: { where: { user: { id: user.db.id } } } }
+  }
+
   const deck = await prisma.deck.findUnique({
     where: {
       slug: params.slug,
@@ -23,38 +55,62 @@ export default async function Deck({ params }: Props) {
         orderBy: {
           order: 'asc',
         },
+        include: includeMemory,
       },
     },
   })
+
   if (!deck) {
     return <Alert message="Deck not found." variant={AlertVariant.Red} />
   }
 
   return (
     <>
-      <Heading heading={deck.title}>
-        <div className="flex gap-3">
-          <Button variant={ButtonVariant.Primary} type={ButtonType.Link} href={`/lesson/${deck.id}`}>
-            Practice
-          </Button>
+      <Heading heading={deck.title} description={deck.subtitle} back="/" />
+
+      {deck.snippets.map((snippet) => (
+        <div
+          key={snippet.id}
+          className="mb-12 rounded-lg border border-stone-200 p-6 shadow transition hover:shadow-lg"
+        >
+          <div className="flex flex-col justify-between gap-6 lg:flex-row" id={snippet.id}>
+            <div>
+              <h3 className="pb-6 text-xl">{snippet.heading}</h3>
+              <ReactMarkdown className="prose" rehypePlugins={[rehypeHighlight]}>
+                {snippet.content}
+              </ReactMarkdown>
+            </div>
+            <div className="flex flex-row flex-wrap items-end justify-between gap-6 lg:w-28 lg:flex-col">
+              <SRButtons
+                snippetId={snippet.id}
+                dateTimePlanned={
+                  snippet.memories?.[0]?.dateTimePlanned
+                    ? DateTime.fromJSDate(snippet.memories?.[0]?.dateTimePlanned).toISO()
+                    : null
+                }
+              />
+              {user ? (
+                <Button
+                  variant={ButtonVariant.Primary}
+                  type={ButtonType.Link}
+                  href={`/snippets/${snippet.id}/drill`}
+                  className="group flex items-center justify-center gap-1"
+                >
+                  <Drill className="size-4 transition-transform group-hover:rotate-45" />
+                  Drill
+                </Button>
+              ) : (
+                <ModalLogin>
+                  <div className="group flex items-center justify-center gap-1">
+                    <Drill className="size-4 transition-transform group-hover:rotate-45" />
+                    Drill
+                  </div>
+                </ModalLogin>
+              )}
+            </div>
+          </div>
         </div>
-      </Heading>
-      <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {deck.snippets.map((s) => (
-          <ItemCard
-            key={s.id}
-            cardDetails={{
-              deckId: deck.id,
-              deckTitle: deck.title,
-              snippetId: s.id,
-              snippetHeading: s.heading,
-              memoryId: null,
-              memoryStrength: null,
-              dateTimePlanned: null,
-            }}
-          />
-        ))}
-      </ul>
+      ))}
     </>
   )
 }

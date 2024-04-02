@@ -29,8 +29,8 @@ export default function NavLink({ item }: { item: NavType }) {
       href={item.href}
       className={cn(
         item.activePathnames.some((path) => pathname.slice(3).startsWith(path))
-          ? 'bg-gray-50 text-indigo-600'
-          : 'text-gray-700 hover:bg-gray-50 hover:text-indigo-600',
+          ? 'bg-gray-50 text-orange-600'
+          : 'text-gray-700 hover:bg-gray-50 hover:text-orange-600',
         'group flex gap-x-3 rounded-md py-3 pl-2 pr-3 text-sm font-semibold leading-6'
       )}
     >
@@ -38,8 +38,8 @@ export default function NavLink({ item }: { item: NavType }) {
         icon={item.icon}
         className={cn(
           item.activePathnames.some((path) => pathname.slice(3).startsWith(path))
-            ? 'text-indigo-600'
-            : 'text-gray-400 group-hover:text-indigo-600',
+            ? 'text-orange-600'
+            : 'text-gray-400 group-hover:text-orange-600',
           'size-6 shrink-0'
         )}
       />

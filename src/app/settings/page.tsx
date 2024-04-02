@@ -5,7 +5,7 @@ import { DateTime } from 'luxon'
 
 import Heading from '@/components/Heading'
 import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
-import SignOut from './SignOut'
+import ButtonSignOut from '@/components/ButtonSignOut'
 import Alert, { AlertVariant } from '@/components/Alert'
 import Input from './NameInput'
 import { pickFromObject } from '@/lib/utils'
@@ -33,7 +33,7 @@ export default async function Settings() {
               Admin
             </Button>
           )}
-          {(!isFirstTimeLogin || createdMoreThan5MinutesAgo) && <SignOut signOutText="Sign Out" />}
+          {(!isFirstTimeLogin || createdMoreThan5MinutesAgo) && <ButtonSignOut signOutText="Sign Out" />}
         </div>
       </Heading>
 

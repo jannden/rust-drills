@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import Button, { ButtonType, ButtonVariant } from '@/components/Button'
 import { useClerk } from '@clerk/nextjs'
 
-export default function SignOut({ signOutText }: { signOutText: string }) {
+export default function ButtonSignOut({ signOutText }: { signOutText: string }) {
   const router = useRouter()
   const { signOut } = useClerk()
 

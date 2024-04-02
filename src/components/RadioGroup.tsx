@@ -68,7 +68,7 @@ export default function RadioGroupComponent({
             value={option.id}
             className={({ active }) =>
               cn(
-                active ? 'border-indigo-600 ring-2 ring-indigo-600' : 'border-gray-300',
+                active ? 'border-orange-600 ring-2 ring-orange-600' : 'border-gray-300',
                 'relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm hover:bg-gray-50 focus:outline-none'
               )
             }
@@ -97,13 +97,13 @@ export default function RadioGroupComponent({
                   </span>
                 </span>
                 <CheckCircleIcon
-                  className={cn(!checked ? 'invisible' : '', 'size-5 text-indigo-600')}
+                  className={cn(!checked ? 'invisible' : '', 'size-5 text-orange-600')}
                   aria-hidden="true"
                 />
                 <span
                   className={cn(
                     active ? 'border' : 'border-2',
-                    checked ? 'border-indigo-600' : 'border-transparent',
+                    checked ? 'border-orange-600' : 'border-transparent',
                     'pointer-events-none absolute -inset-px rounded-lg'
                   )}
                   aria-hidden="true"

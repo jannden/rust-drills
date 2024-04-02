@@ -112,15 +112,6 @@ export async function fetcher<JSON = any>(input: RequestInfo, init?: RequestInit
   return res.json()
 }
 
-export function formatDate(input: string | number | Date): string {
-  const date = new Date(input)
-  return date.toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  })
-}
-
 export function absoluteUrl(path: string) {
   return `${env.NEXT_PUBLIC_APP_URL}${path}`
 }
@@ -252,4 +243,13 @@ export function calculateTotalTokens(prompt: Prompt): number {
   const totalTokens = requestTokens + responseTokens
 
   return totalTokens
+}
+
+export function formatDate(date: string) {
+  const dateObj = DateTime.fromISO(date)
+  const isToday = dateObj.hasSame(DateTime.now(), 'day')
+  const isThisYear = dateObj.hasSame(DateTime.now(), 'year')
+  const hours = isToday ? dateObj.toFormat('hh:mm a') : ''
+  const days = isThisYear ? DateTime.fromISO(date).toFormat('d LLL') : DateTime.fromISO(date).toFormat('d LLL yyyy')
+  return { hours, days }
 }

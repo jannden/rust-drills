@@ -18,7 +18,7 @@ export default function UserAvatar() {
   const userImage = (
     <div className="p-2">
       <span className="sr-only">Sign In</span>
-      <User aria-hidden="true" className="size-4 transition group-hover:stroke-orange-700" />
+      <User aria-hidden="true" className="size-4" />
     </div>
   )
 
@@ -41,7 +41,7 @@ export default function UserAvatar() {
         </div>
       </ClerkLoading>
       <ClerkLoaded>
-        <div className="group cursor-pointer rounded-full border-2 border-transparent bg-stone-100 transition hover:border-orange-700">
+        <div className="cursor-pointer rounded-full border-2 border-transparent bg-stone-100 transition hover:border-orange-700 hover:text-orange-700">
           <SignedIn>
             <Link href="/settings">{icon}</Link>
           </SignedIn>

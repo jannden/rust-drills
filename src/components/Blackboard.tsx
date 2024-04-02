@@ -165,7 +165,7 @@ export default function Blackboard({ deckId, deckTitle, isAdmin, memoryPreview }
             <button
               className={cn(
                 !showTask
-                  ? 'border-indigo-500 text-indigo-600'
+                  ? 'border-orange-500 text-orange-600'
                   : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
                 'whitespace-nowrap border-b-2 pb-4 text-sm font-medium'
               )}
@@ -177,7 +177,7 @@ export default function Blackboard({ deckId, deckTitle, isAdmin, memoryPreview }
             <button
               className={cn(
                 showTask
-                  ? 'border-indigo-500 text-indigo-600'
+                  ? 'border-orange-500 text-orange-600'
                   : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
                 'whitespace-nowrap border-b-2 pb-4 text-sm font-medium'
               )}

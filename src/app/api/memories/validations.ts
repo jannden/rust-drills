@@ -1,7 +1,10 @@
 import { z } from 'zod'
 
+// export const MemoryGETRequest = z.object({
+//   deckId: z.string().cuid().optional(),
+// })
 export const MemoryGETRequest = z.object({
-  deckId: z.string().cuid().optional(),
+  snippetId: z.string().cuid(),
 })
 
 export const ChatMessage = z.object({
@@ -21,9 +24,14 @@ export const MemoryInfo = z.object({
 })
 export type MemoryInfoType = z.infer<typeof MemoryInfo>
 
+// export const MemoryGETResponse = z.object({
+//   data: MemoryInfo.or(z.null()),
+//   learnedPercentage: z.number().or(z.null()),
+// })
+// export type MemoryGETResponseType = z.infer<typeof MemoryGETResponse>
+
 export const MemoryGETResponse = z.object({
-  data: MemoryInfo.or(z.null()),
-  learnedPercentage: z.number().or(z.null()),
+  dateTimePlanned: z.string().or(z.null()),
 })
 export type MemoryGETResponseType = z.infer<typeof MemoryGETResponse>
 
@@ -36,5 +44,6 @@ export type MemoryPUTRequestType = z.infer<typeof MemoryPUTRequest>
 export const MemoryPUTResponse = z.object({
   newItemLearned: z.boolean(),
   newBadgeEarned: z.boolean(),
+  dateTimePlanned: z.string(),
 })
 export type MemoryPUTResponseType = z.infer<typeof MemoryPUTResponse>

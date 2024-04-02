@@ -127,7 +127,11 @@ export default async function ChatDetailPage({ params }: Props) {
 
   return (
     <div className="pb-36">
-      <Heading heading={memory.snippet.heading} description={memory.snippet.deck.subtitle} />
+      <Heading
+        heading={memory.snippet.heading}
+        description={memory.snippet.deck.subtitle}
+        back={`/decks/${memory.snippet.deck.slug}#${memory.snippet.id}`}
+      />
       <Chat deckId={memory.snippet.deckId} memoryId={memory.id} promptId={promptId} initialMessages={messages} />
     </div>
   )

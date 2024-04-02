@@ -24,7 +24,7 @@ export default async function ItemCard({ cardDetails }: { cardDetails: CardDetai
                 {cardDetails.memoryStrength === MemoryStrength.Strong ? (
                   <span className="inline-flex size-3 rounded-full bg-emerald-200" />
                 ) : cardDetails.memoryStrength === MemoryStrength.Medium ? (
-                  <span className="inline-flex size-3 rounded-full bg-indigo-200" />
+                  <span className="inline-flex size-3 rounded-full bg-orange-200" />
                 ) : (
                   <div className="relative flex size-3">
                     <span className="absolute inline-flex size-full animate-ping rounded-full bg-red-200 opacity-75" />

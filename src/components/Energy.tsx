@@ -35,8 +35,8 @@ export default function Energy({ energyTimestamp }: { energyTimestamp: number })
       className={cn(
         pathname.startsWith('/energy')
           ? 'bg-gray-100 text-gray-900'
-          : 'text-gray-900 hover:bg-gray-50 hover:text-indigo-600',
-        'flex items-center justify-end gap-x-3 rounded-md px-3 py-2 text-sm font-medium text-indigo-600'
+          : 'text-gray-900 hover:bg-gray-50 hover:text-orange-600',
+        'flex items-center justify-end gap-x-3 rounded-md px-3 py-2 text-sm font-medium text-orange-600'
       )}
       aria-current={pathname.startsWith('/energy') ? 'page' : undefined}
     >

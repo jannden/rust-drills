@@ -133,9 +133,9 @@ model Memory {
   openaiThreadId String?
   openaiChat     Json?
 
-  interval         Decimal @db.Decimal(9, 5)
   repetition       Int
   eFactor          Decimal @db.Decimal(4, 2)
+  interval         Decimal @db.Decimal(9, 5)
   numberOfMistakes Int[]
 
   dateTimeRepeated    DateTime?

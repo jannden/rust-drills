@@ -32,30 +32,30 @@ export default function Button({ onClick, variant, children, type, disabled, hre
   switch (variant) {
     case ButtonVariant.Secondary:
       classes = cn(
-        'inline-block whitespace-nowrap rounded-md bg-white px-6 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50',
-        { 'cursor-default text-gray-700 bg-gray-50 shadow-inner hover:bg-gray-50': disabled },
+        'inline-block whitespace-nowrap rounded-md bg-white px-6 py-3 text-center text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50',
+        { 'cursor-default text-gray-700 bg-gray-50 shadow-inner': disabled },
         className
       )
       break
     case ButtonVariant.Soft:
       classes = cn(
-        'inline-block whitespace-nowrap rounded-md bg-indigo-50 px-6 py-3 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100',
-        { 'cursor-default text-indigo-400 shadow-inner hover:bg-indigo-50': disabled },
+        'inline-block whitespace-nowrap rounded-md bg-orange-50 px-6 py-3 text-center text-sm font-semibold text-orange-600 shadow-sm hover:bg-orange-100',
+        { 'cursor-default text-orange-400 shadow-inner': disabled },
         className
       )
       break
     case ButtonVariant.Text:
       classes = cn(
-        'inline-block cursor-pointer whitespace-nowrap text-right text-sm font-medium text-indigo-600 [text-wrap:balance] hover:text-indigo-500',
-        { 'cursor-default text-indigo-400 shadow-inner hover:text-indigo-400': disabled },
+        'inline-block cursor-pointer whitespace-nowrap text-center text-sm font-medium text-orange-600 [text-wrap:balance] hover:text-orange-500',
+        { 'cursor-default text-orange-400 shadow-inner': disabled },
         className
       )
       break
     default:
       // ButtonVariant.Primary
       classes = cn(
-        'inline-block whitespace-nowrap rounded-md bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
-        { 'cursor-default bg-indigo-300 shadow-inner hover:bg-indigo-300': disabled },
+        'inline-block whitespace-nowrap rounded-md bg-orange-600 px-6 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600',
+        { 'cursor-default bg-orange-200 shadow-inner': disabled },
         className
       )
   }

@@ -2,38 +2,25 @@
 
 import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
+import { SignedIn, SignedOut, SignInButton, ClerkLoading, ClerkLoaded } from '@clerk/nextjs'
+import { Hourglass, User } from 'lucide-react'
 
-import { Zap } from 'lucide-react'
-
+import ButtonSignOut from '@/components/ButtonSignOut'
 import Button, { ButtonType, ButtonVariant } from '@/components/Button'
 
-type ModalComponentProps = {
-  buttonText: string
+type Props = {
+  children: React.ReactNode
   buttonVariant?: ButtonVariant
   buttonType?: ButtonType
-  title: string
-  body: React.ReactNode
-  confirmText: string
 }
 
-export default function ModalComponent({
-  buttonText,
-  buttonVariant,
-  buttonType,
-  title,
-  body,
-  confirmText,
-}: ModalComponentProps) {
+export default function ModalLogin({ children, buttonVariant, buttonType }: Props) {
   const [open, setOpen] = useState(false)
-
-  const handleConfirm = async () => {
-    // TODO: Note that functions cannot be passed from server to client
-  }
 
   return (
     <>
       <Button variant={buttonVariant} type={buttonType ?? ButtonType.Button} onClick={() => setOpen(true)}>
-        {buttonText}
+        {children}
       </Button>
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -66,22 +53,42 @@ export default function ModalComponent({
                       className="relative mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-orange-50 sm:mx-0 sm:size-10"
                       aria-hidden="true"
                     >
-                      <Zap className="absolute inline-flex size-6 animate-ping text-orange-300 opacity-75" />
-                      <Zap className="relative inline-flex size-6 rounded-full text-orange-400" />
+                      <User className="absolute inline-flex size-6 animate-ping text-orange-300 opacity-75" />
+                      <User className="relative inline-flex size-6 rounded-full text-orange-400" />
                     </div>
                     <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                       <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
-                        {title}
+                        User Account
                       </Dialog.Title>
-                      <div className="mt-2">{body}</div>
+                      <div className="mt-2">
+                        <ClerkLoaded>
+                          <SignedIn>You are signed in.</SignedIn>
+                          <SignedOut>You need to sign in to use this feature.</SignedOut>
+                        </ClerkLoaded>
+                      </div>
                     </div>
                   </div>
                   <div className="mt-6 flex justify-center gap-3 sm:flex-row-reverse sm:justify-start">
-                    <Button variant={ButtonVariant.Primary} type={ButtonType.Button} onClick={handleConfirm}>
-                      {confirmText}
-                    </Button>
+                    <ClerkLoading>
+                      <Button variant={ButtonVariant.Secondary} type={ButtonType.Button}>
+                        <span className="sr-only">Loading</span>
+                        <Hourglass aria-hidden="true" className="size-4 stroke-stone-300 transition" />
+                      </Button>
+                    </ClerkLoading>
+                    <ClerkLoaded>
+                      <SignedIn>
+                        <ButtonSignOut signOutText="Sign Out" />
+                      </SignedIn>
+                      <SignedOut>
+                        <SignInButton mode="modal">
+                          <Button variant={ButtonVariant.Primary} type={ButtonType.Button}>
+                            Sign In
+                          </Button>
+                        </SignInButton>
+                      </SignedOut>
+                    </ClerkLoaded>
                     <Button variant={ButtonVariant.Secondary} type={ButtonType.Button} onClick={() => setOpen(false)}>
-                      Cancel
+                      Close
                     </Button>
                   </div>
                 </Dialog.Panel>

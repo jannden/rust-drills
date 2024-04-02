@@ -24,7 +24,7 @@ export default function CircularProgress({
         <svg className={cn('absolute block', size ? size : 'size-8')} viewBox="0 0 100 100">
           <circle className={cn('fill-none stroke-gray-200 stroke-[7]', emptyColor)} cx="50" cy="50" r="45"></circle>
           <circle
-            className={cn('origin-center -rotate-90 fill-none stroke-indigo-400 stroke-[7]', filledColor)}
+            className={cn('origin-center -rotate-90 fill-none stroke-orange-400 stroke-[7]', filledColor)}
             style={{ strokeDasharray: `${progress} 283` }}
             cx="50"
             cy="50"
