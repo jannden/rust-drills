@@ -31,7 +31,7 @@ export default function Header() {
 
   return (
     <header className="border-b border-gray-200">
-      <div className="mx-auto flex w-full max-w-6xl items-center gap-3 px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mx-auto flex w-full max-w-6xl items-center gap-3 px-4 py-8 md:px-6 lg:px-8">
         <div className="flex-1">
           <Link href="/" className="inline">
             <Logo clickable />

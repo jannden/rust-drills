@@ -31,13 +31,7 @@ export const spacedRepetitionAlgorithm = (
     } else if (numberOfMistakes === 0) {
       // * MEANS EASY WHEN NEW
       repetition = previousValues.repetition + 1
-      if (repetition === 1) {
-        exactInterval = Duration.fromObject({ days: 3 })
-      } else if (repetition === 2) {
-        exactInterval = Duration.fromObject({ days: 7 })
-      } else {
-        exactInterval = Duration.fromObject({ days: 14 })
-      }
+        exactInterval = Duration.fromObject({ weeks: 4 })
       // Add 10% "fuzz" to interval to avoid bunching up reviews
       fuzzedInterval = Duration.fromObject({
         seconds: Math.ceil(exactInterval.as('seconds') * (1.0 + Math.random() * 0.1)),

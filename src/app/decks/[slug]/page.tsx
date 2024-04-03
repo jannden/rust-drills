@@ -71,7 +71,7 @@ export default async function Deck({ params }: Props) {
       {deck.snippets.map((snippet) => (
         <div
           key={snippet.id}
-          className="mb-12 rounded-lg border border-stone-200 p-6 shadow transition hover:shadow-lg"
+          className="mb-12 border-b border-stone-200 pb-12 transition last:border-0 sm:rounded-lg sm:border sm:p-6 sm:shadow last:sm:border hover:sm:shadow-lg"
         >
           <div className="flex flex-col justify-between gap-6 lg:flex-row" id={snippet.id}>
             <div>
@@ -80,7 +80,7 @@ export default async function Deck({ params }: Props) {
                 {snippet.content}
               </ReactMarkdown>
             </div>
-            <div className="flex flex-row flex-wrap items-end justify-between gap-6 lg:w-28 lg:flex-col">
+            <div className="flex flex-row flex-wrap items-center justify-between gap-6 lg:w-28 lg:flex-col">
               <SRButtons
                 snippetId={snippet.id}
                 dateTimePlanned={

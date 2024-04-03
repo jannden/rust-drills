@@ -1,14 +1,13 @@
 'use client'
 
-import { MemoryGETResponseType, MemoryPUTRequestType, MemoryPUTResponseType } from '@/app/api/memories/validations'
+import { MemoryPUTRequestType, MemoryPUTResponseType } from '@/app/api/memories/validations'
 import Button, { ButtonVariant, ButtonType } from '@/components/Button'
 import ModalLogin from '@/components/ModalLogin'
 import { formatDate } from '@/lib/utils'
 import { useUser } from '@clerk/nextjs'
 import { Loader2 } from 'lucide-react'
 import { DateTime } from 'luxon'
-import { useCallback, useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
+import { useState } from 'react'
 
 export default function SRButtons({
   snippetId,
@@ -57,7 +56,10 @@ export default function SRButtons({
     )
   }
 
-  if (scheduledDate && DateTime.fromISO(scheduledDate) > DateTime.now()) {
+  const isScheduled = scheduledDate && DateTime.fromISO(scheduledDate) > DateTime.now()
+  const isOverdue = scheduledDate && DateTime.fromISO(scheduledDate) < DateTime.now()
+
+  if (isScheduled) {
     return (
       <div className="rounded bg-stone-100 px-3 py-2 text-center">
         <p className="text-sm text-slate-600">Repeat at:</p>
@@ -69,6 +71,12 @@ export default function SRButtons({
 
   return (
     <div className="flex flex-row flex-wrap gap-6 lg:flex-col">
+      {isOverdue && (
+        <div className="rounded bg-orange-100 px-3 py-2 text-center">
+          <p className="text-sm text-orange-600">Is overdue for repetition.</p>
+        </div>
+      )}
+
       {user ? (
         <Button
           variant={ButtonVariant.Secondary}
