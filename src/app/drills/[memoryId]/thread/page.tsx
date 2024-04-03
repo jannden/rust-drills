@@ -117,7 +117,7 @@ export default async function ThreadDetailPage({ params }: Props) {
   }
 
   return (
-    <div className="pb-36">
+    <div className="pb-12">
       <Heading heading={memory.snippet.deck.title}>
         <Energy energyTimestamp={0} />
       </Heading>

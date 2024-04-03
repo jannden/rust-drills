@@ -5,6 +5,11 @@ import { env } from '@/env.mjs'
 import { Drill } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
+
+export function LogoIcon() {
+  return <Drill className="size-4 transition-transform group-hover:rotate-45" />
+}
+
 export default function Logo({ clickable }: { clickable?: boolean }) {
   return (
     <div
@@ -13,7 +18,7 @@ export default function Logo({ clickable }: { clickable?: boolean }) {
         clickable && 'cursor-pointer'
       )}
     >
-      <Drill className="size-4 transition-transform group-hover:rotate-45" />
+      <LogoIcon />
       {env.NEXT_PUBLIC_APP_NAME}
     </div>
   )

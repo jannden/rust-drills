@@ -11,8 +11,6 @@ import Dialogue from './Dialogue'
 import DialogueForm from './DialogueForm'
 import { StoryMessage } from './page'
 import UserAvatar from '@/components/UserAvatar'
-import Energy from '@/components/Energy'
-import Heading from '@/components/Heading'
 import Alert, { AlertVariant } from '@/components/Alert'
 import { CircleAlert } from 'lucide-react'
 
@@ -22,17 +20,18 @@ export const codify = (content: string) => {
 
 export default function Chat({
   deckId,
+  snippetId,
   memoryId,
   promptId,
   initialMessages,
 }: {
   deckId: string
+  snippetId: string
   memoryId: string
   promptId: string
   initialMessages: StoryMessage[]
 }) {
   const [errorMessage, setErrorMessage] = useState('')
-  const [energyTimestamp, setEnergyTimestamp] = useState(0)
 
   const {
     reload,
@@ -112,8 +111,6 @@ export default function Chat({
       } catch (error) {
         setErrorMessage(`error: ${error}`)
       }
-
-      setEnergyTimestamp(Date.now())
     },
   })
 
@@ -174,7 +171,7 @@ export default function Chat({
             {!!messages?.find(
               (m) => m.role === 'assistant' && m.content?.includes('We finished drilling this one!')
             ) ? (
-              <Button type={ButtonType.Link} variant={ButtonVariant.Primary} href={`/lesson/${deckId}`}>
+              <Button type={ButtonType.Link} variant={ButtonVariant.Primary} href={`/decks/${deckId}#${snippetId}`}>
                 Back to drills
               </Button>
             ) : (
