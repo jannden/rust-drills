@@ -1,10 +1,7 @@
-import Image from 'next/image'
-
-import logoSvg from '@/images/logo.svg'
-import { env } from '@/env.mjs'
 import { Drill } from 'lucide-react'
-import { cn } from '@/lib/utils'
 
+import { env } from '@/env.mjs'
+import { cn } from '@/lib/utils'
 
 export function LogoIcon() {
   return <Drill className="size-4 transition-transform group-hover:rotate-45" />

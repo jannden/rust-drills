@@ -1,7 +1,11 @@
+import rehypeHighlight from 'rehype-highlight'
+import createMDX from '@next/mdx'
+
 import './src/env.mjs'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
   reactStrictMode: true,
   images: {
     remotePatterns: [
@@ -21,4 +25,12 @@ const nextConfig = {
   }
 }
 
-export default nextConfig
+const withMDX = createMDX({
+  // Add markdown plugins here, as desired
+  options: {
+    remarkPlugins: [],
+    rehypePlugins: [rehypeHighlight],
+  },
+})
+
+export default withMDX(nextConfig)
