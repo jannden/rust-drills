@@ -39,7 +39,7 @@ export default async function Decks({ params: { categorySlug: activeSlug = Defau
       }
       return acc
     },
-    [] as { slug: string; title: string }[]
+    [] as { slug: string | null; title: string | null }[]
   )
 
   // TODO: This is a workaround for Next.js to optimize local images (can't load the url from DB to use SSR)

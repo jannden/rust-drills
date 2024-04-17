@@ -32,14 +32,14 @@ export default async function Decks({ params: { categorySlug: activeSlug = Defau
 
   const categories = decks.reduce(
     (acc, deck) => {
-      if (deck.isVisible) {
+      if (deck.categorySlug) {
         if (!acc.find(({ slug }) => slug === deck.categorySlug)) {
           acc.push({ slug: deck.categorySlug, title: deck.categoryTitle })
         }
       }
       return acc
     },
-    [] as { slug: string; title: string }[]
+    [] as { slug: string | null; title: string | null }[]
   )
 
   // TODO: This is a workaround for Next.js to optimize local images (can't load the url from DB to use SSR)

@@ -10,8 +10,8 @@ type Deck = {
   url: string
   canonicalUrl: string
   slug: string
-  categoryTitle: string
-  categorySlug: string
+  categoryTitle: string | null
+  categorySlug: string | null
 } | null
 
 export default function ListOfDecks({ decks }: { decks: Deck[] }) {

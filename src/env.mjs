@@ -35,6 +35,8 @@ export const env = createEnv({
     NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL: z.string().startsWith('/'),
     NEXT_PUBLIC_LO_SITE_ID: z.string().min(1),
     NEXT_PUBLIC_POSTMARK_SENDER_NAME: z.string().min(1),
+    NEXT_PUBLIC_AUTHOR_NAME: z.string().min(1),
+    NEXT_PUBLIC_AUTHOR_URL: z.string().url(),
   },
   runtimeEnv: {
     ADMIN_EMAIL: process.env.ADMIN_EMAIL,
@@ -67,5 +69,7 @@ export const env = createEnv({
     POSTMARK_SECRET_KEY: process.env.POSTMARK_SECRET_KEY,
     NEXT_PUBLIC_POSTMARK_SENDER_NAME: process.env.NEXT_PUBLIC_POSTMARK_SENDER_NAME,
     CLERK_WEBHOOK_SIGNING_SECRET: process.env.CLERK_WEBHOOK_SIGNING_SECRET,
+    NEXT_PUBLIC_AUTHOR_NAME: process.env.NEXT_PUBLIC_AUTHOR_NAME,
+    NEXT_PUBLIC_AUTHOR_URL: process.env.NEXT_PUBLIC_AUTHOR_URL,
   },
 })

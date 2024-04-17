@@ -2,8 +2,8 @@ import Button, { ButtonType, ButtonVariant } from './Button'
 import { cn } from '@/lib/utils'
 
 type Category = {
-  slug: string
-  title: string
+  slug: string | null
+  title: string | null
 }
 
 export default function ListOfCategories({ categories, activeSlug }: { categories: Category[]; activeSlug: string }) {
