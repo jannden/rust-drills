@@ -12,8 +12,8 @@ import Footer from '@/components/Footer'
 import TailwindIndicator from '@/components/TailwindIndicator'
 
 import 'react-toastify/dist/ReactToastify.css'
-import 'highlight.js/styles/atom-one-light.css'
 import './globals.css'
+import './code.css'
 
 interface LayoutProps {
   children: React.ReactNode

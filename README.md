@@ -162,7 +162,7 @@ Then you can run `prisma migrate resolve --applied 0_init` to tell Prisma that t
 
 Important - based on which filename you use for your env variables, you might need to prefix any `prisma` command with: `dotenv -e .env.local --`.
 
-Modify the Prisma Schema and then use the `prisma migrate dev --name` command (following give name) to create a new migration SQL file and automatically apply it to the local database.On Vercel, the migrations will be applied with the `prisma migrate deploy` command.
+Modify the Prisma Schema and then use the `prisma migrate dev --name <given-name>` command (adjusting given name) to create a new migration SQL file and automatically apply it to the local database.On Vercel, the migrations will be applied with the `prisma migrate deploy` command.
 
 If you want to adjust the migration SQL file before applying it, then use the `prisma migrate dev --create-only` command. You can adjust the SQL and then run the migration locally with `prisma migrate dev`.
 

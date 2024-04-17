@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss'
+import colors from 'tailwindcss/colors'
 
 const config: Config = {
   content: [
@@ -22,13 +23,16 @@ const config: Config = {
       typography: {
         DEFAULT: {
           css: {
-            'pre': null,
+            'pre': {
+              backgroundColor: colors.stone[50],
+              padding: '0.3rem 0.6rem',
+              fontFamily: 'var(--font-mono)',
+            },
             'code': {
-              backgroundColor: 'hsl(var(--muted))',
+              backgroundColor: `${colors.stone[50]} !important`,
               padding: '0.1rem 0.25rem',
               fontFamily: 'var(--font-mono)',
-              fontSize: '0.875em',
-              fontWeight: '400',
+              fontWeight: '400 !important',
               textWrap: 'wrap',
             },
             'code::before': {
