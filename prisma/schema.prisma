@@ -105,6 +105,9 @@ model Deck {
   canonicalUrl String
   slug         String
 
+  categoryTitle String
+  categorySlug String
+
   snippets Snippet[]
 
   @@unique([slug])

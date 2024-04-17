@@ -6,6 +6,7 @@ import vectors from '@/images/decks/vectors.webp'
 import functions from '@/images/decks/functions.webp'
 import traitsGenerics from '@/images/decks/traits-generics.webp'
 import ownershipBorrowing from '@/images/decks/ownership-borrowing.webp'
+import ownershipBorrowing2 from '@/images/decks/ownership-borrowing.webp'
 
 export const deckLocalImages = [
   flowControl,
@@ -16,4 +17,5 @@ export const deckLocalImages = [
   functions,
   traitsGenerics,
   ownershipBorrowing,
+  ownershipBorrowing2,
 ]

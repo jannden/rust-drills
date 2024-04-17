@@ -5,13 +5,10 @@ import Alert, { AlertVariant } from '@/components/Alert'
 import Button, { ButtonVariant, ButtonType } from '@/components/Button'
 import Heading from '@/components/Heading'
 import { prisma } from '@/lib/prisma'
-import ItemCard from '@/components/ItemCard'
-import Blackboard from '@/components/Blackboard'
 import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
-import { Prisma, Role } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 import ReactMarkdown from 'react-markdown'
 import rehypeHighlight from 'rehype-highlight'
-import SaveButton from './SRButtons'
 import { ResolvingMetadata, Metadata } from 'next'
 import { Drill } from 'lucide-react'
 import ModalLogin from '@/components/ModalLogin'
@@ -66,7 +63,7 @@ export default async function Deck({ params }: Props) {
 
   return (
     <>
-      <Heading heading={deck.title} description={deck.subtitle} back="/" />
+      <Heading heading={deck.title} description={deck.subtitle} back={`/categories/${deck.categorySlug}`} />
 
       {deck.snippets.map((snippet) => (
         <div

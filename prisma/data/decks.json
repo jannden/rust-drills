@@ -7,6 +7,8 @@
     "slug": "flow-control",
     "canonicalUrl": "https://medium.com/rustaceans/rust-conditionals-a-fun-guide-with-examples-85e831c86501",
     "url": "https://medium.com/rustaceans/rust-conditionals-a-fun-guide-with-examples-85e831c86501?sk=94edf6b826f7e5fe350f8d5f082ca6bd",
+    "categorySlug": "fun-guides",
+    "categoryTitle": "Fun Guides",
     "snippets": [
       {
         "order": 1,
@@ -78,6 +80,8 @@
     "slug": "enums",
     "canonicalUrl": "https://medium.com/rustaceans/rust-enums-a-fun-guide-with-examples-f3bb0f590d93",
     "url": "https://medium.com/rustaceans/rust-enums-a-fun-guide-with-examples-f3bb0f590d93?sk=08825ba512c2cf2638c1fa3e177a643a",
+    "categorySlug": "fun-guides",
+    "categoryTitle": "Fun Guides",
     "snippets": [
       {
         "order": 1,
@@ -149,6 +153,8 @@
     "slug": "structs",
     "canonicalUrl": "https://medium.com/rustaceans/rust-structs-a-fun-guide-with-examples-c2851dfb96c6str",
     "url": "https://medium.com/rustaceans/rust-structs-a-fun-guide-with-examples-c2851dfb96c6?sk=a1493ed9de65e20c38aa7960d4312588",
+    "categorySlug": "fun-guides",
+    "categoryTitle": "Fun Guides",
     "snippets": [
       {
         "order": 1,
@@ -190,6 +196,8 @@
     "slug": "strings",
     "canonicalUrl": "https://medium.com/rustaceans/rust-strings-a-fun-guide-with-examples-e412ff963465",
     "url": "https://medium.com/rustaceans/rust-strings-a-fun-guide-with-examples-e412ff963465?sk=f7c6a09b38b4f3b2de76945cd16ae40a",
+    "categorySlug": "fun-guides",
+    "categoryTitle": "Fun Guides",
     "snippets": [
       {
         "order": 1,
@@ -244,6 +252,8 @@
     "slug": "vectors",
     "canonicalUrl": "https://medium.com/rustaceans/rust-strings-a-fun-guide-with-examples-e412ff963465",
     "url": "https://medium.com/rustaceans/rust-vectors-a-fun-guide-with-examples-ba9402139e5a?sk=a928927b3dd3108a4c9e4b7e8a5a6936",
+    "categorySlug": "fun-guides",
+    "categoryTitle": "Fun Guides",
     "snippets": [
       {
         "order": 1,
@@ -327,6 +337,8 @@
     "slug": "functions",
     "canonicalUrl": "https://medium.com/rustaceans/rust-functions-a-fun-guide-with-examples-e9b43833a39b",
     "url": "https://medium.com/rustaceans/rust-functions-a-fun-guide-with-examples-e9b43833a39b?sk=93bcd3e3cfca4bf54ab54cbbe7137cd0",
+    "categorySlug": "fun-guides",
+    "categoryTitle": "Fun Guides",
     "snippets": [
       {
         "order": 1,
@@ -380,6 +392,8 @@
     "slug": "traits-generics",
     "canonicalUrl": "https://medium.com/rustaceans/rust-traits-and-generics-a-fun-guide-with-examples-fb94c0bad81d",
     "url": "https://medium.com/rustaceans/rust-traits-and-generics-a-fun-guide-with-examples-fb94c0bad81d?sk=e82ebce3ef1d94a4d35a017d1d5fef8d",
+    "categorySlug": "fun-guides",
+    "categoryTitle": "Fun Guides",
     "snippets": [
       {
         "order": 1,
@@ -445,12 +459,14 @@
     "slug": "ownership-borrowing",
     "canonicalUrl": "https://medium.com/rustaceans/rust-ownership-a-fun-guide-with-examples-be54d4b5d0bf",
     "url": "XXXXX",
+    "categorySlug": "fun-guides",
+    "categoryTitle": "Fun Guides",
     "snippets": [
       {
         "order": 1,
         "heading": "The Rules of Ownership",
-        "content": "There are three core rules of ownership in Rust:\n\n1. Each value in Rust has a variable that's called its owner.\n2. There can only be one owner at a time.\n3. When the owner goes out of scope, the value will be dropped.",
-        "task": "Understand and apply the principles of ownership in Rust by creating a scenario where these rules are demonstrated. Include a code snippet in your explanation where each rule is illustrated through variable assignments and scope changes.\n\n```rust\n// Rule 1: Each value in Rust has a variable that's called its owner\nlet owner1 = \"Some value\";\n\n// Rule 2: There can only be one owner at a time\nlet owner2 = owner1; // Now owner2 is the owner, and owner1 no longer has access\n\n// Rule 3: When the owner goes out of scope, the value will be dropped\n{\n    let owner3 = \"Another value\";\n    // owner3 is in scope\n}\n// owner3 goes out of scope here, and \"Another value\" is dropped\n```\n\n**Plan:**\n1. Illustrate the first rule by assigning a value to a variable, thereby making it the owner.\n2. Demonstrate the second rule through reassignment, which transfers ownership.\n3. Show how values are dropped when their owner goes out of scope, exemplifying the third rule. Begin by outlining a simple Rust program to illustrate these concepts."
+        "content": "There are three core rules of ownership in Rust:\n\n1. Each value in Rust has a variable that's called its owner.\n2. There can only be one owner at a time.\n3. When the owner goes out of scope, the value will be dropped.\n\nInclude a code snippet in your explanation where each rule is illustrated through variable assignments and scope changes.\n\n```rust\n// Rule 1: Each value in Rust has a variable that's called its owner\nlet owner1 = \"Some value\";\n\n// Rule 2: There can only be one owner at a time\nlet owner2 = owner1; // Now owner2 is the owner, and owner1 no longer has access\n\n// Rule 3: When the owner goes out of scope, the value will be dropped\n{\n    let owner3 = \"Another value\";\n    // owner3 is in scope\n} // owner3 goes out of scope here, and \"Another value\" is dropped\n```",
+        "task": "Understand and apply the principles of ownership in Rust by creating a scenario where these rules are demonstrated.\n\n**Plan:**\n1. Illustrate the first rule by assigning a value to a variable, thereby making it the owner.\n2. Demonstrate the second rule through reassignment, which transfers ownership.\n3. Show how values are dropped when their owner goes out of scope, exemplifying the third rule. Begin by outlining a simple Rust program to illustrate these concepts."
       },
       {
         "order": 2,
@@ -480,12 +496,128 @@
   },
   {
     "order": 9,
+    "isVisible": true,
+    "title": "Test",
+    "subtitle": "With examples from XXXXX",
+    "slug": "test",
+    "canonicalUrl": "xxx",
+    "url": "XXXXX",
+    "categorySlug": "fun-guides",
+    "categoryTitle": "Fun Guides",
+    "snippets": [
+      {
+        "order": 1,
+        "heading": "xxx",
+        "content": "xxx",
+        "task": "xxx"
+      }
+    ]
+  },
+  {
+    "order": 10,
     "isVisible": false,
     "title": "XXXXX",
     "subtitle": "With examples from XXXXX",
     "slug": "xxxxx",
     "canonicalUrl": "xxx",
     "url": "XXXXX",
+    "categorySlug": "fun-guides",
+    "categoryTitle": "Fun Guides",
+    "snippets": [
+      {
+        "order": 1,
+        "heading": "xxx",
+        "content": "xxx",
+        "task": "xxx"
+      }
+    ]
+  },
+  {
+    "order": 10,
+    "isVisible": false,
+    "title": "XXXXX",
+    "subtitle": "With examples from XXXXX",
+    "slug": "xxxxx",
+    "canonicalUrl": "xxx",
+    "url": "XXXXX",
+    "categorySlug": "projects",
+    "categoryTitle": "Projects",
+    "snippets": [
+      {
+        "order": 1,
+        "heading": "xxx",
+        "content": "xxx",
+        "task": "xxx"
+      }
+    ]
+  },
+  {
+    "order": 10,
+    "isVisible": false,
+    "title": "XXXXX",
+    "subtitle": "With examples from XXXXX",
+    "slug": "xxxxx",
+    "canonicalUrl": "xxx",
+    "url": "XXXXX",
+    "categorySlug": "idiomatic-rust",
+    "categoryTitle": "Idiomatic Rust",
+    "snippets": [
+      {
+        "order": 1,
+        "heading": "xxx",
+        "content": "xxx",
+        "task": "xxx"
+      }
+    ]
+  },
+  {
+    "order": 10,
+    "isVisible": false,
+    "title": "XXXXX",
+    "subtitle": "With examples from XXXXX",
+    "slug": "xxxxx",
+    "canonicalUrl": "xxx",
+    "url": "XXXXX",
+    "categorySlug": "algorithms",
+    "categoryTitle": "Algorithms",
+    "snippets": [
+      {
+        "order": 1,
+        "heading": "xxx",
+        "content": "xxx",
+        "task": "xxx"
+      }
+    ]
+  },
+  {
+    "order": 10,
+    "isVisible": false,
+    "title": "XXXXX",
+    "subtitle": "With examples from XXXXX",
+    "slug": "xxxxx",
+    "canonicalUrl": "xxx",
+    "url": "XXXXX",
+    "categorySlug": "data-structures",
+    "categoryTitle": "Data Structures",
+    "snippets": [
+      {
+        "order": 1,
+        "heading": "xxx",
+        "content": "xxx",
+        "task": "xxx"
+      }
+    ]
+  },
+  {
+    "order": 10,
+    "isVisible": false,
+    "title": "XXXXX",
+    "subtitle": "With examples from XXXXX",
+    "slug": "xxxxx",
+    "canonicalUrl": "xxx",
+    "url": "XXXXX",
+    "categorySlug": "design-patterns",
+    "categoryTitle": "Design Patterns",
     "snippets": [
       {
         "order": 1,
