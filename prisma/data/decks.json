@@ -496,7 +496,7 @@
   },
   {
     "order": 9,
-    "isVisible": true,
+    "isVisible": false,
     "title": "Test",
     "subtitle": "With examples from XXXXX",
     "slug": "test",
@@ -533,7 +533,7 @@
     ]
   },
   {
-    "order": 10,
+    "order": 11,
     "isVisible": false,
     "title": "XXXXX",
     "subtitle": "With examples from XXXXX",
@@ -552,7 +552,7 @@
     ]
   },
   {
-    "order": 10,
+    "order": 12,
     "isVisible": false,
     "title": "XXXXX",
     "subtitle": "With examples from XXXXX",
@@ -571,7 +571,7 @@
     ]
   },
   {
-    "order": 10,
+    "order": 13,
     "isVisible": false,
     "title": "XXXXX",
     "subtitle": "With examples from XXXXX",
@@ -590,7 +590,7 @@
     ]
   },
   {
-    "order": 10,
+    "order": 14,
     "isVisible": false,
     "title": "XXXXX",
     "subtitle": "With examples from XXXXX",
@@ -609,7 +609,7 @@
     ]
   },
   {
-    "order": 10,
+    "order": 15,
     "isVisible": false,
     "title": "XXXXX",
     "subtitle": "With examples from XXXXX",

@@ -32,7 +32,7 @@ export default async function Decks({ params: { categorySlug: activeSlug = Defau
 
   const categories = decks.reduce(
     (acc, deck) => {
-      if (deck.categorySlug) {
+      if (deck.isVisible) {
         if (!acc.find(({ slug }) => slug === deck.categorySlug)) {
           acc.push({ slug: deck.categorySlug, title: deck.categoryTitle })
         }

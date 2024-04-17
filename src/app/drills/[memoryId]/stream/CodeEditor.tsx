@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import UIWCodeEditor from '@uiw/react-textarea-code-editor/nohighlight'
 import { useFormStatus } from 'react-dom'
 import rehypeHighlight from 'rehype-highlight'
@@ -19,6 +19,7 @@ export default function CodeEditor({
   onKeyDown: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void
   disabled?: boolean
 }) {
+  const [localMessage, setLocalMessage] = useState(message)
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null)
   const { pending } = useFormStatus()
 
@@ -28,14 +29,19 @@ export default function CodeEditor({
     }
   }, [pending])
 
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setLocalMessage(event.target.value)
+    handleMessageChange(event)
+  }
+
   return (
     <div>
       <UIWCodeEditor
-        value={message}
+        value={localMessage}
         disabled={disabled || pending}
         language="rust"
         placeholder="// Write Rust code here..."
-        onChange={handleMessageChange}
+        onChange={handleChange}
         onKeyDown={onKeyDown}
         rehypePlugins={[rehypeHighlight as any]}
         className="mb-6 w-full shadow-sm ring-1 ring-gray-300 focus-within:ring-2 focus-within:ring-orange-600 disabled:cursor-wait disabled:bg-gray-50"
