@@ -10,7 +10,7 @@ export async function GET() {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const energyData = await getEnergy(user.db.id)
+  const energyData = await getEnergy(user.db.role === 'ADMIN', user.db.id)
 
   if (!energyData) {
     return NextResponse.json({ error: 'Not found' }, { status: 404 })

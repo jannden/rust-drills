@@ -14,8 +14,10 @@ export default function Header() {
   const mounted = useMounted()
   const { isLoaded, user } = useUser()
 
+
   useEffect(() => {
     if (!isLoaded || !mounted) return
+    if (process.env.NODE_ENV === 'development') return
     if (typeof window !== 'undefined') {
       LogRocket.init('wwsywf/rust-drills')
 

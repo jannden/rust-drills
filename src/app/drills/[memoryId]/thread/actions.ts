@@ -18,7 +18,7 @@ export async function startThread(formData: FormData) {
     redirect('/sign-up')
   }
 
-  const energyData = await getEnergy(user.db.id)
+  const energyData = await getEnergy(user.db.role === 'ADMIN', user.db.id)
   if (!energyData) {
     return { ok: false, message: 'No energy data' }
   }
@@ -130,7 +130,7 @@ export async function sendMessage(prevState: any, formData: FormData) {
     redirect('/sign-up')
   }
 
-  const energyData = await getEnergy(user.db.id)
+  const energyData = await getEnergy(user.db.role === 'ADMIN', user.db.id)
   if (!energyData) {
     return { ok: false, message: 'No energy data' }
   }

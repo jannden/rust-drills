@@ -1,7 +1,8 @@
-.w-tc-editor-text {
-  font-size: 15px !important;
+.w-tc-editor {
+  background-color: #f6f7f6;
 }
-
+.w-tc-editor-text,
 .w-tc-editor-preview {
   font-size: 15px !important;
+  font-family: var(--font-mono) !important;
 }

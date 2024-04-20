@@ -38,7 +38,7 @@ export async function POST(req: Request) {
   const model = body.data.model ?? defaultAI.model
   const maxTokens = body.data.maxTokens
   const temperature = body.data.temperature ?? defaultAI.temperature
-  const energyData = await getEnergy(user.db.id)
+  const energyData = await getEnergy(user.db.role === 'ADMIN', user.db.id)
 
   if (!energyData) {
     return new Response('Missing AI credits data', { status: 400 })

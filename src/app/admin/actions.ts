@@ -5,14 +5,15 @@ import { revalidatePath } from 'next/cache'
 
 import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
 import { Role } from '@prisma/client'
-import { reset, update } from '../../../prisma/seed'
+import { reset, update } from '../../../prisma/seedScripts'
 import { env } from '@/env.mjs'
 import { prisma } from '@/lib/prisma'
 
 export async function updateSnippets(formData: FormData) {
+  console.log('Updating snippets...')
   const user = await getClerkWithDb()
   if (!user || user.db.role !== Role.ADMIN) {
-    redirect('/sign-up')
+    return { ok: false, message: `Not admin` }
   }
 
   try {
@@ -30,6 +31,7 @@ export async function updateSnippets(formData: FormData) {
 }
 
 export async function toggleAdmin() {
+  console.log('Toggling admin...')
   const user = await getClerkWithDb()
   if (!user || (user.db.role !== Role.ADMIN && user.db.email !== env.ADMIN_EMAIL)) {
     redirect('/sign-up')

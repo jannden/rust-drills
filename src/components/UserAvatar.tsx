@@ -43,7 +43,7 @@ export default function UserAvatar() {
       <ClerkLoaded>
         <div className="cursor-pointer rounded-full border-2 border-transparent bg-stone-100 transition hover:border-orange-700 hover:text-orange-700">
           <SignedIn>
-            <Link href="/settings">{icon}</Link>
+            <Link href="/profile">{icon}</Link>
           </SignedIn>
           <SignedOut>
             <SignInButton mode="modal">{userImage}</SignInButton>

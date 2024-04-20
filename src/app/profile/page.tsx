@@ -10,7 +10,7 @@ import Button, { ButtonType, ButtonVariant } from '@/components/Button'
 import { prisma } from '@/lib/prisma'
 import Snippet, { SnippetType } from '@/components/Snippet'
 
-export default async function Settings() {
+export default async function Profile() {
   const user = await getClerkWithDb()
   if (!user) {
     redirect('/')

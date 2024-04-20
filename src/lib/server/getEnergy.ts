@@ -15,7 +15,7 @@ type EnergyData = {
 }
 
 // * Get energy data for user
-export async function getEnergy(userId: string): Promise<EnergyData | null> {
+export async function getEnergy(isAdmin: boolean, userId: string): Promise<EnergyData | null> {
   let prompts: Prompt[]
   try {
     prompts = await prisma.prompt.findMany({
@@ -24,6 +24,9 @@ export async function getEnergy(userId: string): Promise<EnergyData | null> {
         createdAt: {
           gte: DateTime.now().minus({ days: 1 }).toJSDate(),
         },
+      },
+      include: {
+        user: true,
       },
       orderBy: {
         createdAt: 'desc',
@@ -36,7 +39,7 @@ export async function getEnergy(userId: string): Promise<EnergyData | null> {
 
   if (!prompts) return null
 
-  const dailyLimit = defaultAI.dailyEnergy
+  const dailyLimit = isAdmin ? defaultAI.adminEnergy : defaultAI.dailyEnergy
 
   const totalSpent = prompts.reduce((acc, completion) => acc + calculateTotalTokens(completion), 0)
 

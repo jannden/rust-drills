@@ -70,7 +70,7 @@ export default async function ThreadDetailPage({ params }: Props) {
     return <Alert message="Memory not found" variant={AlertVariant.Red} />
   }
 
-  const energyData = await getEnergy(user.db.id)
+  const energyData = await getEnergy(user.db.role === 'ADMIN', user.db.id)
   if (!energyData) {
     return <Alert message="No energy data" variant={AlertVariant.Red} />
   }

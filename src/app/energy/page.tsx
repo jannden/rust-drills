@@ -42,7 +42,7 @@ export default async function EnergyPage() {
     },
   })
 
-  const dailyLimit = defaultAI.dailyEnergy
+  const dailyLimit = user.db.role === 'ADMIN' ? defaultAI.adminEnergy : defaultAI.dailyEnergy
   const totalSpent = prompts.reduce((acc, p) => acc + calculateTotalTokens(p), 0)
   const energy = dailyLimit - totalSpent
 
@@ -51,8 +51,8 @@ export default async function EnergyPage() {
   return (
     <>
       <Heading
-        heading="Energy"
-        description="Learning consumes energy. Energy gets refilled over time."
+        heading="OpenAI API Tokens"
+        description={`Practicing snippets with ChatGPT consumes tokens. You have a daily limit of ${dailyLimit} tokens.`}
         className="mb-6 border-b-0 pb-0"
       >
         {showPurchase && (
