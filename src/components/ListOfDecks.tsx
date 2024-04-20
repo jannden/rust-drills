@@ -1,18 +1,11 @@
 import Image, { StaticImageData } from 'next/image'
 
 type Deck = {
-  imageUrl: StaticImageData
-  id: string
-  order: number
-  isVisible: boolean
   title: string
   subtitle: string
-  url: string
-  canonicalUrl: string
+  imageUrl: StaticImageData
   slug: string
-  categoryTitle: string | null
-  categorySlug: string | null
-} | null
+}
 
 export default function ListOfDecks({ decks }: { decks: Deck[] }) {
   return (
@@ -20,7 +13,7 @@ export default function ListOfDecks({ decks }: { decks: Deck[] }) {
       {decks.map(
         (deck) =>
           deck && (
-            <article key={deck.id} className="group relative flex flex-col items-start justify-between">
+            <article key={deck.slug} className="group relative flex flex-col items-start justify-between">
               <div className="xs:aspect-[32/9] relative aspect-[16/9] w-full sm:aspect-[16/9]">
                 <Image
                   src={deck.imageUrl}

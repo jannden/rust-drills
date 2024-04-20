@@ -63,7 +63,11 @@ export default async function Deck({ params }: Props) {
 
   return (
     <>
-      <Heading heading={deck.title} description={deck.subtitle} back={`/categories/${deck.categorySlug}`} />
+      <Heading
+        heading={`${deck.categoryTitle}: ${deck.title}`}
+        description={deck.subtitle}
+        back={`/categories/${deck.categorySlug}`}
+      />
 
       {deck.snippets.map((snippet) => (
         <div

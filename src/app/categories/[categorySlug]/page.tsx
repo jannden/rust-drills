@@ -8,6 +8,9 @@ import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
 import ListOfDecks from '@/components/ListOfDecks'
 import ListOfCategories from '@/components/ListOfCategories'
 import WelcomeMessage from '@/components/WelcomeMessage'
+import Heading from '@/components/Heading'
+import { categories } from '@/lib/config/content'
+import { notFound } from 'next/navigation'
 
 type Props = {
   params: {
@@ -18,51 +21,16 @@ type Props = {
 const DefaultCategory = 'fun-guides'
 
 export default async function Decks({ params: { categorySlug: activeSlug = DefaultCategory } }: Props) {
-  const user = await getClerkWithDb()
+  const category = categories.find(({ slug }) => slug === activeSlug)
 
-  let whereArg: Prisma.DeckWhereInput = {}
-  if (user?.db.role !== Role.ADMIN) {
-    whereArg = { isVisible: true }
+  if (!category) {
+    return notFound()
   }
-
-  const decks = await prisma.deck.findMany({
-    where: whereArg,
-    orderBy: { order: 'asc' },
-  })
-
-  const categories = decks.reduce(
-    (acc, deck) => {
-      if (deck.categorySlug) {
-        if (!acc.find(({ slug }) => slug === deck.categorySlug)) {
-          acc.push({ slug: deck.categorySlug, title: deck.categoryTitle })
-        }
-      }
-      return acc
-    },
-    [] as { slug: string | null; title: string | null }[]
-  )
-
-  // TODO: This is a workaround for Next.js to optimize local images (can't load the url from DB to use SSR)
-  const enrichedDecks = deckLocalImages
-    .map((localImage, index) => {
-      const deckData = decks.find((d) => d.order === index + 1)
-      if (!deckData) {
-        return null
-      }
-      return {
-        ...deckData,
-        imageUrl: localImage,
-      }
-    })
-    .filter((deck) => deck?.categorySlug === activeSlug)
 
   return (
     <>
-      <WelcomeMessage />
-
-      <ListOfCategories categories={categories} activeSlug={activeSlug} />
-
-      <ListOfDecks decks={enrichedDecks} />
+      <Heading heading={category.title} back="/" />
+      <ListOfDecks decks={category.decks} />
     </>
   )
 }
