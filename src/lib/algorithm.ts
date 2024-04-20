@@ -2,6 +2,7 @@ import { DateTime, Duration } from 'luxon'
 
 import { AlgorithmInput, AlgorithmOutput } from '@/lib/types'
 import { differenceInDays } from '@/lib/utils'
+import { isLearnedIfIntervalDays } from './config/sr'
 
 export const spacedRepetitionAlgorithm = (
   previousValues: AlgorithmInput,
@@ -31,11 +32,9 @@ export const spacedRepetitionAlgorithm = (
     } else if (numberOfMistakes === 0) {
       // * MEANS EASY WHEN NEW
       repetition = previousValues.repetition + 1
-        exactInterval = Duration.fromObject({ weeks: 4 })
-      // Add 10% "fuzz" to interval to avoid bunching up reviews
-      fuzzedInterval = Duration.fromObject({
-        seconds: Math.ceil(exactInterval.as('seconds') * (1.0 + Math.random() * 0.1)),
-      })
+      // Never repeat again
+      exactInterval = Duration.fromObject({ days: isLearnedIfIntervalDays })
+      fuzzedInterval = exactInterval // No fuzzing for successful learning phase
     } else {
       throw new Error('numberOfMistakes in learning phase should be 0 or 1')
     }
@@ -84,9 +83,9 @@ export const spacedRepetitionAlgorithm = (
   if (fuzzedInterval) {
     // Don't allow to overflow the interval
     fuzzedInterval =
-      fuzzedInterval && fuzzedInterval?.as('days') > 1000
+      fuzzedInterval && fuzzedInterval?.as('days') > isLearnedIfIntervalDays
         ? Duration.fromObject({
-            days: 1000,
+            days: isLearnedIfIntervalDays,
           })
         : fuzzedInterval
 

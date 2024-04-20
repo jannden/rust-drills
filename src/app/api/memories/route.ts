@@ -1,10 +1,11 @@
 import { spacedRepetitionAlgorithm } from '@/lib/algorithm'
-import { algorithmDefaults } from '@/lib/config/sr'
+import { algorithmDefaults, isLearnedIfIntervalDays } from '@/lib/config/sr'
 import { prisma } from '@/lib/prisma'
 import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
 import { AlgorithmInput } from '@/lib/types'
 import {
   ChatMessageType,
+  MemoryDELETERequest,
   MemoryGETRequest,
   MemoryGETResponseType,
   MemoryInfoType,
@@ -186,7 +187,7 @@ export async function GET(req: Request): Promise<NextResponse<MemoryGETResponseT
 //           userId: user.db.id,
 //         },
 //       },
-    
+
 //     }
 //   })
 
@@ -299,6 +300,8 @@ export async function PUT(req: Request): Promise<NextResponse<MemoryPUTResponseT
   const nowLuxon = DateTime.utc().toISO()
   const now = nowLuxon ? new Date(nowLuxon) : new Date()
 
+  const isLearned = algorithmOutput.interval === isLearnedIfIntervalDays ? true : false
+
   const updatedMemory = {
     repetition: algorithmOutput.repetition,
     eFactor: algorithmOutput.eFactor,
@@ -310,6 +313,7 @@ export async function PUT(req: Request): Promise<NextResponse<MemoryPUTResponseT
     numberOfMistakes: {
       push: numberOfMistakes,
     },
+    isLearned,
   }
 
   const initialMessages: ChatMessageType[] = [
@@ -375,12 +379,43 @@ export async function PUT(req: Request): Promise<NextResponse<MemoryPUTResponseT
     }
   }
 
-  revalidatePath('/lesson')
-  revalidatePath('/decks')
-  revalidatePath('/api/memories')
+  revalidatePath('/')
 
   return NextResponse.json(
-    { newItemLearned, newBadgeEarned, dateTimePlanned: newMemory.dateTimePlanned },
+    { newItemLearned, newBadgeEarned, dateTimePlanned: newMemory.dateTimePlanned, isLearned: newMemory.isLearned },
     { status: 200 }
   )
+}
+
+// * Deletes the memory for a user
+export async function DELETE(req: Request): Promise<NextResponse<{ error?: string }>> {
+  const user = await getClerkWithDb()
+  if (!user) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  const reqBody = await req.json()
+  const body = MemoryDELETERequest.safeParse(reqBody)
+  if (!body.success) {
+    const publicErrorMessage = 'Invalid request'
+    logError(publicErrorMessage, body.error)
+    return NextResponse.json({ error: publicErrorMessage }, { status: 400 })
+  }
+
+  const { snippetId } = body.data
+
+  try {
+    await prisma.memory.deleteMany({
+      where: {
+        snippetId,
+        userId: user.db.id,
+      },
+    })
+  } catch (error) {
+    const publicErrorMessage = 'Error deleting memory'
+    logError(publicErrorMessage, error)
+    return NextResponse.json({ error: publicErrorMessage }, { status: 500 })
+  }
+
+  return NextResponse.json({}, { status: 200 })
 }

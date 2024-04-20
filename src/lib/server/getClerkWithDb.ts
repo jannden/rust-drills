@@ -1,5 +1,6 @@
 'use server'
 
+import { redirect } from 'next/navigation'
 import { User as ClerkUser, currentUser } from '@clerk/nextjs/server'
 import { User as DbUser } from '@prisma/client'
 
@@ -13,6 +14,7 @@ export type ClerkWithDb = {
 
 // * Get Clerk and Database data for User
 export async function getClerkWithDb() {
+  let userLoggedInButNotInDb = false
   try {
     const userClerk = await currentUser()
     if (!userClerk) {
@@ -26,15 +28,19 @@ export async function getClerkWithDb() {
     })
     if (!userDb) {
       console.error(`User not found in database: ${userClerk.id} - ${userClerk.emailAddresses[0].emailAddress}`)
-      return null
-    }
-
-    return {
-      clerk: userClerk,
-      db: userDb,
+      userLoggedInButNotInDb = true
+    } else {
+      return {
+        clerk: userClerk,
+        db: userDb,
+      }
     }
   } catch (error) {
     logError('User not found', error)
     return null
+  }
+
+  if (userLoggedInButNotInDb) {
+    redirect('/sign-up')
   }
 }

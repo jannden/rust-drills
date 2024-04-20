@@ -19,6 +19,7 @@ export default async function Settings() {
   const overdueMemories = await prisma.memory.findMany({
     where: {
       userId: user.db.id,
+      isLearned: false,
       dateTimePlanned: {
         lt: DateTime.now().toJSDate(),
       },
@@ -43,25 +44,21 @@ export default async function Settings() {
   const overdueDecksWithSnippets = overdueMemories.reduce(
     (acc, memory) => {
       const deck = acc.find((deck) => deck.id === memory.snippet.deck.id)
+      const tempSnip = {
+        id: memory.snippet.id,
+        heading: memory.snippet.heading,
+        content: memory.snippet.content,
+        dateTimePlanned: memory.dateTimePlanned,
+        isLearned: memory.isLearned,
+        showPlannedDate: true,
+      }
       if (deck) {
-        deck.snippets.push({
-          id: memory.snippet.id,
-          heading: memory.snippet.heading,
-          content: memory.snippet.content,
-          dateTimePlanned: memory.dateTimePlanned,
-        })
+        deck.snippets.push(tempSnip)
       } else {
         acc.push({
           id: memory.snippet.deck.id,
           title: memory.snippet.deck.title,
-          snippets: [
-            {
-              id: memory.snippet.id,
-              heading: memory.snippet.heading,
-              content: memory.snippet.content,
-              dateTimePlanned: memory.dateTimePlanned,
-            },
-          ],
+          snippets: [tempSnip],
         })
       }
       return acc

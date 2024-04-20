@@ -2,7 +2,6 @@
 
 import React from 'react'
 import Alert, { AlertVariant } from '@/components/Alert'
-import Button, { ButtonVariant, ButtonType } from '@/components/Button'
 import Heading from '@/components/Heading'
 import { prisma } from '@/lib/prisma'
 import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
@@ -71,7 +70,9 @@ export default async function Deck({ params }: Props) {
             id: snippet.id,
             heading: snippet.heading,
             content: snippet.content,
-            dateTimePlanned: snippet.memories[0]?.dateTimePlanned,
+            dateTimePlanned: snippet.memories?.[0]?.dateTimePlanned,
+            isLearned: snippet.memories?.[0]?.isLearned ?? false,
+            showPlannedDate: false,
           }}
         />
       ))}

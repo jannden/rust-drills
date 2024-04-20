@@ -6,3 +6,5 @@ export const algorithmDefaults = {
   interval: 0,
   dateTimePlanned: DateTime.utc().toISO(),
 }
+
+export const isLearnedIfIntervalDays = 1000

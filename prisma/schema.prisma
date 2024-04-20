@@ -140,6 +140,7 @@ model Memory {
   eFactor          Decimal @db.Decimal(4, 2)
   interval         Decimal @db.Decimal(9, 5)
   numberOfMistakes Int[]
+  isLearned        Boolean @default(false)
 
   dateTimeRepeated    DateTime?
   dateTimePlanned     DateTime

@@ -45,5 +45,11 @@ export const MemoryPUTResponse = z.object({
   newItemLearned: z.boolean(),
   newBadgeEarned: z.boolean(),
   dateTimePlanned: z.string(),
+  isLearned: z.boolean(),
 })
 export type MemoryPUTResponseType = z.infer<typeof MemoryPUTResponse>
+
+export const MemoryDELETERequest = z.object({
+  snippetId: z.string().cuid(),
+})
+export type MemoryDELETERequestType = z.infer<typeof MemoryDELETERequest>

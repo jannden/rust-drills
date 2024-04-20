@@ -14,6 +14,8 @@ export type SnippetType = {
   heading: string
   content: string
   dateTimePlanned: Date
+  isLearned: boolean
+  showPlannedDate: boolean
 }
 
 export type SnippetProps = {
@@ -42,6 +44,8 @@ export default async function Snippet({ snippet }: SnippetProps) {
           <SRButtons
             snippetId={snippet.id}
             dateTimePlanned={snippet.dateTimePlanned ? DateTime.fromJSDate(snippet.dateTimePlanned).toISO() : null}
+            defaultIsLearned={snippet.isLearned}
+            showPlannedDate={snippet.showPlannedDate}
           />
           {user ? (
             <Button
