@@ -237,10 +237,10 @@ export function nFormatter(num: number, digits: number) {
 // * Get spent tokens for prompt
 export function calculateTotalTokens(prompt: Prompt): number {
   const maxTokens = prompt?.maxTokens ?? 0
-  const completionTokens = prompt?.completionTokens
+  const completionTokens = prompt?.completionTokens ?? 0
   const requestTokens = prompt?.promptTokens ?? 0
   const responseTokens = completionTokens ?? maxTokens
-  const totalTokens = requestTokens + responseTokens
+  const totalTokens = requestTokens ? requestTokens + responseTokens : 0
 
   return totalTokens
 }
