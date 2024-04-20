@@ -3,14 +3,12 @@
 import { redirect } from 'next/navigation'
 import { DateTime } from 'luxon'
 
-import Heading from '@/components/Heading'
 import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
+import Heading from '@/components/Heading'
 import ButtonSignOut from '@/components/ButtonSignOut'
-import Alert, { AlertVariant } from '@/components/Alert'
-import Input from './NameInput'
-import { pickFromObject } from '@/lib/utils'
-import { prisma } from '@/lib/prisma'
 import Button, { ButtonType, ButtonVariant } from '@/components/Button'
+import { prisma } from '@/lib/prisma'
+import Snippet, { SnippetType } from '@/components/Snippet'
 
 export default async function Settings() {
   const user = await getClerkWithDb()
@@ -18,32 +16,87 @@ export default async function Settings() {
     redirect('/')
   }
 
-  const isFirstTimeLogin = user.db.lastLogin === null
-  const luxonCreatedAt = DateTime.fromJSDate(user.db.createdAt)
-  const now = DateTime.local()
-  const diff = now.diff(luxonCreatedAt)
-  const createdMoreThan5MinutesAgo = diff.as('minutes') > 5
+  const overdueMemories = await prisma.memory.findMany({
+    where: {
+      userId: user.db.id,
+      dateTimePlanned: {
+        lt: DateTime.now().toJSDate(),
+      },
+    },
+    include: {
+      snippet: {
+        include: {
+          deck: true,
+        },
+      },
+    },
+    orderBy: [
+      { dateTimePlanned: 'asc' },
+      {
+        snippet: {
+          deckId: 'asc',
+        },
+      },
+    ],
+  })
+
+  const overdueDecksWithSnippets = overdueMemories.reduce(
+    (acc, memory) => {
+      const deck = acc.find((deck) => deck.id === memory.snippet.deck.id)
+      if (deck) {
+        deck.snippets.push({
+          id: memory.snippet.id,
+          heading: memory.snippet.heading,
+          content: memory.snippet.content,
+          dateTimePlanned: memory.dateTimePlanned,
+        })
+      } else {
+        acc.push({
+          id: memory.snippet.deck.id,
+          title: memory.snippet.deck.title,
+          snippets: [
+            {
+              id: memory.snippet.id,
+              heading: memory.snippet.heading,
+              content: memory.snippet.content,
+              dateTimePlanned: memory.dateTimePlanned,
+            },
+          ],
+        })
+      }
+      return acc
+    },
+    [] as { id: string; title: string; snippets: SnippetType[] }[]
+  )
 
   return (
     <>
-      <Heading heading="Settings" className="mb-0">
+      <Heading heading="My Overdue Snippets" className="mb-0">
         <div className="flex gap-3">
           {user.db.role === 'ADMIN' && (
             <Button type={ButtonType.Link} variant={ButtonVariant.Primary} href="/admin">
               Admin
             </Button>
           )}
-          {(!isFirstTimeLogin || createdMoreThan5MinutesAgo) && <ButtonSignOut signOutText="Sign Out" />}
+          <ButtonSignOut signOutText="Sign Out" />
         </div>
       </Heading>
 
-      <dl className="mb-12 space-y-6 divide-y divide-gray-100 text-sm leading-6">
-        <Input label="Public name" defaultValue={user.db.publicName ?? ''} placeholder="Your public name" />
-      </dl>
-
-      <Button type={ButtonType.Link} variant={ButtonVariant.Primary} href="/decks">
-        Continue
-      </Button>
+      {overdueDecksWithSnippets.length === 0 ? (
+        <p className="text-gray-500">No overdue snippets</p>
+      ) : (
+        <div className="grid grid-cols-1 gap-4">
+          {overdueDecksWithSnippets.map((deck) => (
+            <div key={deck.id}>
+              <hr className="pb-8" />
+              <Heading heading={deck.title} />
+              {deck.snippets.map((snippet) => (
+                <Snippet key={snippet.id} snippet={snippet} />
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
     </>
   )
 }
