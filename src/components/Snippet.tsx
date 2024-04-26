@@ -24,9 +24,6 @@ export type SnippetProps = {
 
 export default async function Snippet({ snippet }: SnippetProps) {
   const user = await getClerkWithDb()
-  if (!user) {
-    redirect('/')
-  }
 
   return (
     <div

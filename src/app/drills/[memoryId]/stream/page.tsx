@@ -22,7 +22,7 @@ type Props = {
 export default async function ChatDetailPage({ params }: Props) {
   const user = await getClerkWithDb()
   if (!user) {
-    return redirect('/sign-up')
+     redirect('/sign-up')
   }
 
   if (!params.memoryId) {

@@ -626,5 +626,43 @@
         "task": "xxx"
       }
     ]
+  },
+  {
+    "order": 16,
+    "isVisible": false,
+    "title": "XXXXX",
+    "subtitle": "With examples from XXXXX",
+    "slug": "16",
+    "canonicalUrl": "xxx",
+    "url": "XXXXX",
+    "categorySlug": "the-book",
+    "categoryTitle": "The Book",
+    "snippets": [
+      {
+        "order": 1,
+        "heading": "xxx",
+        "content": "xxx",
+        "task": "xxx"
+      }
+    ]
+  },
+  {
+    "order": 17,
+    "isVisible": false,
+    "title": "XXXXX",
+    "subtitle": "With examples from XXXXX",
+    "slug": "17",
+    "canonicalUrl": "xxx",
+    "url": "XXXXX",
+    "categorySlug": "interview-prep",
+    "categoryTitle": "Interview Prep",
+    "snippets": [
+      {
+        "order": 1,
+        "heading": "xxx",
+        "content": "xxx",
+        "task": "xxx"
+      }
+    ]
   }
 ]

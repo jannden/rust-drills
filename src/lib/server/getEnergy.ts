@@ -25,9 +25,6 @@ export async function getEnergy(isAdmin: boolean, userId: string): Promise<Energ
           gte: DateTime.now().minus({ days: 1 }).toJSDate(),
         },
       },
-      include: {
-        user: true,
-      },
       orderBy: {
         createdAt: 'desc',
       },

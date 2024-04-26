@@ -16,7 +16,7 @@ const ModalBody = <p className="text-sm text-gray-500">Buy more energy...</p>
 export default async function EnergyPage() {
   const user = await getClerkWithDb()
   if (!user) {
-    return redirect('/sign-up')
+     redirect('/sign-up')
   }
 
   const prompts = await prisma.prompt.findMany({

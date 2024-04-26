@@ -141,13 +141,17 @@ We are saving additional details in the DB for the possibility of future improve
 
 ## Prisma Migrations
 
+Important - based on which filename you use for your env variables, you might need to prefix any `prisma` command with: `dotenv -e .env.local --`.
+
 ### The Process of Switching to Migrations
 
 During the prototyping phase, simply use the `prisma push --force-reset` command to force any Prisma Schema changes to the database.
 
+If you already have a database you want to use, then run `prisma db pull` to create Prisma Model.
+
 When first switching from push to migrations, use the `prisma migrate dev --name init` command to create a new migration SQL file from the Prisma Model.
 
-If you already have a database you want to use, then run `prisma db pull` to create Prisma Model, `mkdir -p prisma/migrations/0_init` to create folder for the first migration and run the following script to create the migration file:
+Create folder `mkdir -p prisma/migrations/0_init` for the first migration and run the following script to create the migration file:
 
 ```bash
 npx prisma migrate diff \
@@ -159,8 +163,6 @@ npx prisma migrate diff \
 Then you can run `prisma migrate resolve --applied 0_init` to tell Prisma that the database is already in the state of the `0_init` migration.
 
 ### Using Migrations
-
-Important - based on which filename you use for your env variables, you might need to prefix any `prisma` command with: `dotenv -e .env.local --`.
 
 Modify the Prisma Schema and then use the `prisma migrate dev --name <given-name>` command (adjusting given name) to create a new migration SQL file and automatically apply it to the local database.On Vercel, the migrations will be applied with the `prisma migrate deploy` command.
 

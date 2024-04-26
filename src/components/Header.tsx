@@ -3,31 +3,32 @@
 import { useEffect } from 'react'
 import Link from 'next/link'
 import { useUser } from '@clerk/nextjs'
+import LogRocket from 'logrocket'
+import setupLogRocketReact from 'logrocket-react'
 
 import { useMounted } from '@/lib/hooks/use-mounted'
 import Logo from '@/components/Logo'
 import UserAvatar from '@/components/UserAvatar'
-import LogRocket from 'logrocket'
-import setupLogRocketReact from 'logrocket-react'
+import { env } from '@/env.mjs'
 
 export default function Header() {
   const mounted = useMounted()
   const { isLoaded, user } = useUser()
 
-
+  // LogRocket
   useEffect(() => {
     if (!isLoaded || !mounted) return
     if (process.env.NODE_ENV === 'development') return
-    if (typeof window !== 'undefined') {
-      LogRocket.init('wwsywf/rust-drills')
+    if (typeof window === 'undefined') return
 
-      if (user?.emailAddresses?.[0]?.emailAddress) {
-        LogRocket.identify(user.emailAddresses[0].emailAddress)
-      }
+    LogRocket.init(env.NEXT_PUBLIC_LOGROCKET_SITE_ID)
 
-      if (typeof setupLogRocketReact === 'function') {
-        setupLogRocketReact(LogRocket)
-      }
+    if (user?.emailAddresses?.[0]?.emailAddress) {
+      LogRocket.identify(user.emailAddresses[0].emailAddress)
+    }
+
+    if (typeof setupLogRocketReact === 'function') {
+      setupLogRocketReact(LogRocket)
     }
   }, [mounted, user?.emailAddresses, isLoaded])
 
