@@ -12,7 +12,8 @@ import DialogueForm from './DialogueForm'
 import { StoryMessage } from './page'
 import UserAvatar from '@/components/UserAvatar'
 import Alert, { AlertVariant } from '@/components/Alert'
-import { CircleAlert } from 'lucide-react'
+import { CircleAlert, Hourglass } from 'lucide-react'
+import { ClerkLoaded, ClerkLoading, useUser } from '@clerk/nextjs'
 
 export const codify = (content: string) => {
   return content.startsWith('```') ? content : '```rust\n' + content + '\n```'
@@ -31,6 +32,7 @@ export default function Chat({
   promptId: string
   initialMessages: StoryMessage[]
 }) {
+  const user = useUser()
   const [errorMessage, setErrorMessage] = useState('')
 
   const {
@@ -162,8 +164,12 @@ export default function Chat({
               <Alert variant={AlertVariant.Red} message={errorMessage} />
             </div>
           )}
+          <div className="flex items-center gap-3 my-6 sm:hidden">
+            <UserAvatar />
+            <div className="flex-1 text-sm font-medium text-gray-900">{user.user?.firstName}</div>
+          </div>
           <div className="mt-6 flex gap-x-3">
-            <div className="relative">
+            <div className="hidden sm:block">
               <div className="flex rounded-full bg-white ring-8 ring-white">
                 <UserAvatar />
               </div>

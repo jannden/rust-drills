@@ -33,7 +33,6 @@ const config: Config = {
               padding: '0.1rem 0.25rem',
               fontFamily: 'var(--font-mono)',
               fontWeight: '400 !important',
-              textWrap: 'wrap',
             },
             'code::before': {
               content: null,

@@ -1,10 +1,8 @@
 'use server'
 
 import { ToastContainer } from 'react-toastify'
-import Script from 'next/script'
 import { ClerkProvider } from '@clerk/nextjs'
 
-import { env } from '@/env.mjs'
 import { cn } from '@/lib/utils'
 import { fontDmSans, fontMono, fontSans } from '@/lib/fonts'
 import Header from '@/components/Header'

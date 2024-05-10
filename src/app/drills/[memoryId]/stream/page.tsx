@@ -128,8 +128,7 @@ export default async function ChatDetailPage({ params }: Props) {
   return (
     <div className="pb-12">
       <Heading
-        heading={memory.snippet.heading}
-        description={memory.snippet.deck.subtitle}
+        heading={`Drilling ${memory.snippet.heading}`}
         back={`/decks/${memory.snippet.deck.slug}#${memory.snippet.id}`}
       />
       <Chat

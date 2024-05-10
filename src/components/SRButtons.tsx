@@ -85,9 +85,9 @@ export default function SRButtons({
 
   if (isLearned) {
     return (
-      <div className="flex flex-row flex-wrap gap-6 lg:flex-col">
-        <div className="rounded bg-green-100 px-3 py-2 text-center">
-          <p className="text-sm text-green-600">Is learned.</p>
+      <div className="flex flex-row flex-wrap gap-6 lg:flex-col items-center lg:items-stretch">
+        <div className="rounded bg-green-100 px-3 py-2 text-center text-xs text-green-600 uppercase">
+          <p>Learned</p>
         </div>
 
         <Button variant={ButtonVariant.Secondary} type={ButtonType.Button} onClick={handleUndo} disabled={loading}>
@@ -102,26 +102,26 @@ export default function SRButtons({
 
   if (isScheduled) {
     return (
-      <div className="rounded bg-stone-100 px-3 py-2 text-center">
-        <p className="text-sm text-slate-600">Repeat at:</p>
-        <p className="text-sm text-slate-600">{formatDate(scheduledDate).hours}</p>
-        <p className="text-sm text-slate-600">{formatDate(scheduledDate).days}</p>
+      <div className="rounded bg-stone-100 px-3 py-2 text-center text-xs text-slate-600 uppercase">
+        <p>Scheduled</p>
+        <p>{formatDate(scheduledDate).hours}</p>
+        <p>{formatDate(scheduledDate).days}</p>
       </div>
     )
   }
 
   return (
-    <div className="flex flex-row flex-wrap gap-6 lg:flex-col">
+    <div className="flex flex-row flex-wrap gap-6 lg:flex-col items-center lg:items-stretch">
       {isOverdue && (
-        <div className="rounded bg-orange-100 px-3 py-2 text-center">
+        <div className="rounded bg-orange-100 px-3 py-2 text-center text-xs text-orange-600">
           {showPlannedDate ? (
             <>
-              <p className="text-sm text-orange-600">Overdue:</p>
-              <p className="text-sm text-orange-600">{formatDate(scheduledDate).hours}</p>
-              <p className="text-sm text-orange-600">{formatDate(scheduledDate).days}</p>
+              <p>Overdue</p>
+              <p>{formatDate(scheduledDate).hours}</p>
+              <p>{formatDate(scheduledDate).days}</p>
             </>
           ) : (
-            <p className="text-sm text-orange-600">Is overdue for repetition.</p>
+            <p>Overdue</p>
           )}
         </div>
       )}

@@ -1,13 +1,6 @@
 'use server'
 
-import { Prisma, Role } from '@prisma/client'
-
-import { prisma } from '@/lib/prisma'
-import { deckLocalImages } from '@/lib/config/decks'
-import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
 import ListOfDecks from '@/components/ListOfDecks'
-import ListOfCategories from '@/components/ListOfCategories'
-import WelcomeMessage from '@/components/WelcomeMessage'
 import Heading from '@/components/Heading'
 import { categories } from '@/lib/config/content'
 import { notFound } from 'next/navigation'
