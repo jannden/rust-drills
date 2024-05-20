@@ -18,6 +18,14 @@ docker-compose up -d --remove-orphans --no-start
 
 Then start whichever database you need.
 
+### Global dependencies
+
+```bash
+bun install --global dotenv-cli
+bun install --global prisma
+bun install --global tsx
+```
+
 ### Install project dependencies
 
 Make sure you have NodeJS >= 20 and [BUN](https://bun.sh/) installed.
@@ -26,14 +34,6 @@ Install with:
 
 ```bash
 bun install
-```
-
-### Global dependencies
-
-```bash
-npm install -g dotenv-cli
-npm install -g prisma
-npm install -g tsx
 ```
 
 ### Schema Migrations

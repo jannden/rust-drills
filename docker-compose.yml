@@ -1,15 +1,7 @@
 version: '3'
 
 services:
-  database_sh:
-    container_name: sh
-    image: 'postgres:latest'
-    ports:
-      - 5432:5432
-    env_file:
-      - .env.local # must have POSTGRES_USER, POSTGRES_PASSWORD,POSTGRES_DB
-  database_rd:
-    container_name: rd
+  database:
     image: 'postgres:latest'
     ports:
       - 5432:5432
