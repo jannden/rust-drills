@@ -20,13 +20,13 @@ export const codify = (content: string) => {
 }
 
 export default function Chat({
-  deckId,
+  deckSlug,
   snippetId,
   memoryId,
   promptId,
   initialMessages,
 }: {
-  deckId: string
+  deckSlug: string
   snippetId: string
   memoryId: string
   promptId: string
@@ -34,6 +34,7 @@ export default function Chat({
 }) {
   const user = useUser()
   const [errorMessage, setErrorMessage] = useState('')
+  const [energyTimestamp, setEnergyTimestamp] = useState<number>(Date.now())
 
   const {
     reload,
@@ -113,6 +114,8 @@ export default function Chat({
       } catch (error) {
         setErrorMessage(`error: ${error}`)
       }
+
+      setEnergyTimestamp(Date.now())
     },
   })
 
@@ -177,7 +180,7 @@ export default function Chat({
             {!!messages?.find(
               (m) => m.role === 'assistant' && m.content?.includes('We finished drilling this one!')
             ) ? (
-              <Button type={ButtonType.Link} variant={ButtonVariant.Primary} href={`/decks/${deckId}#${snippetId}`}>
+              <Button type={ButtonType.Link} variant={ButtonVariant.Primary} href={`/decks/${deckSlug}#${snippetId}`}>
                 Back to drills
               </Button>
             ) : (
@@ -186,6 +189,7 @@ export default function Chat({
                 input={input}
                 handleInputChange={handleInputChange}
                 isLoadingContent={isLoadingContent}
+                energyTimestamp={energyTimestamp}
               />
             )}
           </div>

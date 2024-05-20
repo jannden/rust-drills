@@ -132,7 +132,7 @@ export default async function ChatDetailPage({ params }: Props) {
         back={`/decks/${memory.snippet.deck.slug}#${memory.snippet.id}`}
       />
       <Chat
-        deckId={memory.snippet.deckId}
+        deckSlug={memory.snippet.deck.slug}
         snippetId={memory.snippet.id}
         memoryId={memory.id}
         promptId={promptId}

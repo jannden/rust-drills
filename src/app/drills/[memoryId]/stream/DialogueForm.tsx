@@ -1,6 +1,6 @@
 'use client'
 
-import { FormEvent, ChangeEvent } from 'react'
+import { FormEvent, ChangeEvent, useState } from 'react'
 import { Loader2, Zap } from 'lucide-react'
 
 import Button, { ButtonType, ButtonVariant } from '@/components/Button'
@@ -14,9 +14,16 @@ interface StoryFormProps {
   isLoadingContent: boolean
   input: string
   handleInputChange: (e: ChangeEvent<HTMLTextAreaElement>) => void
+  energyTimestamp: number
 }
 
-export default function DialogueForm({ handleSubmit, isLoadingContent, input, handleInputChange }: StoryFormProps) {
+export default function DialogueForm({
+  handleSubmit,
+  isLoadingContent,
+  input,
+  handleInputChange,
+  energyTimestamp,
+}: StoryFormProps) {
   const { formRef, onKeyDown } = useCtrlEnterSubmit()
 
   return (
@@ -41,7 +48,7 @@ export default function DialogueForm({ handleSubmit, isLoadingContent, input, ha
           )}
           Submit
         </Button>
-        <Energy energyTimestamp={Date.now()} />
+        <Energy energyTimestamp={energyTimestamp} />
       </div>
     </form>
   )
