@@ -5,30 +5,8 @@ import { revalidatePath } from 'next/cache'
 
 import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
 import { Role } from '@prisma/client'
-import { reset, update } from '../../../prisma/seedScripts'
 import { env } from '@/env.mjs'
 import { prisma } from '@/lib/prisma'
-
-export async function updateSnippets(formData: FormData) {
-  console.log('Updating snippets...')
-  const user = await getClerkWithDb()
-  if (!user || user.db.role !== Role.ADMIN) {
-    return { ok: false, message: `Not admin` }
-  }
-
-  try {
-    if (!!formData.get('reset')) {
-      await reset()
-    } else {
-      await update()
-    }
-  } catch (error) {
-    return { ok: false, message: `Failed ${error}` }
-  }
-
-  revalidatePath('/')
-  return { ok: true, message: 'Update complete.' }
-}
 
 export async function toggleAdmin() {
   console.log('Toggling admin...')
