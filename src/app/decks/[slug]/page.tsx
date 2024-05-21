@@ -13,18 +13,20 @@ type Props = {
 }
 
 export default async function Deck({ params }: Props) {
-  const allDecks = categories.flatMap((category) => category.decks)
-  const deck = allDecks.find((deck) => deck.slug === params.slug)
-  if (!deck) {
-    return <Alert message="Deck not found." variant={AlertVariant.Red} />
-  }
+const deck = categories
+  .flatMap((category) => category.decks.map((deck) => ({ ...deck, categorySlug: category.slug })))
+  .find((deck) => deck.slug === params.slug)
+
+if (!deck) {
+  return <Alert message="Deck not found." variant={AlertVariant.Red} />
+}
 
   return (
     <>
       <Heading
         heading={`${deck.title}: ${deck.title}`}
         description={deck.subtitle}
-        back={`/categories/${params.slug}`}
+        back={`/categories/${deck.categorySlug}`}
       />
 
       {deck.snippets.map((snippet) => (

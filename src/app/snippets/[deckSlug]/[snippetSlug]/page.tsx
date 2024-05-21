@@ -1,15 +1,14 @@
 'use server'
 
 import React from 'react'
-import { redirect } from 'next/navigation'
-import { DateTime } from 'luxon'
+import { RedirectType, redirect } from 'next/navigation'
 
 import { prisma } from '@/lib/prisma'
-import { algorithmDefaults } from '@/lib/config/sr'
 import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
 import Alert, { AlertVariant } from '@/components/Alert'
 import { getSnippetBySlugs } from '@/lib/server/getBySlugs'
 import { Memory } from '@prisma/client'
+import { revalidatePath } from 'next/cache'
 
 type Props = {
   params: {
@@ -41,26 +40,27 @@ export default async function DrillingSnippet({ params }: Props) {
   }
 
   if (memory) {
-    redirect(`/drills/${memory?.id}`)
+    redirect(`/drills/${memory.id}`, RedirectType.replace)
   }
 
+  let newMemory: Memory
   try {
-    const newMemory = await prisma.memory.create({
+    newMemory = await prisma.memory.create({
       data: {
         snippetSlug: snippet.snippetSlug,
         deckSlug: snippet.deckSlug,
         userId: user.db.id,
         openaiChat: [],
-        interval: algorithmDefaults.interval,
-        repetition: algorithmDefaults.repetition,
-        eFactor: algorithmDefaults.eFactor,
-        dateTimePlanned: DateTime.utc().toISO(),
+        interval: null,
+        repetition: null,
+        eFactor: null,
+        dateTimePlanned: null,
       },
     })
-    console.log('attempting to redirect to', `/drills/${newMemory.id}`)
-    redirect(`/drills/${newMemory.id}`)
+    revalidatePath(`/snippets/${params.deckSlug}/${params.snippetSlug}`)
   } catch (e) {
     console.error(e)
     return <Alert message="Error creating memory." variant={AlertVariant.Red} />
   }
+  redirect(`/drills/${newMemory.id}`, RedirectType.replace)
 }

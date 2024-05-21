@@ -104,14 +104,14 @@ model Memory {
   openaiThreadId String?
   openaiChat     Json?
 
-  repetition       Int
-  eFactor          Decimal @db.Decimal(4, 2)
-  interval         Decimal @db.Decimal(9, 5)
+  repetition       Int?
+  eFactor          Decimal? @db.Decimal(4, 2)
+  interval         Decimal? @db.Decimal(9, 5)
   numberOfMistakes Int[]
-  isLearned        Boolean @default(false)
+  isLearned        Boolean  @default(false)
 
   dateTimeRepeated    DateTime?
-  dateTimePlanned     DateTime
+  dateTimePlanned     DateTime?
   dateTimeLastMistake DateTime?
   dateTimeClaimed     DateTime?
 

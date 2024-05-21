@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Memory" ALTER COLUMN "interval" DROP NOT NULL,
+ALTER COLUMN "repetition" DROP NOT NULL,
+ALTER COLUMN "eFactor" DROP NOT NULL,
+ALTER COLUMN "dateTimePlanned" DROP NOT NULL;
