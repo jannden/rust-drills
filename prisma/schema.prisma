@@ -93,45 +93,12 @@ model SignIn {
   createdAt DateTime @default(now())
 }
 
-model Deck {
-  id String @id @default(cuid())
-
-  order     Int
-  isVisible Boolean @default(false)
-
-  title        String
-  subtitle     String
-  url          String
-  canonicalUrl String
-  slug         String
-
-  categoryTitle String?
-  categorySlug  String?
-
-  snippets Snippet[]
-
-  @@unique([slug])
-}
-
-model Snippet {
-  id String @id @default(cuid())
-
-  deckId String
-  order  Int
-
-  heading String
-  content String
-  task    String
-
-  deck     Deck     @relation(fields: [deckId], references: [id], onDelete: Cascade)
-  memories Memory[]
-}
-
 model Memory {
   id String @id @default(cuid())
 
-  userId    String
-  snippetId String
+  userId      String
+  deckSlug    String
+  snippetSlug String
 
   openaiThreadId String?
   openaiChat     Json?
@@ -151,6 +118,7 @@ model Memory {
   createdAt DateTime @default(now())
 
   user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  snippet Snippet  @relation(fields: [snippetId], references: [id], onDelete: Cascade)
   prompts Prompt[]
+
+  @@unique([userId, deckSlug, snippetSlug])
 }
