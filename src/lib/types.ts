@@ -86,3 +86,9 @@ export type CardDetails = {
   dateTimePlanned: Date | null
   memoryStrength: MemoryStrength | null
 }
+
+export enum ContentVariant {
+  explanation = 'explanation',
+  task = 'task',
+  snippet = 'snippet',
+}

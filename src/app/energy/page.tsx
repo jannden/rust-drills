@@ -10,13 +10,15 @@ import { redirect } from 'next/navigation'
 import { defaultAI } from '@/lib/config/ai'
 import { prisma } from '@/lib/prisma'
 import { calculateTotalTokens } from '@/lib/utils'
+import { getSnippetBySlugs } from '@/lib/server/getBySlugs'
+import { categories } from '@/lib/config/content'
 
 const ModalBody = <p className="text-sm text-gray-500">Buy more energy...</p>
 
 export default async function EnergyPage() {
   const user = await getClerkWithDb()
   if (!user) {
-     redirect('/sign-up')
+    redirect('/sign-up')
   }
 
   const prompts = await prisma.prompt.findMany({
@@ -30,16 +32,29 @@ export default async function EnergyPage() {
       createdAt: 'desc',
     },
     include: {
-      memory: {
-        include: {
-          snippet: {
-            include: {
-              deck: true,
-            },
-          },
-        },
-      },
+      memory: true,
     },
+  })
+
+  const enhancedPrompts = prompts.map((p) => {
+    const allDecks = categories.flatMap((category) => category.decks)
+    const deckTitle = allDecks.find((deck) => deck.slug === p.memory?.deckSlug)?.title ?? ''
+    const allSnippetsWithDeckSlug = allDecks.flatMap((deck) =>
+      deck.snippets.map((snippet) => ({ heading: snippet.heading, snippetSlug: snippet.slug, deckSlug: deck.slug }))
+    )
+    const snippetHeading =
+      allSnippetsWithDeckSlug.find(
+        (snippet) => snippet.deckSlug === p.memory?.deckSlug && snippet.snippetSlug === p.memory?.snippetSlug
+      )?.heading ?? ''
+
+    return {
+      ...p,
+      memory: {
+        ...p.memory,
+        deckTitle,
+        snippetHeading,
+      },
+    }
   })
 
   const dailyLimit = user.db.role === 'ADMIN' ? defaultAI.adminEnergy : defaultAI.dailyEnergy
@@ -94,16 +109,14 @@ export default async function EnergyPage() {
           </thead>
 
           <tbody className="divide-y divide-gray-200 bg-white">
-            {prompts.map((prompt) => (
+            {enhancedPrompts.map((prompt) => (
               <tr key={prompt.id}>
-                <td className="hidden px-3 text-sm text-gray-500 lg:table-cell">
-                  {prompt.memory?.snippet?.deck?.title}
-                </td>
+                <td className="hidden px-3 text-sm text-gray-500 lg:table-cell">{prompt.memory?.deckTitle}</td>
                 <td className="w-full px-3 text-sm font-medium text-gray-900">
-                  {prompt.memory?.snippet?.heading}
+                  {prompt.memory?.snippetHeading}
                   <dl className="font-normal lg:hidden">
                     <dt className="sr-only">Name</dt>
-                    <dd className="mt-1 truncate text-gray-700">{prompt.memory?.snippet?.deck?.title}</dd>
+                    <dd className="mt-1 truncate text-gray-700">{prompt.memory?.deckTitle}</dd>
                     <dt className="sr-only sm:hidden">Date</dt>
                     <dd className="mt-1 truncate text-gray-500 sm:hidden">
                       {DateTime.fromJSDate(prompt.createdAt).toLocaleString(DateTime.DATETIME_SHORT)}

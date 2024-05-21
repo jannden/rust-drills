@@ -8,7 +8,8 @@ import Heading from '@/components/Heading'
 import ButtonSignOut from '@/components/ButtonSignOut'
 import Button, { ButtonType, ButtonVariant } from '@/components/Button'
 import { prisma } from '@/lib/prisma'
-import Snippet, { SnippetType } from '@/components/Snippet'
+import Snippet from '@/components/Snippet'
+import { categories } from '@/lib/config/content'
 
 export default async function Profile() {
   const user = await getClerkWithDb()
@@ -24,51 +25,46 @@ export default async function Profile() {
         lt: DateTime.now().toJSDate(),
       },
     },
-    include: {
-      snippet: {
-        include: {
-          deck: true,
-        },
-      },
-    },
-    orderBy: [
-      { dateTimePlanned: 'asc' },
-      {
-        snippet: {
-          deckId: 'asc',
-        },
-      },
-    ],
+    orderBy: [{ dateTimePlanned: 'asc' }],
   })
 
-  const overdueDecksWithSnippets = overdueMemories.reduce(
+  const overdueMemoriesInDecks = overdueMemories.reduce(
     (acc, memory) => {
-      const deck = acc.find((deck) => deck.id === memory.snippet.deck.id)
-      const tempSnip = {
-        id: memory.snippet.id,
-        heading: memory.snippet.heading,
-        content: memory.snippet.content,
-        dateTimePlanned: memory.dateTimePlanned,
-        isLearned: memory.isLearned,
-        showPlannedDate: true,
+      const allDecks = categories.flatMap((category) => category.decks)
+      const deck = allDecks.find((deck) => deck.slug === memory.deckSlug)
+      if (!deck) {
+        return acc
       }
-      if (deck) {
-        deck.snippets.push(tempSnip)
+
+      const existingDeck = acc.find((d) => d.slug === deck.slug)
+      if (existingDeck) {
+        existingDeck.memories.push({
+          id: memory.id,
+          deckSlug: memory.deckSlug,
+          snippetSlug: memory.snippetSlug,
+        })
       } else {
         acc.push({
-          id: memory.snippet.deck.id,
-          title: memory.snippet.deck.title,
-          snippets: [tempSnip],
+          slug: deck.slug,
+          title: deck.title,
+          memories: [
+            {
+              id: memory.id,
+              deckSlug: memory.deckSlug,
+              snippetSlug: memory.snippetSlug,
+            },
+          ],
         })
       }
+
       return acc
     },
-    [] as { id: string; title: string; snippets: SnippetType[] }[]
+    [] as { slug: string; title: string; memories: { id: string; deckSlug: string; snippetSlug: string }[] }[]
   )
 
   return (
     <>
-      <Heading heading="My Overdue Snippets" className="mb-0">
+      <Heading heading="Overdue Memories" className="mb-0">
         <div className="flex gap-3">
           {user.db.role === 'ADMIN' && (
             <Button type={ButtonType.Link} variant={ButtonVariant.Primary} href="/admin">
@@ -79,16 +75,16 @@ export default async function Profile() {
         </div>
       </Heading>
 
-      {overdueDecksWithSnippets.length === 0 ? (
-        <p className="text-gray-500">No overdue snippets</p>
+      {overdueMemoriesInDecks.length === 0 ? (
+        <p className="text-gray-500">No overdue memories</p>
       ) : (
         <div className="grid grid-cols-1 gap-4">
-          {overdueDecksWithSnippets.map((deck) => (
-            <div key={deck.id}>
+          {overdueMemoriesInDecks.map((deck) => (
+            <div key={deck.slug}>
               <hr className="pb-8" />
               <Heading heading={deck.title} />
-              {deck.snippets.map((snippet) => (
-                <Snippet key={snippet.id} snippet={snippet} />
+              {deck.memories.map((memory) => (
+                <Snippet key={memory.id} deckSlug={memory.deckSlug} snippetSlug={memory.snippetSlug} />
               ))}
             </div>
           ))}
