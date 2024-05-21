@@ -1,0 +1,26 @@
+Like the enduring struggle for Arrakis, infinite loops run indefinitely unless an escape condition is met.
+
+Paul sets up an infinite surveillance loop to guard against sandworm attacks:
+
+```rust
+fn main() {
+  loop {
+    // Check for sandworm activity
+    if check_for_sandworms() {
+      println!("Sandworm detected! Initiating defense protocols.");
+      break; // Break out of the loop if a sandworm is detected
+    } else {
+      println!("No sandworm activity. Continuing surveillance.");
+    }
+  }
+}
+
+// Dummy function to simulate sandworm detection
+fn check_for_sandworms() -> bool {
+  // In a real program, this would involve some condition check
+  // For illustration, it randomly returns true or false
+  rand::random()
+}
+```
+
+Here, an infinite `loop` runs surveillance until `sandworm_alert` becomes true, at which point the loop is exited using `break`.

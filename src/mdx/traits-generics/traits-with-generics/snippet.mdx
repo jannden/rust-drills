@@ -1,0 +1,28 @@
+```rust
+// Define a trait with behavior
+trait YourTrait {
+    fn action(&self);
+}
+
+// Define a generic struct implementing the trait
+struct YourStruct<T> {
+    entity: T,
+}
+
+impl<T> YourTrait for YourStruct<T> {
+    fn action(&self) {
+        // Define behavior here
+    }
+}
+
+// Define a function to operate on the trait
+fn operate<T: YourTrait>(item: T) {
+    item.action();
+}
+
+fn main() {
+    let instance = YourStruct { entity: "Your Entity" };
+    operate(instance);
+}
+
+```

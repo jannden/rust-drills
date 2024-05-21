@@ -1,0 +1,17 @@
+As alliances are formed in Middle-Earth, bringing together different factions for a common purpose, Rust allows the combination of Vectors using the `extend` method. It sounds similar to `concat`, but the difference is that we append all elements of one Vector to another, enhancing the first Vector without creating a new one.
+
+Imagine the armies of Elves and Dwarves joining the forces of Aragorn to stand united against the forces of darkness.
+
+```rust
+fn main() {
+    let mut army_of_men = vec!["Aragorn"];
+    let elves_and_dwarves = vec!["Legolas", "Gimli"];
+
+    // The Elves and Dwarves join the coalition
+    army_of_men.extend(elves_and_dwarves);
+
+    println!("United Army: {:?}", army_of_men);
+}
+```
+
+The `extend` method adds the elements of `elves_and_dwarves` into `army_of_men`.

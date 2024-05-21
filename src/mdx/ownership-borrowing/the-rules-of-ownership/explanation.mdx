@@ -1,0 +1,21 @@
+There are three core rules of ownership in Rust:
+
+1. Each value in Rust has a variable that's called its owner.
+2. There can only be one owner at a time.
+3. When the owner goes out of scope, the value will be dropped.
+
+Include a code snippet in your explanation where each rule is illustrated through variable assignments and scope changes.
+
+```rust
+// Rule 1: Each value in Rust has a variable that's called its owner
+let owner1 = "Some value";
+
+// Rule 2: There can only be one owner at a time
+let owner2 = owner1; // Now owner2 is the owner, and owner1 no longer has access
+
+// Rule 3: When the owner goes out of scope, the value will be dropped
+{
+    let owner3 = "Another value";
+    // owner3 is in scope
+} // owner3 goes out of scope here, and "Another value" is dropped
+```

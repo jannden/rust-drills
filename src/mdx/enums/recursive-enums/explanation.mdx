@@ -1,0 +1,21 @@
+Recursive enums allow for the definition of data structures that can contain themselves. This is particularly useful for creating tree-like structures, such as abstract syntax trees in compilers or various hierarchical models.
+
+```rust
+enum MatrixComponent {
+    Node(String, Vec<MatrixComponent>),
+    Leaf(String),
+}
+
+fn main() {
+    let system = MatrixComponent::Node("Root".to_string(), vec![
+        MatrixComponent::Leaf("Leaf 1".to_string()),
+        MatrixComponent::Node("Node 1".to_string(), vec![
+            MatrixComponent::Leaf("Leaf 2".to_string()),
+            MatrixComponent::Leaf("Leaf 3".to_string()),
+        ]),
+    ]);
+    // We now have a recursive enum that contains itself over and over...
+}
+```
+
+This example represents a hierarchical structure (using a recursive enum) such as the layered reality of the Matrix.

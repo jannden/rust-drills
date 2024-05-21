@@ -1,0 +1,23 @@
+Mutable borrowing allows the original to be modified without giving away the ownership of it.
+
+Important: Only one person can take the pen and adjust the document at a time and nobody can observe while the change is being made.
+
+Mutable borrowing is made with the `&mut` symbol.
+
+For example, the team decides to make a last-minute change to the plan. Basher takes the initiative:
+
+```rust
+fn main() {
+    let mut heist_plan = String::from("The Heist Plan");
+
+    let basher_will_modify = &mut heist_plan; // Basher will modify the plan
+
+    basher_will_modify.push_str(" with a Twist");
+
+    println!("Updated Original: {:?}", heist_plan);
+}
+```
+
+Now, `basher_will_modify` is a mutable reference to `heist_plan`, allowing Basher to modify it. The original must also be mutable, so notice we defined it with `let mut heist_plan`.
+
+No one else can borrow `heist_plan` while it's being changed because of the Rules of Borrowing.

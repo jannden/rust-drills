@@ -1,0 +1,21 @@
+When we want to group related values, structs come really handy.
+
+For example, we can define each great house in the *Game of Thrones* with some specific attributes, such as name and region.
+
+```rust
+struct House {
+  name: String,
+  region: String,
+}
+
+fn main() {
+  let house_stark = House {
+    name: String::from("Stark"),
+    region: String::from("The North"),
+  };
+
+  println!("House {} of {}", house_stark.name, house_stark.region);
+}
+```
+
+We defined a noble house in Westeros as a `House` struct with fields for `name` and `region`.

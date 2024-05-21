@@ -1,0 +1,17 @@
+In Middle-Earth, certain allies and enemies may leave the journey, just as elements can be removed from a Vector in Rust.
+
+Consider a scenario where the Fellowship must part ways with one of its members.
+
+```rust
+fn main() {
+    let mut fellowship = vec!["Frodo", "Sam", "Gandalf", "Aragorn", "Legolas", "Gimli", "Boromir"];
+
+    // Boromir's departure
+    let departed = fellowship.pop(); // Removes the last element
+
+    println!("Departed member: {:?}", departed);
+    println!("Remaining Fellowship: {:?}", fellowship);
+}
+```
+
+The `pop` method removes the last element of the Vector. It returns an `Option`, which is `Some(value)` if an element was removed, or `None` if the Vector was empty, reflecting the uncertainty of partings in Middle-Earth.

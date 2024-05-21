@@ -1,0 +1,18 @@
+Just as starships return with valuable data or cargo, functions in Rust can return values after execution.
+
+Imagine sending a reconnaissance mission to find a new base for the Rebel Alliance.
+
+```rust
+// Function returning the location of a new base
+fn scout_for_base() -> String {
+  "Yavin IV".to_string()
+}
+
+fn main() {
+  // Function returning a value
+  let base_location = scout_for_base();
+  println!("New Rebel base located at: {}", base_location);
+}
+```
+
+The function `scout_for_base` returns a `String` containing the location of a new base, similar to a successful scouting mission in "Star Wars."

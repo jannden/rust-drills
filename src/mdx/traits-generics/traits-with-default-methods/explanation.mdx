@@ -1,0 +1,22 @@
+Thomas and Arthur are special, but some characters are mundane and don't have their own way of expressing themselves. We can set a default implementation for the `speak` method for such cases.
+
+```rust
+// This trait defines how to speak and sets the default implementation
+trait Shelby {
+    fn speak(&self) {
+        // Default implementation
+        println!("How are ya?");
+    }
+}
+
+struct FinnShelby;
+
+impl Shelby for FinnShelby {}
+
+fn main() {
+    let finn = FinnShelby;
+    finn.speak();
+}
+```
+
+In this example, `FinnShelby` utilizes the default implementation of the `speak` method from the `Shelby` trait, showing how traits can provide common functionality to different types.

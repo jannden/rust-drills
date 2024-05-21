@@ -1,0 +1,39 @@
+In Rust, a Trait is like a person's character. It defines a set of behaviors (methods) that can be implemented.
+
+Every person has certain abilities (such as speaking) but each does them differently. Similarly, Rust Traits define what a type must do, but not how to do it.
+
+Imagine defining the traits of the Shelby family members.
+
+```rust
+// This trait defines how to speak but not what to speak
+trait Shelby {
+    fn speak(&self);
+}
+
+struct ThomasShelby;
+
+struct ArthurShelby;
+
+impl Shelby for ThomasShelby {
+    fn speak(&self) {
+        // What Tommy says
+        println!("I'm Thomas Shelby, and this is my business.");
+    }
+}
+
+impl Shelby for ArthurShelby {
+    fn speak(&self) {
+        // What Arthur says
+        println!("I'm Arthur Shelby, and I fight for my family.");
+    }
+}
+
+fn main() {
+    let tommy = ThomasShelby;
+    let arthur = ArthurShelby;
+    tommy.speak();
+    arthur.speak();
+}
+```
+
+As you can see, the `Shelby` trait defines a `speak` method. Both `ThomasShelby` and `ArthurShelby` implement this trait, but each in their way.

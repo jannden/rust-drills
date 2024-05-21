@@ -1,0 +1,24 @@
+Just as Paul must sometimes make abrupt decisions to either continue his journey or retreat, loop controls in Rust alter the flow of loops.
+
+Paul is searching for a hidden water cache in the desert:
+
+```rust
+fn main() {
+  let mut distance_traveled = 0;
+
+  while distance_traveled < 10 {
+    distance_traveled += 1;
+
+    if distance_traveled % 2 == 0 {
+      println!("Continuing search...");
+      continue; // Skipping the rest of this iteration
+    }
+
+    println!("Searching at distance: {}", distance_traveled);
+  }
+
+  println!("Water cache found!");
+}
+```
+
+In this snippet, `continue` skips to the next iteration under certain conditions.

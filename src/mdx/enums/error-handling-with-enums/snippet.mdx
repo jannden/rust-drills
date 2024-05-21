@@ -1,0 +1,19 @@
+```rust
+enum DatabaseError {
+  ConnectionLost,
+  AccessDenied,
+  NotFound,
+  /* TODO: Add a new error type */
+}
+
+fn new_function() -> Result<String, DatabaseError> {
+  // Implement your logic here that might return the new error
+}
+
+fn main() {
+  match new_function() {
+      /* TODO: Handle the new error type along with the existing ones */
+  }
+}
+
+```

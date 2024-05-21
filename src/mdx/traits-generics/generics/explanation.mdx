@@ -1,0 +1,19 @@
+Generics give us the power to write reusable code because we can work with many different data types.
+
+Suppose the Shelbys are planning a new business venture and need a business plan that works with various goods.
+
+```rust
+struct BusinessPlan<T> {
+    goods: T,
+}
+
+fn main() {
+    let whiskey_plan = BusinessPlan { goods: "Whiskey" };
+    let amount_plan = BusinessPlan { goods: 100 };
+
+    println!("Business Plan 1: {}", whiskey_plan.goods);
+    println!("Business Plan 2: {}", amount_plan.goods);
+}
+```
+
+Here, `BusinessPlan<T>` is a generic struct that has a flexible field `goods`. It can take different types, such as string literal `Whiskey` in the first case or a number `100` in the second case.

@@ -1,0 +1,15 @@
+```rust
+// Define a function that uses lifetimes for borrowed values
+fn compare_values<'a>(value1: &'a i32, value2: &'a i32) -> &'a i32 {
+    if value1 > value2 { value1 } else { value2 }
+}
+
+fn main() {
+    let number1 = 10;
+    let number2 = 20;
+
+    let highest = compare_values(&number1, &number2);
+    println!("The highest number is: {}", highest);
+}
+
+```

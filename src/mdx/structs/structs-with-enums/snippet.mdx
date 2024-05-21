@@ -1,0 +1,25 @@
+```rust
+#[derive(Debug)]
+enum YourEnum {
+  /* TODO: Define possible states */
+}
+
+struct YourStruct {
+  /* TODO: Define fields including an enum field */
+}
+
+impl YourStruct {
+  fn change_state(&mut self, new_state: YourEnum) {
+    /* TODO: Change the enum state */
+  }
+}
+
+fn main() {
+  let mut your_instance = YourStruct {
+    /* TODO: Initialize your struct */
+  };
+  your_instance.change_state(/* TODO: Provide a new state */);
+  println!("Your instance is now {:?}", your_instance);
+}
+
+```

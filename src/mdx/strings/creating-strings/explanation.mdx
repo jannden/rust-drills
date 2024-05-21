@@ -1,0 +1,38 @@
+In Rust, strings are a bit like the diverse languages spoken across the Continent in The Witcher. They come in various forms, each with unique characteristics.
+
+Imagine creating a lexicon for Geralt, containing various terms and phrases he encounters in his journey.
+
+```rust
+fn main() {
+  // Create an empty string
+  let mut lexicon = String::new();
+
+  // The string is empty
+  println!("Opening an empty lexicon {}", lexicon);
+
+  // Convert a string literal to a String
+  let phrase = "Witcher";
+  lexicon = phrase.to_string();
+
+  // Print the String
+  println!("Geralt's profession: {}", lexicon);
+
+  // Print the length of the String
+  println!("Number of characters: {}", lexicon.len());
+
+  // Define a String using `from` method
+  let bestiary = String::from("Griffin");
+
+  // Print the String
+  println!("Monster in the Bestiary: {}", bestiary);
+
+  // Print the length of the String
+  println!("Bestiary length: {}", bestiary.len());
+}
+```
+
+As you can see, we used three ways to create a `String`:
+
+-   `String::new()` to create an empty `String`,
+-   `.to_string()` to convert a string slice to a `String`,
+-   `String::from()` to create a `String` from an un-named string slice (string literal).

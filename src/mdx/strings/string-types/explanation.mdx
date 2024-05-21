@@ -1,0 +1,53 @@
+There are three crucial terms we have used in the previous section: `String`, `string slice`, and `string literal`. That might be a bit confusing in the beginning. Let's explore their differences.
+
+**String**
+
+In Rust, when we say string, we usually mean the type `String`. It is like a story told around a campfire in The Witcher's world. It's dynamic, can change over time, and grow as more details are added. Just like how Geralt can add more tales to his adventures, we can add more text to a `String`.
+
+```rust
+fn main() {
+    let mut story = String::from("Geralt rode through the dark forest");
+
+    // Geralt's story is growing as he encounters a Leshen
+    story.push_str(", facing the eerie Leshen");
+    println!("Campfire story: {}", story); // Prints the growing story
+}
+```
+
+In this example, `story` is a mutable `String` type, which means it can be modified after it has been created. We start with Geralt riding through a forest and then add another sentence about an encounter, making the story longer.
+
+**String Slice**
+
+A string slice in Rust is of the type `&str` and it is like a part of the campfire story. It's a reference to a section of the story, not the whole thing. Imagine if you only want to talk about the part where Geralt faces the Leshen, not the entire journey.
+
+```rust
+fn main() {
+    let full_story = String::from(
+        "Geralt rode through the dark forest, facing the eerie Leshen",
+    );
+
+    // Slicing the story from the 38th character to the end
+    let part_of_story = &full_story[37..];
+
+    // Prints the slice of the story
+    println!("Part of the story: {}", part_of_story);
+}
+```
+
+Here, `part_of_story` is a slice of `full_story`. It doesn't contain the whole story but just a fragment, specifically the encounter with the Leshen. Unlike the whole story (`String`), this is just a reference to a part of the original --- and as such cannot be changed.
+
+**String Literal**
+
+Finally, a string literal in Rust is also of the type `&str`, but it is more like a story that has been written down into a chronicle in The Witcher's world. It is fixed and cannot be changed --- immutable and eternal.
+
+```rust
+fn main() {
+    // This story is set in stone
+    let written_story = "Geralt's adventures are known across the lands.";
+
+    // Prints the string literal
+    println!("Written story: {}", written_story);
+}
+```
+
+This `written_story` is a string literal, which means it's a fixed-size string and lives for the entire duration of the program. It's like a tale that has been engraved into history, unchanging and always accessible.

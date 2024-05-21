@@ -1,0 +1,19 @@
+```rust
+// Define a trait with a default method
+trait YourTrait {
+    fn common_behavior(&self) {
+        // Default behavior implementation
+    }
+}
+
+// Define a struct that will use the default method
+struct YourStruct;
+
+impl YourTrait for YourStruct {}
+
+fn main() {
+    let instance = YourStruct;
+    instance.common_behavior();
+}
+
+```

@@ -1,0 +1,19 @@
+Starships can be customized for different missions. Similarly, functions in Rust can take parameters to perform varied tasks.
+
+Let's load specific cargo into the Millennium Falcon using a function with parameters.
+
+```rust
+// Function with parameters to load cargo
+fn load_cargo(cargo: &str, quantity: u32) {
+  println!("Loading {} units of {}", quantity, cargo);
+}
+
+fn main() {
+  // Calling the function with arguments
+  load_cargo("Coaxium", 100);
+}
+```
+
+Here, `cargo` of type `&str` and `quantity` of type `u32` are parameters that allow the `load_cargo` function to be versatile and reusable for different types of cargo.
+
+The specific values we use as parameters such as `"Coaxium"` and `100` are called arguments.

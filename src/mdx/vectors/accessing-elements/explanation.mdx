@@ -1,0 +1,23 @@
+Just as members of the Fellowship have different roles, elements in a Vector can be accessed and utilized differently.
+
+Frodo needs to consult different members of the Fellowship for advice.
+
+```rust
+fn main() {
+  let fellowship = vec!["Gandalf", "Aragorn", "Legolas", "Gimli"];
+
+  // Accessing elements using indexing
+  let wizard = fellowship[3];
+  println!("The wizard in the Fellowship is: {}", wizard);
+
+  // Accessing elements using get method for safety
+  match fellowship.get(3) {
+    Some(member) => println!("The fifth member is: {}", member),
+    None => println!("There is no fifth member."),
+  }
+}
+```
+
+By using `fellowship[3]`, Frodo can access the first element directly. But what if a member with such an index doesn't exist? We would get an error.
+
+On the other hand, the `get` method provides a safer way to access elements because it returns `None` if the index is out of bounds, like seeking a member not present in the Fellowship.

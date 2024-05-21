@@ -1,0 +1,20 @@
+An Enum is a type that can be any one of several variants. It's similar to how Neo must understand his identity: is he Thomas Anderson, a regular software engineer, or Neo, the chosen one?
+
+Imagine a scenario where Morpheus offers Neo a choice between two pills.
+
+```rust
+enum Pill {
+    Red,
+    Blue,
+}
+
+fn main() {
+  let choice = Pill::Red; // Neo chooses the Red pill
+  match choice {
+    Pill::Red => println!("Welcome to the real world."),
+    Pill::Blue => println!("Stay in the dream."),
+  }
+}
+```
+
+Here, the `Pill` enum has two variants: `Red` and `Blue`. Neo's choice is represented by one of these variants. The `match` statement then acts like Morpheus, interpreting Neo's decision.

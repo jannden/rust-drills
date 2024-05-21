@@ -1,0 +1,28 @@
+We can require function parameters to have specific traits.
+
+Let's say we want to make sure that a Shelby family member replies to a greeting from a stranger on the streets of Birmingham. We can make sure that the `meet_and_greet` function accepts only a parameter that implements the `Shelby` trait:
+
+```rust
+trait Shelby {
+    fn speak(&self) {
+        println!("How are ya?");
+    }
+}
+
+struct FinnShelby;
+
+impl Shelby for FinnShelby {}
+
+fn meet_and_greet(shelby: impl Shelby) {
+    println!("Stranger: Nice to meet you!");
+    print!("Shelby: ");
+    shelby.speak();
+}
+
+fn main() {
+    let finn = FinnShelby;
+    meet_and_greet(finn);
+}
+```
+
+In this structure, the `meet_and_greet` function is constrained to accept only those parameters that implement the `Shelby` trait, demonstrating a way to ensure that the function can operate on a specific set of behaviors defined by the trait.

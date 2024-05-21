@@ -1,0 +1,21 @@
+Enums in Rust can also hold data, much like how characters in The Matrix possess unique abilities and attributes.
+
+We can use an enum to represent different agents with distinct powers.
+
+```rust
+enum Agent {
+  Smith { strength: u32 },
+  Brown { speed: u32 },
+}
+
+fn main() {
+  let agent = Agent::Smith { strength: 100 };
+
+  match agent {
+    Agent::Smith { strength } => println!("Agent Smith with strength: {}", strength),
+    Agent::Brown { speed } => println!("Agent Brown with speed: {}", speed),
+  }
+}
+```
+
+In this example, each variant of the `Agent` enum carries different data (`strength` for Smith and `speed` for Brown).

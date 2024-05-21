@@ -1,0 +1,36 @@
+```rust
+trait YourTrait {
+    type YourType;
+
+    fn your_method(&self, param: Self::YourType);
+}
+
+struct YourStruct1;
+
+impl YourTrait for YourStruct1 {
+    type YourType = String;
+
+    fn your_method(&self, param: Self::YourType) {
+        println!("Using YourStruct1 with a String: {}", param);
+    }
+}
+
+struct YourStruct2;
+
+impl YourTrait for YourStruct2 {
+    type YourType = i32;
+
+    fn your_method(&self, param: Self::YourType) {
+        println!("Using YourStruct2 with an integer: {}", param);
+    }
+}
+
+fn main() {
+    let struct1 = YourStruct1;
+    let struct2 = YourStruct2;
+
+    struct1.your_method("a specific task".to_string());
+    struct2.your_method(42);
+}
+
+```

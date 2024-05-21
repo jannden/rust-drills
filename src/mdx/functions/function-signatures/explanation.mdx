@@ -1,0 +1,17 @@
+Function signatures in Rust are like the mission briefings in Star Wars. They outline what a function will do and what it needs, but we wouldn't care about the internals of the function.
+
+If we want to plan a mission to Endor, we need to define what types of resources are needed (parameters of the function) and what the mission will accomplish (return values of the function).
+
+```rust
+fn plan_mission_to_endor(troops: u32, starships: u32) -> String {
+  format!("Sending {} troops and {} starships to Endor.", troops, starships)
+}
+
+fn main() {
+  let mission_plan = plan_mission_to_endor(1000, 5);
+  println!("{}", mission_plan);
+}
+```
+
+A function signature is the name of the function, its parameters, and return values. In our case, the function signature is:
+`fn plan_mission_to_endor(troops: u32, starships: u32) -> String`

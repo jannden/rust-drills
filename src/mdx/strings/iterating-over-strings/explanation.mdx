@@ -1,0 +1,26 @@
+Iterating over strings in Rust can be compared to Geralt exploring different regions of the Continent.
+
+Imagine Geralt coming across a mysterious inscription. He needs to analyze it character by character. This is how we might approach it in Rust using a couple of handy methods:
+
+```rust
+fn main() {
+  let inscription = "Kaer Morhen: Witcher School";
+
+  // Splitting the inscription into words
+  for word in inscription.split_whitespace() {
+    println!("Word: {}", word);
+  }
+
+  // Splitting based on a specific character
+  for part in inscription.split(':') {
+    println!("Part: {}", part.trim());
+  }
+
+  // Iterating over each character
+  for ch in inscription.chars() {
+    println!("Character: {}", ch);
+  }
+}
+```
+
+Here, `split_whitespace`, `split`, and `chars` methods help Geralt break down the inscription into understandable parts. These methods work on both types of strings (`String` and `&str`).

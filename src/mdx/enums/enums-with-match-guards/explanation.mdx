@@ -1,0 +1,29 @@
+Match guards give us the power to do some sensible decision-making processes within enums.
+
+Let's illustrate this with an example where Neo faces different scenarios based on his health status.
+
+```rust
+enum Scenario {
+  Battle,
+  Exploration,
+}
+
+fn match_guard(health: u32) -> Scenario {
+  match health {
+    h if h > 50 => Scenario::Battle,
+    _ => Scenario::Exploration,
+  }
+}
+
+fn main() {
+  let neo_health = 30;
+  let scenario = match_guard(neo_health);
+
+  match scenario {
+    Scenario::Battle => println!("Neo chooses to fight."),
+    Scenario::Exploration => println!("Neo chooses to explore."),
+  }
+}
+```
+
+The `choose_scenario` function uses a match guard (`h if h > 50`) to decide the scenario based on Neo's health. If Neo's health is above 50, he chooses to fight. Otherwise, he opts for exploration.

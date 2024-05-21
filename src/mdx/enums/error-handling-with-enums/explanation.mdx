@@ -1,0 +1,36 @@
+Just as characters in "The Matrix" experience glitches, our code is not resistant to problems either. That's why proper error handling is crucial. Fortunately in Rust, we can elegantly represent possible error states with enums.
+
+Consider a scenario where Neo tries to access a secure database but encounters various errors.
+
+```rust
+enum DatabaseError {
+  ConnectionLost,
+  AccessDenied,
+  NotFound,
+}
+
+fn access_database() -> Result<String, DatabaseError> {
+  if rand::random() {
+      Ok("You are in.".to_string())
+    } else {
+      // Access might be randomly denied
+      Err(DatabaseError::AccessDenied)
+    }
+}
+
+fn main() {
+  match access_database() {
+      Ok(data) => println!("Data retrieved: {}", data),
+      Err(DatabaseError::ConnectionLost) => println!("Error: Connection lost."),
+      Err(DatabaseError::AccessDenied) => println!("Error: Access denied."),
+      Err(DatabaseError::NotFound) => println!("Error: Data not found."),
+  }
+}
+```
+
+The `DatabaseError` enum defines different error types that can occur. The `access_database` function, instead of returning data directly, returns a `Result` type, which is a pre-made enum that can be:
+
+-   `Ok` containing successful data,
+-   `Err` containing error data, which in our case would be an enum variant of `DatabaseError`.
+
+The `match` statement in the `main` function handles these potential errors, similar to how Neo and his allies adapt to the challenges they face.

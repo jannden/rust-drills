@@ -1,0 +1,35 @@
+Combining Traits and Generics brings together the best of both worlds.
+
+Let's expand Shelby's operations to include different types of businesses, each requiring a unique strategy.
+
+```rust
+trait Operation {
+    fn run(&self);
+}
+
+struct Illegal<T> {
+    business: T,
+}
+
+impl<T> Operation for Illegal<T> {
+    fn run(&self) {
+        println!("Running an illegal business.");
+    }
+}
+
+fn operate_business<T: Operation>(business: T) {
+    business.run();
+}
+
+fn main() {
+    let illegal_business = Illegal {
+        business: "Gambling",
+    };
+
+    operate_business(illegal_business);
+}
+```
+
+In this example, the `Operation` trait is implemented for both legal and illegal business types using generics.
+
+Usually, though, traits with generics rely on trait bounds.

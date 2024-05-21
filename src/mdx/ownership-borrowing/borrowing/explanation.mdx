@@ -1,0 +1,37 @@
+Borrowing allows multiple parts of your code to access data without taking ownership. It's like team members sharing the heist plan document without putting it into their pockets and without changing it.
+
+Immutable borrowing is made with the `&` symbol.
+
+Rusty lets other members have a look at the heist plan:
+
+```rust
+fn main() {
+    let rustys_plan = String::from("The Heist Plan");
+
+    let linus_looking = &rustys_plan; // Linus reads the plan
+
+    println!("Plan details: {}", linus_looking);
+}
+```
+
+Here, `linus_looking` is a reference to `rustys_plan`. Linus borrows the plan to read it but doesn't own it nor can he change it.
+
+Let's make Linus more professional and have him explore the plan in a function, again without taking ownership:
+
+```rust
+fn analyze_plan(plan: &str) {
+    println!("Analyzing borrowed plan: {}", plan);
+}
+
+fn main() {
+    let heist_plan = String::from("The Heist Plan");
+
+    // Borrow heist_plan temporarily:
+    analyze_plan(&heist_plan);
+
+    // The original heist_plan wasn't consumed by analyze_plan and can still be used:
+    println!("Original plan: {:?}", heist_plan);
+}
+```
+
+In this example, the `analyze_plan` function takes a shared reference `&str` as a parameter. By passing `&heist_plan` to the function, we borrow the value of `heist_plan` without transferring ownership. After the function call, we can still use `heist_plan` because we retained its ownership.

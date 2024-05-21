@@ -1,0 +1,44 @@
+Lifetimes in Rust are like the timeline of each member's involvement in the heist. They ensure that all references are valid for as long as they are needed, and no longer.
+
+Let's consider the next scenario where we need to compare two plans:
+
+```rust
+fn main() {
+    let rusty_plan = String::from("Hack the security system");
+    let linus_plan = String::from("Pickpocket the key card");
+
+    let best_plan = compare_plans(&rusty_plan, &linus_plan);
+
+    println!("The best plan is: {}", best_plan);
+}
+```
+
+Now we will implement the `compare_plans` function without lifetimes:
+
+```rust
+// Without lifetimes - won't work
+fn compare_plans(plan1: &str, plan2: &str) -> &str {
+    if plan1.len() > plan2.len() {
+        plan1
+    } else {
+        plan2
+    }
+}
+```
+
+When we run the program, we will get an error. The compiler doesn't know how long the function's return value should live.
+
+So we need to tell the compiler how long should the return reference live with respect to the parameters. We will do so with lifetimes.
+
+```rust
+// With lifetime 'a
+fn compare_plans<'a>(plan1: &'a str, plan2: &'a str) -> &'a str {
+    if plan1.len() > plan2.len() {
+        plan1
+    } else {
+        plan2
+    }
+}
+```
+
+The `'a` annotation is called a lifetime specifier. It's not a specific named lifetime but rather a placeholder that the compiler uses to ensure the references have a consistent lifetime.

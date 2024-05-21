@@ -1,0 +1,41 @@
+Within traits, we can define a placeholder type that each implementation of that trait can specify.
+
+Let's say each family member has a trait `Role`. Different roles have different types of duties. So we add a generic placeholder type `Duty` to the `Role` trait.
+
+```rust
+trait Role {
+    type Duty;
+
+    fn perform_duty(&self, duty: Self::Duty);
+}
+
+struct ArthurShelby;
+
+impl Role for ArthurShelby {
+    type Duty = String; // Arthur's duty expressed as a task in String format
+
+    fn perform_duty(&self, duty: Self::Duty) {
+        println!("Arthur's duty: {}", duty);
+    }
+}
+
+struct FinnShelby;
+
+impl Role for FinnShelby {
+    type Duty = i32; // Finn's duties are typically quantifiable, like the number of shipments
+
+    fn perform_duty(&self, duty: Self::Duty) {
+        println!("Finn's number of shipments to manage: {}", duty);
+    }
+}
+
+fn main() {
+    let arthur = ArthurShelby;
+    let finn = FinnShelby;
+
+    arthur.perform_duty(String::from("Negotiate with the New York gangs"));
+    finn.perform_duty(15);
+}
+```
+
+In this example, the `Role` trait includes an associated type `Duty`. Each implementation of `Role` specifies what `Duty` is---Arthur's duties are represented as strings (perhaps tasks), while Finn's are numerical (like counting shipments). This allows the `perform_duty` method to accept different types of data for each Shelby family member's role, enhancing flexibility and type safety in the family's operations.

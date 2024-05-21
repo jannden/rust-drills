@@ -1,0 +1,25 @@
+Closures in Rust are like using the Force in Star Wars.
+
+If a Jedi was using the Force to move objects, it would be similar to how closures capture variables from their surroundings.
+
+```rust
+fn main() {
+  let force_strength = 10;
+
+  // The force is a special type of function called closure
+  let use_force = |mass: u32| mass < force_strength;
+
+  let spaceship_mass = 5;
+  if use_force(spaceship_mass) {
+    println!("Using the Force to move the object.");
+  } else {
+    println!("Object is too heavy for the Force.");
+  }
+}
+```
+
+Notice that we don't pass the value of the `force_strength` variable as an argument to the closure. It's just captured from the environment. On the other hand, the closure receives the `mass` value from the parameter.
+
+A closure can capture its environment in three ways: taking ownership, borrowing mutably, or borrowing immutably. It depends on how the closure is used in the code. The default is to borrow immutably, which is what happens in the example with `force_strength`. Rust infers that `force_strength` does not need to be modified by the closure, so it allows the closure to access it through an immutable borrow.
+
+The choice of whether to use capturing variables from the environment or passing them as parameters is about the balance between readability, performance, and the Rust ownership rules. For example, capturing might be the right choice if a closure is only used in a narrow scope and closely tied to that scope's variables. On the other hand, if the closure is part of a public API or designed to be reused in different contexts, making it accept arguments might be more appropriate.

@@ -1,0 +1,18 @@
+Like the Fremen traversing predetermined paths across the desert, `for` loops in Rust iterate over a range or collection.
+
+Paul decides to train a group of Fremen warriors.
+
+```rust
+fn main() {
+  let fremen_warriors = ["Stilgar", "Chani", "Duncan Idaho"];
+
+  // Using a for loop to train each warrior
+  for warrior in fremen_warriors.iter() {
+    println!("{} is training.", warrior);
+  }
+
+  println!("All Fremen warriors have completed their training!");
+}
+```
+
+The `for` loop iterates over the array of Fremen warriors. Each iteration means there is a training session for a warrior.

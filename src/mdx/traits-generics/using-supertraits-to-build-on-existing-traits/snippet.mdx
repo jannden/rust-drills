@@ -1,0 +1,29 @@
+```rust
+trait BasicTrait {
+    fn base_behavior(&self) -> String;
+}
+
+trait SuperTrait: BasicTrait {
+    fn advanced_behavior(&self);
+}
+
+struct YourStruct;
+
+impl BasicTrait for YourStruct {
+    fn base_behavior(&self) -> String {
+        "Basic Behavior".to_string()
+    }
+}
+
+impl SuperTrait for YourStruct {
+    fn advanced_behavior(&self) {
+        println!("{} performs an advanced behavior", self.base_behavior());
+    }
+}
+
+fn main() {
+    let instance = YourStruct;
+    instance.advanced_behavior();
+}
+
+```

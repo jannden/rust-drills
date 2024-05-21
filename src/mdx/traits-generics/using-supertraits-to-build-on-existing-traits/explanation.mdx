@@ -1,0 +1,35 @@
+We can build new traits based on existing ones using supertraits.
+
+The traits of each family member build on one another, each adding layers to their character. This is like saying, "To be a Shelby Leader, one must first be a Shelby."
+
+```rust
+trait Shelby {
+    fn identity(&self) -> String;
+}
+
+trait ShelbyLeader: Shelby {
+    fn make_decision(&self);
+}
+
+struct TommyShelby;
+
+impl Shelby for TommyShelby {
+    fn identity(&self) -> String {
+        String::from("Tommy Shelby")
+    }
+}
+
+impl ShelbyLeader for TommyShelby {
+    fn make_decision(&self) {
+        println!("{} decides to expand to America.", self.identity());
+    }
+}
+
+fn main() {
+    let tommy = TommyShelby;
+    println!("I am {}", tommy.identity());
+    tommy.make_decision();
+}
+```
+
+In this example, `ShelbyLeader` is a supertrait of `Shelby`, meaning that before we can implement `ShelbyLeader`, we must also implement `Shelby`.

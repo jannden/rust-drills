@@ -1,0 +1,35 @@
+So we have established that only the type `String` can be changed. Let's now look at the most important options we have for changing it.
+
+Imagine that Geralt wants to update his lexicon with more details. Notice which String methods he might use:
+
+```rust
+fn main() {
+  let mut lexicon = String::from("Witcher, ");
+
+  // Check if the lexicon contains a specific word
+  if lexicon.contains("Griffin") {
+    println!("Griffin is already in the lexicon.");
+  } else {
+    lexicon.push_str("the Griffin slayer, ");
+  }
+
+  // Replace a word in the lexicon
+  lexicon = lexicon.replace("Witcher", "Geralt of Rivia");
+
+  // Trim any extra spaces
+  let trimmed_lexicon = lexicon.trim();
+
+  // Check if the lexicon starts with a specific word
+  if trimmed_lexicon.starts_with("Geralt") {
+    println!("The lexicon starts with Geralt's name.");
+  }
+
+  // Adding the details of Geralt's adventures
+  lexicon.push_str("is now resting in an inn.");
+
+  // Print the updated lexicon
+  println!("Updated Lexicon: {}", lexicon);
+}
+```
+
+We can update the lexicon using methods like `contains`, `push_str`, `replace`, and `trim`. Each method is a tool in your arsenal, much like swords and potions for Geralt.

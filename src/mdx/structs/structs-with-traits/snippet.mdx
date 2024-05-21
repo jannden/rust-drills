@@ -1,0 +1,33 @@
+```rust
+#[derive(Debug)]
+enum YourEnum {
+  /* TODO: Define states or types */
+}
+
+struct YourStruct {
+  /* TODO: Define fields */
+}
+
+trait YourTrait {
+  fn action_one(&self);
+  fn action_two(&mut self, value: u32);
+}
+
+impl YourTrait for YourStruct {
+  fn action_one(&self) {
+    /* TODO: Implement action */
+  }
+  fn action_two(&mut self, value: u32) {
+    /* TODO: Implement action that changes state */
+  }
+}
+
+fn main() {
+  let mut your_instance = YourStruct {
+    /* TODO: Initialize your struct */
+  };
+  your_instance.action_one();
+  your_instance.action_two(/* TODO: Provide a value */);
+}
+
+```

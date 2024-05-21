@@ -1,0 +1,44 @@
+```rust
+trait Trait1 {
+    fn action1(&self);
+}
+
+trait Trait2 {
+    fn action2(&self);
+}
+
+struct Struct1;
+
+impl Trait1 for Struct1 {
+    fn action1(&self) {
+        println!("Struct1 performing action1");
+    }
+}
+
+impl Trait2 for Struct1 {
+    fn action2(&self) {
+        println!("Struct1 performing action2");
+    }
+}
+
+fn use_traits<T: Trait1 + Trait2>(item: T) {
+    item.action1();
+    item.action2();
+}
+
+// Or using `where` syntax for better readability
+fn use_traits_where<T>(item: T)
+where
+    T: Trait1 + Trait2,
+{
+    item.action1();
+    item.action2();
+}
+
+fn main() {
+    let instance = Struct1;
+    use_traits(instance);
+    use_traits_where(instance);
+}
+
+```

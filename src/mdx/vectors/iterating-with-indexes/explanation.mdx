@@ -1,0 +1,16 @@
+We can also keep track of the position of iterated items using `.enumerate()`.
+
+Imagine the members of the Fellowship each taking a turn to watch over the camp at night. Their order is crucial because each has a different task or time to start their watch.
+
+```rust
+fn main() {
+  let fellowship = vec!["Frodo", "Sam", "Merry", "Pippin"];
+
+  // Iterating over the Fellowship members with their watch order
+  for (index, member) in fellowship.iter().enumerate() {
+    println!("{} takes the watch at hour {}", member, index + 1);
+  }
+}
+```
+
+Here, `fellowship.iter().enumerate()` creates an iterator that yields pairs: the index of each element (starting from 0) and a reference to the element itself. This is very useful when you interact with vector elements and need to know their position.

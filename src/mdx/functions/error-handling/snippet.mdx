@@ -1,0 +1,14 @@
+```rust
+// Define a function with potential for success or failure
+fn your_function(/* Parameters */) -> Result<(), String> {
+  // Implement the function logic
+}
+
+fn main() {
+  match your_function(/* Arguments */) {
+    Ok(()) => println!("Success message"),
+    Err(e) => println!("Error: {}", e),
+  }
+}
+
+```

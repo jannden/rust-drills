@@ -1,0 +1,27 @@
+Generics in Rust provide the flexibility to write code that can operate on different data types. When combined with enums, generics allow us to define more versatile and reusable structures.
+
+Let's create an enum that can hold different data types, reflecting the diverse nature of the Matrix.
+
+```rust
+enum MatrixEntity<T, U> {
+  Human(T),
+  Program(U),
+}
+
+fn main() {
+  let neo: MatrixEntity<&str, &str> = MatrixEntity::Human("The One");
+  let smith: MatrixEntity<i32, &str> = MatrixEntity::Program("Agent Smith");
+
+  match neo {
+    MatrixEntity::Human(name) => println!("Neo is known as {}", name),
+    MatrixEntity::Program(_) => println!("It's a program, not Neo"),
+  }
+
+  match smith {
+    MatrixEntity::Human(_) => println!("It's a human, not an agent"),
+    MatrixEntity::Program(name) => println!("Program {} identified", name),
+  }
+}
+```
+
+Notice that `MatrixEntity` is a generic enum that can represent a human or a program, using different combinations of data types for each variant. `T` and `U` are generic type parameters that make the enum flexible and reusable for various types.

@@ -1,0 +1,25 @@
+Like Geralt upgrades his gear and potions, you can add, modify, or remove characters from strings.
+
+Using those options, Geralt decides to update his potion recipe.
+
+```rust
+fn main() {
+    let mut recipe = String::from("Swallow: ");
+
+    // Adding ingredients to the potion
+    recipe.push_str("Celandine, ");
+    recipe.push_str("Drowner Brain, ");
+    recipe.push('W'); // Adding a single character, notice the single quotes
+
+    // Removing the last ingredient (mistakenly added)
+    recipe.pop();
+
+    // Combining with another potion recipe
+    let enhanced_recipe = format!("{} and Thunderbolt", recipe.trim());
+
+    // Print the final potion recipe
+    println!("Updated Potion Recipe: {}", enhanced_recipe);
+}
+```
+
+Geralt uses `push_str`, `push`, and `pop` to craft and update his potion recipe. The `format!` macro then combines two recipes into one, like mixing ingredients to enhance a potion's effect.

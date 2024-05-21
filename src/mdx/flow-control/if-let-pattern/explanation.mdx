@@ -1,0 +1,22 @@
+In the ambiguous world of Dune, quick and decisive action based on partial information is vital for survival, much like how `if let` can be used in Rust for a more concise control flow when dealing with enums.
+
+Imagine Paul trying to quickly assess the allegiance of a group encountered in the desert:
+
+```rust
+enum Allegiance {
+    Fremen,
+    Harkonnen,
+    Unknown,
+}
+
+fn main() {
+    let encountered_group = Allegiance::Fremen;
+    if let Allegiance::Fremen = encountered_group {
+        println!("The encountered group are allies.");
+    } else {
+        println!("Proceed with caution.");
+    }
+}
+```
+
+This snippet shows how `if let` can simplify working with enums by focusing on only one pattern and handling it, making the code cleaner and more readable when you're interested in only one of the possible cases.

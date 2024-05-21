@@ -1,0 +1,16 @@
+Just as the One Ring was ultimately destroyed in Mount Doom, clearing all traces of its power, a Vector in Rust can be completely cleared of its elements.
+
+Imagine a scenario where, after the final battle, the heroes discard their weapons to celebrate the end of the war.
+
+```rust
+fn main() {
+    let mut weapons = vec!["Andúril", "Sting", "Glamdring"];
+
+    // Discarding all weapons
+    weapons.clear();
+
+    println!("Weapons after the war: {:?}", weapons);
+}
+```
+
+The `clear` method removes all elements from the `weapons` Vector, leaving it empty. This action reflects the notion of putting aside arms and tools of war, as Middle-Earth enters a period of peace. The `clear` method is useful for resetting a Vector for reuse, without reallocating new memory.

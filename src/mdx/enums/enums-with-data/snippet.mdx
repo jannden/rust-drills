@@ -1,0 +1,18 @@
+```rust
+enum Agent {
+  Smith { strength: u32 },
+  Brown { speed: u32 },
+  /* TODO: Add another variant with a different attribute */
+}
+
+fn main() {
+  let agent = /* TODO: Create an instance of your new variant */;
+
+  match agent {
+    Agent::Smith { strength } => println!("Agent Smith with strength: {}", strength),
+    Agent::Brown { speed } => println!("Agent Brown with speed: {}", speed),
+    /* TODO: Add a new match arm for your variant */
+  }
+}
+
+```

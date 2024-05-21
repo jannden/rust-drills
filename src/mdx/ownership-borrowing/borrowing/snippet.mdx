@@ -1,0 +1,12 @@
+```rust
+fn review_data(data: &str) {
+    println!("Reviewing borrowed data: {}", data);
+}
+
+fn main() {
+    let original_data = String::from("Sensitive Information");
+    review_data(&original_data); // Borrow original_data without ownership transfer
+    println!("After review: {:?}", original_data); // original_data remains accessible
+}
+
+```

@@ -1,0 +1,32 @@
+Enums can delegate responsibilities to their variants, a technique that mirrors the way different characters in "The Matrix" might take on specific roles or actions. This delegation can be implemented using traits and the `impl` keyword, allowing each variant of an enum to behave differently under the same method call.
+
+Let's illustrate this with an example where different characters in the Matrix have unique responses to a situation.
+
+```rust
+trait Action {
+  fn act(&self);
+}
+
+enum Character {
+  Neo,
+  Morpheus,
+  Trinity,
+}
+
+impl Action for Character {
+  fn act(&self) {
+    match self {
+      Character::Neo => println!("Neo chooses to fight."),
+      Character::Morpheus => println!("Morpheus offers wisdom."),
+      Character::Trinity => println!("Trinity hacks the system."),
+    }
+  }
+}
+
+fn main() {
+  let character = Character::Trinity;
+  character.act();
+}
+```
+
+The `Action` trait defines an `act` method. Each character variant implements this method differently, signifying their unique response or action.

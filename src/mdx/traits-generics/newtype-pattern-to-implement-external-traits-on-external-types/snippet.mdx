@@ -1,0 +1,25 @@
+```rust
+// Define an external type
+struct ExternalType;
+
+// Create a Newtype wrapping the external type
+struct YourNewType(ExternalType);
+
+// Define a trait to implement
+trait YourTrait {
+    fn your_method(&self);
+}
+
+// Implement the trait for your Newtype
+impl YourTrait for YourNewType {
+    fn your_method(&self) {
+        println!("Using YourNewType to extend functionality");
+    }
+}
+
+fn main() {
+    let your_instance = YourNewType(ExternalType);
+    your_instance.your_method();
+}
+
+```

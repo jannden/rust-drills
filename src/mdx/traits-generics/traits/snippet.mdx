@@ -1,0 +1,31 @@
+```rust
+// Define a common behavior trait
+trait YourTrait {
+    fn common_behavior(&self);
+}
+
+// Define your structs
+struct YourStruct1;
+struct YourStruct2;
+
+// Implement the trait for your structs
+impl YourTrait for YourStruct1 {
+    fn common_behavior(&self) {
+        // Unique behavior for YourStruct1
+    }
+}
+
+impl YourTrait for YourStruct2 {
+    fn common_behavior(&self) {
+        // Unique behavior for YourStruct2
+    }
+}
+
+fn main() {
+    let instance1 = YourStruct1;
+    let instance2 = YourStruct2;
+    instance1.common_behavior();
+    instance2.common_behavior();
+}
+
+```

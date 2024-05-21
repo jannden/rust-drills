@@ -1,0 +1,41 @@
+Just as houses have complex structures, so too can Rust structs incorporate enums for added flexibility. Enums in Rust allow us to define a type by enumerating its possible variants. This will be useful when dealing with properties that can have one out of a set of possible values.
+
+Let's introduce an enum to represent the current state of a house in Westeros, such as at peace or war. This enum, named `HouseState`, can then be incorporated into our `House` struct.
+
+```rust
+#[derive(Debug)]
+enum HouseState {
+  AtPeace,
+  AtWar,
+}
+
+struct House {
+  name: String,
+  region: String,
+  bannermen: u32,
+  state: HouseState,
+}
+
+impl House {
+  fn change_state(&mut self, new_state: HouseState) {
+      self.state = new_state;
+  }
+}
+
+fn main() {
+  let mut house_lannister = House {
+      name: String::from("Lannister"),
+      region: String::from("The Westerlands"),
+      bannermen: 1000,
+      state: HouseState::AtPeace,
+  };
+
+  house_lannister.change_state(HouseState::AtWar);
+
+  println!("House {} is now {:?}", house_lannister.name, house_lannister.state);
+}
+```
+
+The first line, `#[derive(Debug)]`, is there just so that Rust knows how to print the enum value with `println!` at the end of the `main` function.
+
+The important thing here is that we defined the `HouseState` enum with two variants. Each `House` struct now also includes a `state` field of type `HouseState`. The method `change_state` allows a house to change its state, reflecting dynamic political scenarios in Westeros.

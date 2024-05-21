@@ -1,0 +1,29 @@
+```rust
+fn main() {
+    let mut resource = String::from("Resource");
+
+    // Demonstrate valid immutable borrowing
+    let borrow1 = &resource;
+    let borrow2 = &resource;
+    println!("Borrowed: {} and {}", borrow1, borrow2);
+
+    // Invalid mutable borrowing (uncomment to see the error)
+    // let borrow_mut = &mut resource;
+
+    // Show valid mutable borrowing after immutable ones are done
+    {
+        let borrow_mut = &mut resource;
+        borrow_mut.push_str(" extended");
+        println!("Mutably borrowed: {}", borrow_mut);
+    }
+
+    // Demonstrate a dangling reference (uncomment to see the error)
+    let dangling_ref;
+    {
+        let inner_resource = String::from("Inner");
+        // dangling_ref = &inner_resource;
+    }
+    // println!("Dangling reference: {}", dangling_ref);
+}
+
+```

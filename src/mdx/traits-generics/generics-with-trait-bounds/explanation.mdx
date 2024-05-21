@@ -1,0 +1,50 @@
+Trait bounds specify what functionality a generic type must provide.
+
+Consider a family meeting where only the members of the Shelby family are allowed.
+
+```rust
+trait Shelby {
+  fn speak(&self);
+}
+
+struct ThomasShelby;
+
+impl Shelby for ThomasShelby {
+  fn speak(&self) {
+      println!("I'm Thomas Shelby");
+  }
+}
+
+// It's required that only a Shelby member can attend the meeting
+// In other words, the parameter accepts only such an argument
+// that implements the Shelby trait
+fn attend_meeting<T: Shelby>(member: T) {
+  member.speak();
+}
+
+fn main() {
+  let tommy = ThomasShelby;
+  attend_meeting(tommy);
+}
+```
+
+Here, `attend_meeting` is a function that requires its parameter to implement the `Shelby` trait.
+
+Let's extend the example now to demonstrate multiple trait bounds. The meeting can be attended by two families now, Shelby and Gold. We would update the function signature accordingly:
+
+```rust
+fn attend_meeting<T: Shelby + Gold>(member: T) {
+  member.speak();
+}
+```
+
+There is another way to require multiple trait bounds, which is using the `where` syntax. It is usually considered more readable especially as the number of trait bounds grows:
+
+```rust
+fn attend_meeting<T>(member: T)
+where
+  T: Shelby + Gold,
+{
+  member.speak();
+}
+```

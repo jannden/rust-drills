@@ -1,0 +1,36 @@
+Associated functions represent the cold face of a house shown to strangers. They are related to a struct but don't use information of the struct and neither update the struct.
+
+Creating a new house in Westeros is a significant event and can be represented as an associated function. Notice that the `found_new_house` function has neither the `&self` nor `&mut self` parameter --- so it's not a method but just an associated function.
+
+```rust
+struct House {
+  name: String,
+  region: String,
+  bannermen: u32,
+}
+
+impl House {
+  fn found_new_house(name: String, region: String) -> House {
+    House {
+      name,
+      region,
+      bannermen: 100, // Default number of bannermen for a new house
+    }
+  }
+}
+
+fn main() {
+  let house_tarly = House::found_new_house(
+    String::from("Tarly"),
+    String::from("The Reach"),
+  );
+  println!("House {} of {} has been founded.", house_tarly.name, house_tarly.region);
+}
+```
+
+The function `found_new_house` is associated with the `House` struct now. It creates a new house with a default bannermen number, but it neither reads any info from a `House` and neither updates an existing `House`.
+
+Core differences between struct methods and associated functions:
+
+-   Associated functions don't receive the `&self` / `&mut self` argument, so they don't have access to the struct's properties, but struct methods do.
+-   Associated functions are called with the `::` notation as opposed to struct methods which are called with the `.` notation.

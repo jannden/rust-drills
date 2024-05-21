@@ -1,0 +1,30 @@
+Each house has some specific behavior. We can define those with methods.
+
+Let's say that each house can rally its bannermen for aid. We will implement this action as a method of the `House` struct while adding the number of bannerman as another field in the `House` struct.
+
+```rust
+struct House {
+  name: String,
+  region: String,
+  bannermen: u32,
+}
+
+impl House {
+  fn rally_bannermen(&mut self, additional: u32) {
+    self.bannermen += additional;
+    println!("House {} now has {} bannermen.", self.name, self.bannermen);
+  }
+}
+
+fn main() {
+  let mut house_arryn = House {
+    name: String::from("Arryn"),
+    region: String::from("The Vale"),
+    bannermen: 500,
+  };
+
+  house_arryn.rally_bannermen(300);
+}
+```
+
+In the example above, the `House Arryn` can use the `rally_bannermen` method to increase the number of its bannermen.

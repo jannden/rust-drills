@@ -1,0 +1,31 @@
+We sometimes face a situation where we need to implement a trait for a type that we didn't create. The Rust's orphan rule forbids that.
+
+The Newtype pattern provides a handy workaround by allowing us to wrap the external type in a new struct, creating a 'new type' local to our crate. We can then implement any trait on this new type.
+
+Imagine if the Shelbys had to adapt an external business tool for their operations, without being able to modify the original tool:
+
+```rust
+// Assume `ExternalTool` is a type from a crate we do not own
+struct ExternalTool;
+
+// We create a NewType wrapping `ExternalTool`
+struct ShelbyTool(ExternalTool);
+
+// We can now implement traits on `ShelbyTool`, even if they are external
+trait Adapt {
+    fn adapt(&self);
+}
+
+impl Adapt for ShelbyTool {
+    fn adapt(&self) {
+        println!("Adapting the tool for Shelby's use...");
+    }
+}
+
+fn main() {
+    let tool = ShelbyTool(ExternalTool);
+    tool.adapt();
+}
+```
+
+We created `ShelbyTool` as a new type that wraps `ExternalTool`, allowing the Shelby family to adapt and use the tool according to their needs without directly altering the original external type.

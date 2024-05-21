@@ -1,0 +1,16 @@
+Just as characters in Middle-Earth grow and change, elements in a Vector can be modified.
+
+The sword Narsil is reforged into Andúril, symbolizing transformation. Similarly, elements in a Vector can be transformed.
+
+```rust
+fn main() {
+  let mut weapons = vec!["Narsil", "Glamdring", "Sting"];
+
+  // Reforging Narsil into Andúril
+  weapons[0] = "Andúril";
+
+  println!("The reforged weapons: {:?}", weapons);
+}
+```
+
+Here, modifying the first element of the `weapons` Vector symbolizes the reforging of Narsil into Andúril. Notice that the Vector was initialized as mutable by using `let mut`.

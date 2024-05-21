@@ -1,0 +1,33 @@
+Functions of objects are called methods or associated functions. They can be likened to the specialized functions of droids in Star Wars. Each droid (object) has unique capabilities (functions).
+
+Let's use R2-D2's methods to hack into the Death Star's mainframe.
+
+```rust
+struct  Droid {
+  name: String,
+}
+
+impl  Droid {
+  // Associated function to create a new Droid
+  fn  new(name: &str) -> Droid {
+    Droid {
+      name: name.to_string(),
+    }
+  }
+
+  // Method for a Droid to hack systems
+  fn hack_system(&self) {
+    println!("{} is hacking into the system...", self.name);
+  }
+}
+
+fn main() {
+  // Create a new Droid using the associated function
+  let bb8 = Droid::new("BB-8");
+
+  // Let the droid use a method
+  bb8.hack_system();
+}
+```
+
+So what's the difference between an associated function and a method? Notice the `&self` part (or sometimes `&mut self`). I am simplifying a little here, but a method has access to the struct itself and can either read it or modify it. An associated function cannot.

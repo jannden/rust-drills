@@ -1,0 +1,15 @@
+The `Option` enum is one of the pre-made enums in Rust that are used frequently and are very useful. It can represent either `Some` value or `None`.
+
+We can compare the `Option`to Neo's potential to have `Some` title (in his case, it would be 'The One') or `None`.
+
+```rust
+fn main() {
+  let neo: Option<&str> = Some("The One");
+
+  match neo {
+    Some(title) => println!("Neo is {}", title),
+    None => println!("Neo is just another human."),
+  }
+}
+```
+This snippet uses `Option` to capture the uncertainty of Neo's true identity, showcasing how Rust's enums can express the presence or absence of a value.

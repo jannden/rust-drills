@@ -1,0 +1,24 @@
+Just as Geralt converts resources found in the Continent into useful items and potions, Rust allows for the conversion between strings and other types.
+
+For instance, Geralt might find an ancient scroll with numbers that need to be used as text or vice versa.
+
+```rust
+fn main() {
+    let numerical_string = String::from("2024");
+
+    // Converting string to i32
+    let year: i32 = numerical_string.parse().expect("Not a number!");
+    println!("The year in the scroll: {}", year);
+
+    // Converting a number back to string
+    let new_string = year.to_string();
+    println!("The year as a string: {}", new_string);
+
+    // Converting a boolean to a string
+    let is_witcher = true;
+    let status = is_witcher.to_string();
+    println!("Is Geralt a Witcher? {}", status);
+}
+```
+
+Rust can convert different data types with the helpful `parse` method and still keep flexible error handling.

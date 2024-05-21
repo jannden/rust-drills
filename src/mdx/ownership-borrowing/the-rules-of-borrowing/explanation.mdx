@@ -1,0 +1,44 @@
+Borrowing must follow two main rules so that memory stays safe.
+
+**The first rule** states that you can have *any number of immutable* references (`&T`) to a resource, or you can have *one mutable* reference (`&mut T`) at any given time, but not both simultaneously.
+
+```rust
+fn main() {
+    let mut heist_plan = String::from("The Heist Plan");
+
+    let plan_for_discussion = &heist_plan; // Immutable reference
+    let second_discussion = &heist_plan; // Another immutable reference is fine
+
+    // The next line would error out: can't borrow `heist_plan` as mutable because it's also borrowed as immutable
+    // let plan_for_modification = &mut heist_plan;
+
+    println!("Plan for discussion: {}", plan_for_discussion);
+
+    // The next line would error out: borrowed value does not live long enough (it was consumed by println!)
+    // println!("Plan for modification: {}", plan_for_modification);
+}
+```
+
+**The second rule** states that references must always be valid.
+
+Just as Danny Ocean would never rely on a team member who isn't dependable, Rust ensures that a reference never outlives the data it points to. This prevents dangling references, which could lead to security vulnerabilities.
+
+In our analogy, if a team member leaves the crew, they can no longer participate in discussions or decisions about the heist.
+
+```rust
+fn main() {
+    let plan_for_modification;
+
+    { // An inner scope starts
+        let heist_plan = String::from("The Heist Plan");
+
+        // Let's point plan_for_modification to heist_plan:
+        plan_for_modification = &heist_plan;
+    } // heist_plan goes out of scope and is dropped here
+
+    // The next line would error out: plan_for_modification contains a reference to a dropped value
+    // println!("Modified Plan: {}", plan_for_modification);
+}
+```
+
+By following these rules, Rust's borrowing system ensures that memory management is efficient and safe.

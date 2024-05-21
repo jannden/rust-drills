@@ -1,0 +1,19 @@
+Nested loops are like the layered strategies in the politics of Dune.
+
+Think of Paul's situation in Arrakeen.
+
+```rust
+fn main() {
+  let houses = ["Atreides", "Harkonnen", "Corrino"];
+  let agendas = ["Trade", "War", "Espionage"];
+
+  // Using nested loops to understand each House's agenda
+  for house in houses.iter() {
+    for agenda in agendas.iter() {
+      println!("House {} and their stance on {}.", house, agenda);
+    }
+  }
+}
+```
+
+The nested `for` loops help Paul systematically assess each House's stance on different agendas.

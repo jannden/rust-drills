@@ -1,0 +1,25 @@
+Just as Neo learns to control his abilities in The Matrix, methods can be defined on enums to perform actions based on their variants.
+
+Neo's choice of the pill has a significant impact on his journey.
+
+```rust
+enum Pill {
+  Red,
+  Blue,
+}
+
+impl Pill {
+  fn take_action(&self) {
+    match self {
+      Pill::Red => println!("You've chosen the path of truth."),
+      Pill::Blue => println!("You've chosen the path of blissful ignorance."),
+    }
+  }
+}
+
+fn main() {
+  let my_choice = Pill::Red;
+  my_choice.take_action();
+}
+```
+Here, the `take_action` method is implemented on the Pill enum using `impl`. It interprets the choice made, similar to how Neo's decision shapes his destiny.

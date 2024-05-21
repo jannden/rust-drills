@@ -1,0 +1,27 @@
+```rust
+// Define a trait with behavior
+trait YourTrait {
+    fn behavior(&self);
+}
+
+// Define a struct that implements this trait
+struct YourStruct;
+
+impl YourTrait for YourStruct {
+    fn behavior(&self) {
+        // Implementation
+    }
+}
+
+// Define a function with a trait bound parameter
+fn your_function(item: impl YourTrait) {
+    // Function logic that uses the trait method
+    item.behavior();
+}
+
+fn main() {
+    let instance = YourStruct;
+    your_function(instance);
+}
+
+```

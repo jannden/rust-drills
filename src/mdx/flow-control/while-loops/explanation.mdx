@@ -1,0 +1,20 @@
+The ongoing battle for control over Arrakis leads to the endless repetition found in loops.
+
+For instance, perhaps Paul must oversee the harvesting of the spice. Such a process would simply repeat until a quota was filled:
+
+```rust
+fn main() {
+  let mut spice_harvested = 0;
+  let spice_quota = 100;
+
+  // Using a while loop to continue harvesting until the quota is met
+  while spice_harvested < spice_quota {
+    spice_harvested += 10;  // Harvest 10 units of spice
+    println!("Harvested {} units of spice.", spice_harvested);
+  }
+
+  println!("Spice quota met!");
+}
+```
+
+The `while` loop allows Paul to continue the spice harvest until the desired amount is achieved.
