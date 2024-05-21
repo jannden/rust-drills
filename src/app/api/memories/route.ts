@@ -6,9 +6,6 @@ import { AlgorithmInput } from '@/lib/types'
 import {
   ChatMessageType,
   MemoryDELETERequest,
-  MemoryGETRequest,
-  MemoryGETResponseType,
-  MemoryInfoType,
   MemoryPUTRequest,
   MemoryPUTResponseType,
 } from '@/app/api/memories/validations'
@@ -19,186 +16,7 @@ import { NextResponse } from 'next/server'
 import { logError } from '@/lib/utils'
 import { getBadges } from '@/lib/server/getBadges'
 
-// * Get next memory in queue
-export async function GET(req: Request): Promise<NextResponse<MemoryGETResponseType | { error: string }>> {
-  const user = await getClerkWithDb()
-  if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
 
-  const { searchParams } = new URL(req.url)
-  const body = MemoryGETRequest.safeParse({
-    deckId: searchParams.get('deckId') ?? undefined,
-  })
-  if (!body.success) {
-    const publicErrorMessage = 'Invalid request'
-    logError(publicErrorMessage, body.error)
-    return NextResponse.json({ error: publicErrorMessage }, { status: 400 })
-  }
-
-  const { deckId } = body.data
-
-  let memories: MemoryInfoType[] | null = null
-  try {
-    memories = await prisma.$queryRaw`
-      SELECT 
-        "Snippet"."id" as "snippetId",
-        "Snippet"."heading" as "snippetHeading",
-        "Snippet"."content" as "snippetContent",
-        "Snippet"."task" as "snippetTask",
-        "Memory"."id" as "memoryId",
-        "Memory"."openaiChat" as "memoryChat"
-      FROM "Snippet"
-      LEFT JOIN "Memory"
-        ON "Memory"."userId" = ${user.db.id}
-        AND "Memory"."snippetId" = "Snippet"."id"
-      ${!deckId ? Prisma.sql` WHERE ` : Prisma.sql` WHERE "Snippet"."deckId" = ${deckId} AND`}
-
-      ${
-        deckId
-          ? Prisma.sql`
-          -- Both new and to be repeated
-          (
-            (
-              "Memory"."dateTimeRepeated" IS NOT NULL
-              AND "Memory"."dateTimePlanned" < NOW() + INTERVAL '1 day'
-            )
-            OR "Memory"."dateTimeRepeated" IS NULL
-          )`
-          : Prisma.sql`
-          -- Only to be repeated
-          (
-            "Memory"."dateTimeRepeated" IS NOT NULL
-            AND "Memory"."dateTimePlanned" < NOW() + INTERVAL '1 day'
-          )`
-      }
-
-      GROUP BY
-        "Snippet"."id",
-        "Memory"."id"
-      ORDER BY
-        CASE
-          WHEN
-            -- If the word had a mistake more than 20 seconds ago and less than 10 minutes ago, show it first
-            "Memory"."dateTimeLastMistake" IS NOT NULL
-            AND "Memory"."dateTimeLastMistake" < NOW() - INTERVAL '20 seconds'
-            AND "Memory"."dateTimeLastMistake" > NOW() - INTERVAL '10 minutes'
-            AND (
-              "Memory"."dateTimeRepeated" IS NULL
-              OR "Memory"."dateTimeLastMistake" > "Memory"."dateTimeRepeated"
-            )
-          THEN 1
-          ELSE 2
-        END ASC,
-        CASE
-          -- If the word has already been learned before, order by next planned date, otherwise treat it as if it is planned for today
-          WHEN "Memory"."dateTimePlanned" IS NOT NULL
-            AND "Memory"."dateTimeRepeated" IS NOT NULL
-          THEN "Memory"."dateTimePlanned"
-          ELSE NOW() + INTERVAL '1 day'
-        END ASC,
-        "Snippet"."order" ASC
-      LIMIT 1;
-    `
-  } catch (error) {
-    const publicErrorMessage = 'Failed to get next flashcard'
-    logError(publicErrorMessage, error)
-    return NextResponse.json({ error: publicErrorMessage }, { status: 500 })
-  }
-
-  const nextMemory = memories?.[0]
-  if (!nextMemory) {
-    return NextResponse.json(
-      {
-        data: null,
-        learnedPercentage: null,
-      },
-      { status: 200 }
-    )
-  }
-
-  if (!nextMemory.snippetId || !nextMemory.snippetContent) {
-    const publicErrorMessage = 'Snippet not found'
-    console.error(publicErrorMessage)
-    return NextResponse.json({ error: publicErrorMessage }, { status: 500 })
-  }
-
-  let memoryId = nextMemory.memoryId
-  if (!memoryId) {
-    try {
-      const newMemory = await prisma.memory.create({
-        data: {
-          snippetId: nextMemory.snippetId,
-          userId: user.db.id,
-          openaiChat: [],
-          interval: algorithmDefaults.interval,
-          repetition: algorithmDefaults.repetition,
-          eFactor: algorithmDefaults.eFactor,
-          dateTimePlanned: DateTime.utc().toISO(),
-        },
-      })
-      memoryId = newMemory.id
-    } catch (error) {
-      const publicErrorMessage = 'Error creating memory'
-      logError(publicErrorMessage, error)
-      return NextResponse.json({ error: publicErrorMessage }, { status: 500 })
-    }
-  }
-
-  return NextResponse.json(
-    {
-      data: {
-        memoryId,
-        memoryChat: nextMemory?.memoryChat ?? [],
-        snippetId: nextMemory?.snippetId,
-        snippetHeading: nextMemory?.snippetHeading,
-        snippetContent: nextMemory?.snippetContent,
-        snippetTask: nextMemory?.snippetTask,
-      },
-      learnedPercentage: null, //TODO
-    },
-    { status: 200 }
-  )
-}
-
-// export async function GET(req: Request): Promise<NextResponse<MemoryGETResponseType | { error: string }>> {
-//   const user = await getClerkWithDb()
-//   if (!user) {
-//     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-//   }
-
-//   const { searchParams } = new URL(req.url)
-//   const body = MemoryGETRequest.safeParse({
-//     snippetId: searchParams.get('snippetId') ?? undefined,
-//   })
-//   if (!body.success) {
-//     const publicErrorMessage = 'Invalid request'
-//     logError(publicErrorMessage, body.error)
-//     return NextResponse.json({ error: publicErrorMessage }, { status: 400 })
-//   }
-
-//   const snippet = await prisma.snippet.findUnique({
-//     where: {
-//       id: body.data.snippetId,
-//     },
-//     include: {
-//       memories: {
-//         where: {
-//           userId: user.db.id,
-//         },
-//       },
-
-//     }
-//   })
-
-//   if (!snippet) {
-//     return NextResponse.json({ error: 'Snippet not found' }, { status: 404 })
-//   }
-
-//   return NextResponse.json({
-//     dateTimePlanned: snippet.memories?.[0]?.dateTimePlanned.toISOString() || null,
-//   })
-// }
 
 // * Saves the memory for a user
 export async function PUT(req: Request): Promise<NextResponse<MemoryPUTResponseType | { error: string }>> {
@@ -215,17 +33,17 @@ export async function PUT(req: Request): Promise<NextResponse<MemoryPUTResponseT
     return NextResponse.json({ error: publicErrorMessage }, { status: 400 })
   }
 
-  const { snippetId, numberOfMistakes } = body.data
+  const { deckSlug, snippetSlug, numberOfMistakes } = body.data
 
-  let foundMemory: Prisma.MemoryGetPayload<{ include: { snippet: true; user: true } }> | null = null
+  let foundMemory: Prisma.MemoryGetPayload<{ include: { user: true } }> | null = null
   try {
     foundMemory = await prisma.memory.findFirst({
       where: {
-        snippetId,
+        deckSlug,
+        snippetSlug,
         user: { id: user.db.id },
       },
       include: {
-        snippet: true,
         user: true,
       },
     })
@@ -331,7 +149,8 @@ export async function PUT(req: Request): Promise<NextResponse<MemoryPUTResponseT
 
   const newMemory = {
     ...updatedMemory,
-    snippetId,
+    deckSlug,
+    snippetSlug,
     userId: user.db.id,
     numberOfMistakes: [numberOfMistakes],
     openaiChat: initialMessages,
@@ -402,12 +221,13 @@ export async function DELETE(req: Request): Promise<NextResponse<{ error?: strin
     return NextResponse.json({ error: publicErrorMessage }, { status: 400 })
   }
 
-  const { snippetId } = body.data
+  const { deckSlug, snippetSlug } = body.data
 
   try {
     await prisma.memory.deleteMany({
       where: {
-        snippetId,
+        deckSlug,
+        snippetSlug,
         userId: user.db.id,
       },
     })

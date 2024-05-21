@@ -1,12 +1,5 @@
 import { z } from 'zod'
 
-export const MemoryGETRequest = z.object({
-  deckId: z.string().cuid().optional(),
-})
-// export const MemoryGETRequest = z.object({
-//   snippetId: z.string().cuid(),
-// })
-
 export const ChatMessage = z.object({
   role: z.enum(['user', 'system', 'assistant']),
   content: z.string(),
@@ -24,19 +17,9 @@ export const MemoryInfo = z.object({
 })
 export type MemoryInfoType = z.infer<typeof MemoryInfo>
 
-export const MemoryGETResponse = z.object({
-  data: MemoryInfo.or(z.null()),
-  learnedPercentage: z.number().or(z.null()),
-})
-export type MemoryGETResponseType = z.infer<typeof MemoryGETResponse>
-
-// export const MemoryGETResponse = z.object({
-//   dateTimePlanned: z.string().or(z.null()),
-// })
-// export type MemoryGETResponseType = z.infer<typeof MemoryGETResponse>
-
 export const MemoryPUTRequest = z.object({
-  snippetId: z.string().cuid(),
+  deckSlug: z.string(),
+  snippetSlug: z.string(),
   numberOfMistakes: z.number(),
 })
 export type MemoryPUTRequestType = z.infer<typeof MemoryPUTRequest>
@@ -50,6 +33,7 @@ export const MemoryPUTResponse = z.object({
 export type MemoryPUTResponseType = z.infer<typeof MemoryPUTResponse>
 
 export const MemoryDELETERequest = z.object({
-  snippetId: z.string().cuid(),
+  deckSlug: z.string(),
+  snippetSlug: z.string(),
 })
 export type MemoryDELETERequestType = z.infer<typeof MemoryDELETERequest>
