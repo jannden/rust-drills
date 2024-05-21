@@ -17,6 +17,9 @@ const config: Config = {
       '2xl': ['1.5rem', { lineHeight: '2.5rem' }],
     },
     extend: {
+      spacing: {
+        '100vw-100': 'calc(100vw - 100%)',
+      },
       screens: {
         xs: '400px',
       },

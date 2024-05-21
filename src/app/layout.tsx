@@ -20,7 +20,7 @@ interface LayoutProps {
 export default async function Layout({ children }: LayoutProps) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" className="ml-100vw-100">
         <body className={cn('antialiased', fontSans.variable, fontMono.variable, fontDmSans.variable)}>
           <div className="flex h-screen flex-col">
             <Header />
