@@ -32,6 +32,7 @@
     "@uiw/react-textarea-code-editor": "^3.0.2",
     "@vercel/analytics": "^1.2.2",
     "ai": "^3.1.12",
+    "character-entities-legacy": "^3.0.0",
     "encoding": "^0.1.13",
     "eslint-config-next": "^14.2.3",
     "gpt-tokenizer": "^2.1.2",
