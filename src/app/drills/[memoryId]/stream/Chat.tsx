@@ -12,8 +12,8 @@ import DialogueForm from './DialogueForm'
 import { StoryMessage } from './page'
 import UserAvatar from '@/components/UserAvatar'
 import Alert, { AlertVariant } from '@/components/Alert'
-import { CircleAlert, Hourglass } from 'lucide-react'
-import { ClerkLoaded, ClerkLoading, useUser } from '@clerk/nextjs'
+import { CircleAlert } from 'lucide-react'
+import { useUser } from '@clerk/nextjs'
 
 export const codify = (content: string) => {
   return content.startsWith('```') ? content : '```rust\n' + content + '\n```'
@@ -21,15 +21,17 @@ export const codify = (content: string) => {
 
 export default function Chat({
   deckSlug,
-  snippetId,
+  snippetSlug,
   memoryId,
   promptId,
+  initialInput,
   initialMessages,
 }: {
   deckSlug: string
-  snippetId: string
+  snippetSlug: string
   memoryId: string
   promptId: string
+  initialInput: string
   initialMessages: StoryMessage[]
 }) {
   const user = useUser()
@@ -46,6 +48,7 @@ export default function Chat({
   } = useChat({
     id: memoryId,
     api: '/api/ai',
+    initialInput,
     initialMessages: [
       ...(!!initialMessages?.length
         ? []
@@ -180,7 +183,7 @@ export default function Chat({
             {!!messages?.find(
               (m) => m.role === 'assistant' && m.content?.includes('We finished drilling this one!')
             ) ? (
-              <Button type={ButtonType.Link} variant={ButtonVariant.Primary} href={`/decks/${deckSlug}#${snippetId}`}>
+              <Button type={ButtonType.Link} variant={ButtonVariant.Primary} href={`/decks/${deckSlug}#${snippetSlug}`}>
                 Back to drills
               </Button>
             ) : (

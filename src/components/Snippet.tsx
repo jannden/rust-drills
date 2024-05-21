@@ -1,54 +1,71 @@
-import { redirect } from 'next/navigation'
+'use server'
+
 import { Drill } from 'lucide-react'
 import { DateTime } from 'luxon'
 import ReactMarkdown from 'react-markdown'
 import rehypeHighlight from 'rehype-highlight'
 
 import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
+import { ContentVariant } from '@/lib/types'
 import SRButtons from '@/components/SRButtons'
 import ModalLogin from '@/components/ModalLogin'
 import Button, { ButtonVariant, ButtonType } from '@/components/Button'
+import { Memory } from '@prisma/client'
+import { prisma } from '@/lib/prisma'
+import { getSnippetBySlugs, loadMdx } from '@/lib/server/getBySlugs'
+import Alert, { AlertVariant } from './Alert'
 
-export type SnippetType = {
-  id: string
-  heading: string
-  content: string
-  dateTimePlanned: Date
-  isLearned: boolean
-  showPlannedDate: boolean
+export type Props = {
+  deckSlug: string
+  snippetSlug: string
 }
 
-export type SnippetProps = {
-  snippet: SnippetType
-}
-
-export default async function Snippet({ snippet }: SnippetProps) {
+export default async function Snippet({ deckSlug, snippetSlug }: Props) {
   const user = await getClerkWithDb()
+
+  const snippet = await getSnippetBySlugs(deckSlug, snippetSlug)
+  if (!snippet) {
+    return <Alert message="Snippet not found." variant={AlertVariant.Red} />
+  }
+
+  let memory: Memory | null = null
+  if (user) {
+    memory = await prisma.memory.findFirst({
+      where: {
+        userId: user.db.id,
+        deckSlug: deckSlug,
+        snippetSlug: snippetSlug,
+      },
+    })
+  }
+
+  const content = await loadMdx(deckSlug, snippetSlug, ContentVariant.explanation)
 
   return (
     <div
-      key={snippet.id}
+      key={`${snippet.deckSlug}/${snippet.snippetSlug}`}
       className="mb-12 border-b border-stone-200 pb-12 transition last:border-0 sm:rounded-lg sm:border sm:p-6 sm:shadow last:sm:border hover:sm:shadow-lg"
     >
-      <div className="flex flex-col justify-between gap-6 lg:flex-row" id={snippet.id}>
+      <div className="flex flex-col justify-between gap-6 lg:flex-row" id={snippet.snippetSlug}>
         <div>
           <h3 className="pb-6 text-xl">{snippet.heading}</h3>
           <ReactMarkdown className="prose" rehypePlugins={[rehypeHighlight]}>
-            {snippet.content}
+            {content}
           </ReactMarkdown>
         </div>
         <div className="flex flex-row flex-wrap items-center justify-between gap-6 lg:w-28 lg:flex-col">
           <SRButtons
-            snippetId={snippet.id}
-            dateTimePlanned={snippet.dateTimePlanned ? DateTime.fromJSDate(snippet.dateTimePlanned).toISO() : null}
-            defaultIsLearned={snippet.isLearned}
-            showPlannedDate={snippet.showPlannedDate}
+            deckSlug={snippet.deckSlug}
+            snippetSlug={snippet.snippetSlug}
+            dateTimePlanned={memory?.dateTimePlanned ? DateTime.fromJSDate(memory.dateTimePlanned).toISO() : null}
+            defaultIsLearned={!!memory?.isLearned}
+            showPlannedDate={true}
           />
           {user ? (
             <Button
               variant={ButtonVariant.Primary}
               type={ButtonType.Link}
-              href={`/snippets/${snippet.id}/drill`}
+              href={`/snippets/${snippet.deckSlug}/${snippet.snippetSlug}`}
               className="group flex items-center justify-center gap-1"
             >
               <Drill className="size-4 transition-transform group-hover:rotate-45" />

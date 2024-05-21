@@ -7,6 +7,8 @@ import Heading from '@/components/Heading'
 import Chat from './Chat'
 import { defaultAI } from '@/lib/config/ai'
 import { ChatMessageType } from '@/app/api/memories/validations'
+import { getSnippetBySlugs, loadMdx } from '@/lib/server/getBySlugs'
+import { ContentVariant } from '@/lib/types'
 
 export type StoryMessage = {
   avatar: string
@@ -22,11 +24,7 @@ type Props = {
 export default async function ChatDetailPage({ params }: Props) {
   const user = await getClerkWithDb()
   if (!user) {
-     redirect('/sign-up')
-  }
-
-  if (!params.memoryId) {
-    return <Alert message="Thread ID is missing" variant={AlertVariant.Red} />
+    redirect('/sign-up')
   }
 
   let memory = await prisma.memory.findUnique({
@@ -35,11 +33,6 @@ export default async function ChatDetailPage({ params }: Props) {
       userId: user.db.id,
     },
     include: {
-      snippet: {
-        include: {
-          deck: true,
-        },
-      },
       prompts: true,
     },
   })
@@ -47,6 +40,15 @@ export default async function ChatDetailPage({ params }: Props) {
   if (!memory) {
     return <Alert message="The drill does not exist or you don't have access to it." variant={AlertVariant.Red} />
   }
+
+  const snippet = await getSnippetBySlugs(memory.deckSlug, memory.snippetSlug)
+  if (!snippet) {
+    return <Alert message="Snippet not found." variant={AlertVariant.Red} />
+  }
+
+  const contentExplanation = await loadMdx(memory.deckSlug, memory.snippetSlug, ContentVariant.explanation)
+  const contentTask = await loadMdx(memory.deckSlug, memory.snippetSlug, ContentVariant.task)
+  const contentSnippet = await loadMdx(memory.deckSlug, memory.snippetSlug, ContentVariant.snippet)
 
   let promptId = memory.prompts?.[0]?.id
   if (!promptId) {
@@ -64,7 +66,7 @@ export default async function ChatDetailPage({ params }: Props) {
         Let the user ask questions at any point as this is a two-way learning process. Your goal is to make learning Rust engaging, comprehensive, and tailored to the user's pace. Give positive feedback to reinforce the learning progress, and adapt the teaching style based on how quickly the user grasps the concepts.
         The provided code snippet for practice is the following:
         ###
-        ${memory.snippet.content}
+        ${contentExplanation}
         ###
         Your output should start with: "We are going to drill a code snippet that "
         `,
@@ -74,7 +76,7 @@ export default async function ChatDetailPage({ params }: Props) {
       },
       {
         role: 'assistant' as const,
-        content: memory.snippet.task,
+        content: contentTask,
         metadata: {
           hidden: false,
         },
@@ -101,11 +103,6 @@ export default async function ChatDetailPage({ params }: Props) {
         openaiChat: initialMessages,
       },
       include: {
-        snippet: {
-          include: {
-            deck: true,
-          },
-        },
         prompts: true,
       },
     })
@@ -127,15 +124,13 @@ export default async function ChatDetailPage({ params }: Props) {
 
   return (
     <div className="pb-12">
-      <Heading
-        heading={`Drilling ${memory.snippet.heading}`}
-        back={`/decks/${memory.snippet.deck.slug}#${memory.snippet.id}`}
-      />
+      <Heading heading={`Drilling ${snippet.heading}`} back={`/decks/${snippet.deckSlug}#${snippet.snippetSlug}`} />
       <Chat
-        deckSlug={memory.snippet.deck.slug}
-        snippetId={memory.snippet.id}
+        deckSlug={snippet.deckSlug}
+        snippetSlug={snippet.snippetSlug}
         memoryId={memory.id}
         promptId={promptId}
+        initialInput={contentSnippet}
         initialMessages={messages}
       />
     </div>

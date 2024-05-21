@@ -5,6 +5,7 @@ import './src/env.mjs'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  transpilePackages: ['lucide-react'],
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
   reactStrictMode: true,
   images: {

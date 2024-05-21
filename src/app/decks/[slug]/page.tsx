@@ -3,11 +3,8 @@
 import React from 'react'
 import Alert, { AlertVariant } from '@/components/Alert'
 import Heading from '@/components/Heading'
-import { prisma } from '@/lib/prisma'
-import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
-import { Prisma } from '@prisma/client'
-import { ResolvingMetadata, Metadata } from 'next'
 import Snippet from '@/components/Snippet'
+import { categories } from '@/lib/config/content'
 
 type Props = {
   params: {
@@ -15,66 +12,19 @@ type Props = {
   }
 }
 
-export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
-  const deck = await prisma.deck.findUnique({
-    where: {
-      slug: params.slug,
-    },
-  })
-
-  return {
-    alternates: {
-      canonical: deck?.canonicalUrl,
-    },
-  }
-}
-
 export default async function Deck({ params }: Props) {
-  const user = await getClerkWithDb()
-
-  let includeMemory: Prisma.SnippetInclude = {}
-  if (user) {
-    includeMemory = { memories: { where: { user: { id: user.db.id } } } }
-  }
-
-  const deck = await prisma.deck.findUnique({
-    where: {
-      slug: params.slug,
-    },
-    include: {
-      snippets: {
-        orderBy: {
-          order: 'asc',
-        },
-        include: includeMemory,
-      },
-    },
-  })
-
+  const allDecks = categories.flatMap((category) => category.decks)
+  const deck = allDecks.find((deck) => deck.slug === params.slug)
   if (!deck) {
     return <Alert message="Deck not found." variant={AlertVariant.Red} />
   }
 
   return (
     <>
-      <Heading
-        heading={`${deck.categoryTitle}: ${deck.title}`}
-        description={deck.subtitle}
-        back={`/categories/${deck.categorySlug}`}
-      />
+      <Heading heading={`${deck.title}: ${deck.title}`} description={deck.subtitle} back={`/categories/${deck.slug}`} />
 
       {deck.snippets.map((snippet) => (
-        <Snippet
-          key={snippet.id}
-          snippet={{
-            id: snippet.id,
-            heading: snippet.heading,
-            content: snippet.content,
-            dateTimePlanned: snippet.memories?.[0]?.dateTimePlanned,
-            isLearned: snippet.memories?.[0]?.isLearned ?? false,
-            showPlannedDate: false,
-          }}
-        />
+        <Snippet key={`${deck.slug}/${snippet.slug}`} deckSlug={deck.slug} snippetSlug={snippet.slug} />
       ))}
     </>
   )

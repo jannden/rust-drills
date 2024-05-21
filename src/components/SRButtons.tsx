@@ -10,12 +10,14 @@ import { DateTime } from 'luxon'
 import { useState } from 'react'
 
 export default function SRButtons({
-  snippetId,
+  deckSlug,
+  snippetSlug,
   dateTimePlanned,
   defaultIsLearned,
   showPlannedDate,
 }: {
-  snippetId: string
+  deckSlug: string
+  snippetSlug: string
   dateTimePlanned: string | null
   defaultIsLearned: boolean
   showPlannedDate: boolean
@@ -29,7 +31,8 @@ export default function SRButtons({
     setLoading(true)
 
     const reqBody: MemoryPUTRequestType = {
-      snippetId,
+      deckSlug,
+      snippetSlug,
       numberOfMistakes,
     }
 
@@ -58,7 +61,8 @@ export default function SRButtons({
     setLoading(true)
 
     const reqBody: MemoryDELETERequestType = {
-      snippetId,
+      deckSlug,
+      snippetSlug,
     }
 
     const result = await fetch(`/api/memories`, {
