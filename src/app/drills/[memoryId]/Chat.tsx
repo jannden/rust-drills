@@ -14,9 +14,14 @@ import UserAvatar from '@/components/UserAvatar'
 import Alert, { AlertVariant } from '@/components/Alert'
 import { CircleAlert } from 'lucide-react'
 import { useUser } from '@clerk/nextjs'
+import { useRouter } from 'next/navigation'
 
-export const codify = (content: string) => {
+const codify = (content: string) => {
   return content.startsWith('```') ? content : '```rust\n' + content + '\n```'
+}
+
+const uncodify = (content: string) => {
+  return content.replace(/^```rust\n/, '').replace(/\n```$/, '')
 }
 
 export default function Chat({
@@ -34,6 +39,7 @@ export default function Chat({
   initialInput: string
   initialMessages: StoryMessage[]
 }) {
+  const router = useRouter()
   const user = useUser()
   const [errorMessage, setErrorMessage] = useState('')
   const [energyTimestamp, setEnergyTimestamp] = useState<number>(Date.now())
@@ -48,7 +54,7 @@ export default function Chat({
   } = useChat({
     id: memoryId,
     api: '/api/ai',
-    initialInput,
+    initialInput: uncodify(initialInput),
     initialMessages: [
       ...(!!initialMessages?.length
         ? []
@@ -122,6 +128,26 @@ export default function Chat({
     },
   })
 
+  const handleRestart = async () => {
+    const response = await fetch('/api/prompts', {
+      method: 'DELETE',
+      body: JSON.stringify({
+        memoryId,
+      }),
+    })
+    if (!response.ok) {
+      try {
+        const data = await response.json()
+        setErrorMessage(data.error)
+      } catch (error) {
+        setErrorMessage(`error: ${error}`)
+      }
+      return
+    }
+
+    router.refresh()
+  }
+
   const requireStart = initialMessages.length < 1 && messages?.length < 2
 
   const handleStart = (e: React.FormEvent<HTMLFormElement>) => {
@@ -183,9 +209,18 @@ export default function Chat({
             {!!messages?.find(
               (m) => m.role === 'assistant' && m.content?.includes('We finished drilling this one!')
             ) ? (
-              <Button type={ButtonType.Link} variant={ButtonVariant.Primary} href={`/decks/${deckSlug}#${snippetSlug}`}>
-                Back to drills
-              </Button>
+              <div className="flex gap-3">
+                <Button
+                  type={ButtonType.Link}
+                  variant={ButtonVariant.Primary}
+                  href={`/decks/${deckSlug}#${snippetSlug}`}
+                >
+                  Back to drills
+                </Button>
+                <Button type={ButtonType.Button} variant={ButtonVariant.Secondary} onClick={handleRestart}>
+                  Restart
+                </Button>
+              </div>
             ) : (
               <DialogueForm
                 handleSubmit={handleSubmit}

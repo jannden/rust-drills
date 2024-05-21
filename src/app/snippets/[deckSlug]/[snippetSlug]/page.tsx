@@ -41,7 +41,7 @@ export default async function DrillingSnippet({ params }: Props) {
   }
 
   if (memory) {
-    redirect(`/drills/${memory?.id}/stream`)
+    redirect(`/drills/${memory?.id}`)
   }
 
   try {
@@ -57,7 +57,7 @@ export default async function DrillingSnippet({ params }: Props) {
         dateTimePlanned: DateTime.utc().toISO(),
       },
     })
-    redirect(`/drills/${newMemory.id}/stream`)
+    redirect(`/drills/${newMemory.id}`)
   } catch (e) {
     console.error(e)
     return <Alert message="Error creating memory." variant={AlertVariant.Red} />

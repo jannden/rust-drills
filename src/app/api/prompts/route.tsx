@@ -5,7 +5,7 @@ import { prisma } from '@/lib/prisma'
 import { logError } from '@/lib/utils'
 import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
 
-import { PromptsPATCH } from './validations'
+import { PromptsDELETE, PromptsPATCH } from './validations'
 
 // * Quality
 // Update completion (used tokens and completion text)
@@ -49,6 +49,42 @@ export async function PATCH(req: Request): Promise<NextResponse<{ error: string 
       data: {
         completion: body.data.completion,
         completionTokens,
+      },
+    })
+
+    return NextResponse.json(null, { status: 200 })
+  } catch (error) {
+    const publicErrorMessage = 'Invalid request'
+    logError(publicErrorMessage, error)
+    return NextResponse.json({ error: publicErrorMessage }, { status: 500 })
+  }
+}
+
+export async function DELETE(req: Request): Promise<NextResponse<{ error: string } | null>> {
+  const user = await getClerkWithDb()
+  if (!user) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  const reqBody = await req.json()
+  const body = PromptsDELETE.safeParse(reqBody)
+  if (!body.success) {
+    const publicErrorMessage = 'Invalid request'
+    logError(publicErrorMessage, body.error)
+    return NextResponse.json({ error: publicErrorMessage }, { status: 400 })
+  }
+
+  const { memoryId } = body.data
+
+  try {
+    await prisma.prompt.updateMany({
+      data: {
+        restartedAt: new Date(),
+      },
+      where: {
+        userId: user.db.id,
+        memoryId: memoryId,
+        restartedAt: null,
       },
     })
 

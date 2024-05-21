@@ -7,3 +7,7 @@ export const PromptsPATCH = z.object({
   promptId: z.string().cuid().optional(),
   openaiThreadId: z.string().cuid().optional(),
 })
+
+export const PromptsDELETE = z.object({
+  memoryId: z.string().cuid(),
+})

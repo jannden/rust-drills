@@ -33,7 +33,11 @@ export default async function ChatDetailPage({ params }: Props) {
       userId: user.db.id,
     },
     include: {
-      prompts: true,
+      prompts: {
+        where: {
+          restartedAt: null,
+        },
+      },
     },
   })
 

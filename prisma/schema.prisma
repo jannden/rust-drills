@@ -66,8 +66,9 @@ model Prompt {
   userId   String
   memoryId String?
 
-  updatedAt DateTime @updatedAt
-  createdAt DateTime @default(now())
+  updatedAt   DateTime  @updatedAt
+  createdAt   DateTime  @default(now())
+  restartedAt DateTime?
 
   user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   memory Memory? @relation(fields: [memoryId], references: [id], onDelete: Cascade)

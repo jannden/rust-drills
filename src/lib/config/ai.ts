@@ -1,5 +1,5 @@
 export const defaultAI = {
-  model: 'gpt-4-turbo-preview',
+  model: 'gpt-4o',
   temperature: 0.7,
   dailyEnergy: 20000,
   adminEnergy: 100000,
