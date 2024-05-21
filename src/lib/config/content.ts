@@ -309,8 +309,8 @@ export const categories = [
         imageUrl: ownershipBorrowing,
         snippets: [
           {
-            slug: 'ownership',
-            heading: 'Ownership',
+            slug: 'the-rules-of-ownership',
+            heading: 'The Rules of Ownership',
           },
           {
             slug: 'borrowing',

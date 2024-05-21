@@ -57,6 +57,7 @@ export default async function DrillingSnippet({ params }: Props) {
         dateTimePlanned: DateTime.utc().toISO(),
       },
     })
+    console.log('attempting to redirect to', `/drills/${newMemory.id}`)
     redirect(`/drills/${newMemory.id}`)
   } catch (e) {
     console.error(e)
