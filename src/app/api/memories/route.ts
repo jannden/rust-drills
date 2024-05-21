@@ -14,9 +14,6 @@ import { DateTime } from 'luxon'
 import { revalidatePath } from 'next/cache'
 import { NextResponse } from 'next/server'
 import { logError } from '@/lib/utils'
-import { getBadges } from '@/lib/server/getBadges'
-
-
 
 // * Saves the memory for a user
 export async function PUT(req: Request): Promise<NextResponse<MemoryPUTResponseType | { error: string }>> {
@@ -175,33 +172,10 @@ export async function PUT(req: Request): Promise<NextResponse<MemoryPUTResponseT
     return NextResponse.json({ error: publicErrorMessage }, { status: 500 })
   }
 
-  // Check if user has earned a new badge
-  let newBadgeEarned = false
-  if (numberOfMistakes === 0) {
-    try {
-      const { totalBadgeLevels } = await getBadges()
-      if (totalBadgeLevels > user.db.totalBadgeLevels) {
-        newBadgeEarned = true
-        await prisma.user.update({
-          where: {
-            id: user.db.id,
-          },
-          data: {
-            totalBadgeLevels,
-          },
-        })
-      }
-    } catch (error) {
-      const publicErrorMessage = 'Error checking for new badge'
-      logError(publicErrorMessage, error)
-      return NextResponse.json({ error: publicErrorMessage }, { status: 500 })
-    }
-  }
-
   revalidatePath('/')
 
   return NextResponse.json(
-    { newItemLearned, newBadgeEarned, dateTimePlanned: newMemory.dateTimePlanned, isLearned: newMemory.isLearned },
+    { newItemLearned, dateTimePlanned: newMemory.dateTimePlanned, isLearned: newMemory.isLearned },
     { status: 200 }
   )
 }

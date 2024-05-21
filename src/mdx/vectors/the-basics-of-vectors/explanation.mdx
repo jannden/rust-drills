@@ -2,6 +2,7 @@ Simply speaking, a vector is a dynamic array that we can resize at will.
 
 Imagine Frodo preparing his backpack for the journey. He needs to store various items in his backpack. If he knew from the beginning how many items will be put in, the backpack could be represented by an array. But since Frodo actually doesn't know how many items he will pack along the way, it's better to have it represented as a vector.
 
+```rust
 fn main() {
   // Creating an empty Vector
   let mut frodos_backpack = Vec::new();
@@ -18,6 +19,7 @@ fn main() {
 
   println!("Frodo's Vector-Backpack: {:?}", frodos_backpack_2);
 }
+```
 
 There are two ways of creating a vector.
 - `Vec::new()` creates a new, empty Vector. The `push` method adds items to Frodo's backpack, just as he would gather supplies for his journey.

@@ -1,8 +1,6 @@
 'use server'
 
-import ModalComponent from '@/components/Modal'
 import Alert, { AlertVariant } from '@/components/Alert'
-import { ButtonType, ButtonVariant } from '@/components/Button'
 import Heading from '@/components/Heading'
 import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
 import { DateTime } from 'luxon'
@@ -10,10 +8,7 @@ import { redirect } from 'next/navigation'
 import { defaultAI } from '@/lib/config/ai'
 import { prisma } from '@/lib/prisma'
 import { calculateTotalTokens } from '@/lib/utils'
-import { getSnippetBySlugs } from '@/lib/server/getBySlugs'
 import { categories } from '@/lib/config/content'
-
-const ModalBody = <p className="text-sm text-gray-500">Buy more energy...</p>
 
 export default async function EnergyPage() {
   const user = await getClerkWithDb()
@@ -27,6 +22,7 @@ export default async function EnergyPage() {
       createdAt: {
         gte: DateTime.now().minus({ days: 1 }).toJSDate(),
       },
+      OR: [{ completionTokens: { gt: 0 } }, { promptTokens: { gt: 0 } }],
     },
     orderBy: {
       createdAt: 'desc',
@@ -61,26 +57,13 @@ export default async function EnergyPage() {
   const totalSpent = prompts.reduce((acc, p) => acc + calculateTotalTokens(p), 0)
   const energy = dailyLimit - totalSpent
 
-  const showPurchase = false
-
   return (
     <>
       <Heading
         heading="OpenAI API Tokens"
         description={`Practicing snippets with ChatGPT consumes tokens. You have a daily limit of ${dailyLimit} tokens.`}
         className="mb-6 border-b-0 pb-0"
-      >
-        {showPurchase && (
-          <ModalComponent
-            buttonText="Get more energy"
-            buttonVariant={ButtonVariant.Primary}
-            buttonType={ButtonType.Button}
-            title="Refill energy"
-            body={ModalBody}
-            confirmText="Purchase"
-          />
-        )}
-      </Heading>
+      ></Heading>
       {prompts.length === 0 ? (
         <Alert variant={AlertVariant.Yellow} message="No energy spent recently." />
       ) : (

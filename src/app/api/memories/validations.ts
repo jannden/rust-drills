@@ -26,7 +26,6 @@ export type MemoryPUTRequestType = z.infer<typeof MemoryPUTRequest>
 
 export const MemoryPUTResponse = z.object({
   newItemLearned: z.boolean(),
-  newBadgeEarned: z.boolean(),
   dateTimePlanned: z.string(),
   isLearned: z.boolean(),
 })
