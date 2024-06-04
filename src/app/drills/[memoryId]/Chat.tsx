@@ -14,7 +14,6 @@ import UserAvatar from '@/components/UserAvatar'
 import Alert, { AlertVariant } from '@/components/Alert'
 import { CircleAlert } from 'lucide-react'
 import { useUser } from '@clerk/nextjs'
-import { useRouter } from 'next/navigation'
 
 const codify = (content: string) => {
   return content.startsWith('```') ? content : '```rust\n' + content + '\n```'
@@ -39,7 +38,6 @@ export default function Chat({
   initialInput: string
   initialMessages: StoryMessage[]
 }) {
-  const router = useRouter()
   const user = useUser()
   const [errorMessage, setErrorMessage] = useState('')
   const [energyTimestamp, setEnergyTimestamp] = useState<number>(Date.now())
@@ -145,7 +143,7 @@ export default function Chat({
       return
     }
 
-    router.refresh()
+    location.reload()
   }
 
   const requireStart = initialMessages.length < 1 && messages?.length < 2
@@ -228,6 +226,7 @@ export default function Chat({
                 handleInputChange={handleInputChange}
                 isLoadingContent={isLoadingContent}
                 energyTimestamp={energyTimestamp}
+                handleRestart={handleRestart}
               />
             )}
           </div>

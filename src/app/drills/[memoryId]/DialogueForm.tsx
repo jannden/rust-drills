@@ -15,6 +15,7 @@ interface StoryFormProps {
   input: string
   handleInputChange: (e: ChangeEvent<HTMLTextAreaElement>) => void
   energyTimestamp: number
+  handleRestart: () => void
 }
 
 export default function DialogueForm({
@@ -23,6 +24,7 @@ export default function DialogueForm({
   input,
   handleInputChange,
   energyTimestamp,
+  handleRestart,
 }: StoryFormProps) {
   const { formRef, onKeyDown } = useCtrlEnterSubmit()
 
@@ -35,19 +37,24 @@ export default function DialogueForm({
         disabled={isLoadingContent}
       />
       <div className="flex justify-between">
-        <Button
-          variant={ButtonVariant.Primary}
-          type={ButtonType.Submit}
-          disabled={isLoadingContent}
-          className="flex items-center gap-3"
-        >
-          {isLoadingContent ? (
-            <Loader2 className="size-5 animate-spin" />
-          ) : (
-            <Zap className="size-5" aria-hidden="true" />
-          )}
-          Submit
-        </Button>
+        <div className="flex gap-3">
+          <Button
+            variant={ButtonVariant.Primary}
+            type={ButtonType.Submit}
+            disabled={isLoadingContent}
+            className="flex items-center gap-3"
+          >
+            {isLoadingContent ? (
+              <Loader2 className="size-5 animate-spin" />
+            ) : (
+              <Zap className="size-5" aria-hidden="true" />
+            )}
+            Submit
+          </Button>
+          <Button type={ButtonType.Button} variant={ButtonVariant.Secondary} onClick={handleRestart}>
+            Restart
+          </Button>
+        </div>
         <Energy energyTimestamp={energyTimestamp} />
       </div>
     </form>

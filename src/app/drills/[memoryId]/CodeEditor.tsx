@@ -43,6 +43,7 @@ export default function CodeEditor({
         placeholder="// Write Rust code here..."
         onChange={handleChange}
         onKeyDown={onKeyDown}
+        data-enable-grammarly={false}
         rehypePlugins={[rehypeHighlight as any]}
         className="mb-6 w-full shadow-sm ring-1 ring-gray-300 focus-within:ring-2 focus-within:ring-orange-600 disabled:cursor-wait disabled:bg-gray-50"
         minHeight={80}

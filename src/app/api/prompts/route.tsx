@@ -6,6 +6,7 @@ import { logError } from '@/lib/utils'
 import { getClerkWithDb } from '@/lib/server/getClerkWithDb'
 
 import { PromptsDELETE, PromptsPATCH } from './validations'
+import { revalidatePath } from 'next/cache'
 
 // * Quality
 // Update completion (used tokens and completion text)
@@ -87,6 +88,8 @@ export async function DELETE(req: Request): Promise<NextResponse<{ error: string
         restartedAt: null,
       },
     })
+
+    revalidatePath(`/drills`)
 
     return NextResponse.json(null, { status: 200 })
   } catch (error) {
