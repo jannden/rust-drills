@@ -4,7 +4,7 @@ import { MemoryPUTRequestType, MemoryPUTResponseType, MemoryDELETERequestType } 
 import Button, { ButtonVariant, ButtonType } from '@/components/Button'
 import ModalLogin from '@/components/ModalLogin'
 import { formatDate } from '@/lib/utils'
-import { useUser } from '@clerk/nextjs'
+import { SignedIn, SignedOut } from '@clerk/nextjs'
 import { Loader2 } from 'lucide-react'
 import { DateTime } from 'luxon'
 import { useState } from 'react'
@@ -22,7 +22,6 @@ export default function SRButtons({
   defaultIsLearned: boolean
   showPlannedDate: boolean
 }) {
-  const { user } = useUser()
   const [loading, setLoading] = useState(false)
   const [scheduledDate, setScheduledDate] = useState<string | null>(dateTimePlanned)
   const [isLearned, setIsLearned] = useState(defaultIsLearned)
@@ -130,7 +129,7 @@ export default function SRButtons({
         </div>
       )}
 
-      {user ? (
+      <SignedIn>
         <Button
           variant={ButtonVariant.Secondary}
           type={ButtonType.Button}
@@ -139,12 +138,6 @@ export default function SRButtons({
         >
           Easy
         </Button>
-      ) : (
-        <ModalLogin buttonVariant={ButtonVariant.Secondary} buttonType={ButtonType.Button}>
-          Easy
-        </ModalLogin>
-      )}
-      {user ? (
         <Button
           variant={ButtonVariant.Secondary}
           type={ButtonType.Button}
@@ -154,11 +147,15 @@ export default function SRButtons({
         >
           Difficult
         </Button>
-      ) : (
+      </SignedIn>
+      <SignedOut>
+        <ModalLogin buttonVariant={ButtonVariant.Secondary} buttonType={ButtonType.Button}>
+          Easy
+        </ModalLogin>
         <ModalLogin buttonVariant={ButtonVariant.Secondary} buttonType={ButtonType.Button}>
           Difficult
         </ModalLogin>
-      )}
+      </SignedOut>
     </div>
   )
 }

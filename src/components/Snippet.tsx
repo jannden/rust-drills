@@ -14,6 +14,7 @@ import { Memory } from '@prisma/client'
 import { prisma } from '@/lib/prisma'
 import { getSnippetBySlugs, loadMdx } from '@/lib/server/getBySlugs'
 import Alert, { AlertVariant } from './Alert'
+import { SignedIn, SignedOut } from '@clerk/nextjs'
 
 export type Props = {
   deckSlug: string
@@ -61,7 +62,7 @@ export default async function Snippet({ deckSlug, snippetSlug }: Props) {
             defaultIsLearned={!!memory?.isLearned}
             showPlannedDate={true}
           />
-          {user ? (
+          <SignedIn>
             <Button
               variant={ButtonVariant.Primary}
               type={ButtonType.Link}
@@ -71,14 +72,15 @@ export default async function Snippet({ deckSlug, snippetSlug }: Props) {
               <Drill className="size-4 transition-transform group-hover:rotate-45" />
               Drill
             </Button>
-          ) : (
+          </SignedIn>
+          <SignedOut>
             <ModalLogin>
               <div className="group flex items-center justify-center gap-1">
                 <Drill className="size-4 transition-transform group-hover:rotate-45" />
                 Drill
               </div>
             </ModalLogin>
-          )}
+          </SignedOut>
         </div>
       </div>
     </div>
