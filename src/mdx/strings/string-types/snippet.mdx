@@ -1,6 +1,26 @@
 ```rust
 fn main() {
-  // TODO: Declare and use a String, a string slice, and a string literal
-}
+    // Example of a mutable String
+    let mut story = String::from("Geralt rode through the dark forest");
 
+    /* TODO: Modify the String by adding more text using the push_str method */
+
+    println!("Campfire story: {}", story); // Prints the growing story
+
+    // Example of a string slice
+    let full_story = String::from(
+        "Geralt rode through the dark forest, facing the eerie Leshen",
+    );
+
+    /* TODO: Create a slice of the story */
+
+    println!("Part of the story: {}", part_of_story); // Prints the slice of the story
+
+    // Example of a string literal
+    let written_story = "Geralt's adventures are known across the lands.";
+
+    /* TODO: Print the string literal */
+    
+    println!("Written story: {}", written_story); // Prints the string literal
+}
 ```
