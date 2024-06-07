@@ -1,33 +1,30 @@
 ```rust
 #[derive(Debug)]
-enum YourEnum {
-  /* TODO: Define states or types */
+enum HouseState {
+  AtPeace,
+  AtWar,
 }
 
-struct YourStruct {
-  /* TODO: Define fields */
+struct House {
+  name: String,
+  region: String,
+  bannermen: u32,
+  state: HouseState,
 }
 
-trait YourTrait {
-  fn action_one(&self);
-  fn action_two(&mut self, value: u32);
-}
+/* TODO: Define a trait with methods representing common actions */
 
-impl YourTrait for YourStruct {
-  fn action_one(&self) {
-    /* TODO: Implement action */
-  }
-  fn action_two(&mut self, value: u32) {
-    /* TODO: Implement action that changes state */
-  }
-}
+/* TODO: Implement the trait methods for the House struct */
 
 fn main() {
-  let mut your_instance = YourStruct {
-    /* TODO: Initialize your struct */
+  let mut house_baratheon = House {
+      name: String::from("Baratheon"),
+      region: String::from("The Stormlands"),
+      bannermen: 800,
+      state: HouseState::AtWar,
   };
-  your_instance.action_one();
-  your_instance.action_two(/* TODO: Provide a value */);
-}
 
+  /* TODO: Call the trait methods on the instance of the struct */
+
+}
 ```

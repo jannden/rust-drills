@@ -1,18 +1,20 @@
+
 ```rust
-struct YourStruct {
-  /* TODO: Define fields */
+struct House {
+  name: String,
+  region: String,
+  bannermen: u32,
 }
 
-impl YourStruct {
-  /* TODO: Define a method that modifies one of the fields */
-}
+/* TODO: Implement a method for the House struct to modify the bannermen field */
 
 fn main() {
-  let mut your_instance = YourStruct {
-    /* TODO: Initialize your struct */
+  let mut house_arryn = House {
+    name: String::from("Arryn"),
+    region: String::from("The Vale"),
+    bannermen: 500,
   };
 
-  /* TODO: Use the method you defined to modify the instance */
+  // TODO: Call the method to modify the bannermen field
 }
-
 ```

@@ -1,25 +1,27 @@
 ```rust
 #[derive(Debug)]
-enum YourEnum {
-  /* TODO: Define possible states */
+/* TODO: Define an enum with multiple variants to represent different states */
+
+struct House {
+  name: String,
+  region: String,
+  bannermen: u32,
+  state: /* TODO: Add the enum type here */,
 }
 
-struct YourStruct {
-  /* TODO: Define fields including an enum field */
-}
 
-impl YourStruct {
-  fn change_state(&mut self, new_state: YourEnum) {
-    /* TODO: Change the enum state */
-  }
-}
+/* TODO: Implement a method for the House struct to change the state field */
 
 fn main() {
-  let mut your_instance = YourStruct {
-    /* TODO: Initialize your struct */
+  let mut house_lannister = House {
+      name: String::from("Lannister"),
+      region: String::from("The Westerlands"),
+      bannermen: 1000,
+      state: /* TODO: Initialize the state field with a variant of the enum */,
   };
-  your_instance.change_state(/* TODO: Provide a new state */);
-  println!("Your instance is now {:?}", your_instance);
-}
 
+  /* TODO: Call the method to change the state of the house */
+
+  println!("House {} is now {:?}", house_lannister.name, house_lannister.state);
+}
 ```
