@@ -1,8 +1,6 @@
-In the given Rust code skeleton, implement a new error handling scenario for a different function. Modify the `DatabaseError` enum to include a new type of error, then create a function that can return this new error. Update the `match` statement in `main` to handle this new error type.
-
-
+Implement error handling using the `Result` enum with custom error types to represent different error states.
 
 **Plan:**
-1. Add a new error type to the `DatabaseError` enum.
-2. Write a new function that can return a `Result` type including your new error.
-3. Expand the `match` statement in `main` to handle this new error along with the existing ones. Start by adding the new error type to the `DatabaseError` enum.
+1. Create an enum to represent different error types.
+2. Implement a function that returns a `Result` type, which can either be `Ok` with successful data or `Err` with one of the error types.
+3. Use a match statement to handle the different error cases and print appropriate messages.

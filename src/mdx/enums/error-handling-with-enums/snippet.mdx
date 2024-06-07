@@ -1,19 +1,18 @@
 ```rust
-enum DatabaseError {
-  ConnectionLost,
-  AccessDenied,
-  NotFound,
-  /* TODO: Add a new error type */
-}
+/* TODO: Create an enum to represent different error types */
 
-fn new_function() -> Result<String, DatabaseError> {
-  // Implement your logic here that might return the new error
+fn access_database() -> Result<String, /* TODO: Replace with your error enum */> {
+  if rand::random() {
+      Ok("You are in.".to_string())
+    } else {
+      /* TODO: Return an appropriate error variant */
+    }
 }
 
 fn main() {
-  match new_function() {
-      /* TODO: Handle the new error type along with the existing ones */
+  match access_database() {
+      Ok(data) => println!("Data retrieved: {}", data),
+      /* TODO: Handle each error variant and print appropriate messages */
   }
 }
-
 ```

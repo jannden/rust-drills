@@ -1,18 +1,13 @@
 ```rust
-enum NewStateEnum {
-  /* TODO: Define different states */
+enum MatrixState {
+    RealWorld,
+    MatrixSimulation,
 }
 
-impl NewStateEnum {
-  fn transition(&self) -> NewStateEnum {
-    /* TODO: Implement state transition logic */
-  }
-}
+/* TODO: Implement state switching logic */
 
 fn main() {
-  let current_state = /* TODO: Initialize with one of the states */;
-  let new_state = current_state.transition();
-  // Demonstrate the transition
+    let current_state = MatrixState::RealWorld;
+    /* TODO: Switch states */
 }
-
 ```

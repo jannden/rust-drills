@@ -1,14 +1,18 @@
 ```rust
-enum NewScenario {
-  /* TODO: Define new scenarios */
+enum Scenario {
+  Battle,
+  Exploration,
 }
 
-fn new_match_guard(/* TODO: Define new condition */) -> NewScenario {
-  /* TODO: Implement match guards based on the new condition */
-}
+/* TODO: Implement a function that uses a match guard to decide the scenario based on health */
 
 fn main() {
-  /* TODO: Set a new condition, call your new function and use match to handle the outcomes */
-}
+  let neo_health = 30;
+  let scenario = match_guard(neo_health);
 
+  match scenario {
+    Scenario::Battle => println!("Neo chooses to fight."),
+    Scenario::Exploration => println!("Neo chooses to explore."),
+  }
+}
 ```
