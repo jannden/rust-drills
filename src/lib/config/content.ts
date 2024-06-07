@@ -29,8 +29,8 @@ export const categories = [
     icon: Telescope,
     decks: [
       {
-        slug: 'flow-control',
-        title: 'Flow Control',
+        slug: 'control-flow',
+        title: 'Control Flow',
         subtitle: 'A fun but comprehensive guide for Control Flow in Rust with metaphors from the world of Dune.',
         url: 'https://medium.com/rustaceans/rust-conditionals-a-fun-guide-with-examples-85e831c86501?sk=94edf6b826f7e5fe350f8d5f082ca6bd',
         imageUrl: flowControl,
@@ -63,10 +63,6 @@ export const categories = [
             heading: 'Enums with Data',
           },
           {
-            slug: 'methods-in-enums',
-            heading: 'Methods in Enums',
-          },
-          {
             slug: 'option-handling-with-enums',
             heading: 'Option handling with enums',
           },
@@ -81,6 +77,10 @@ export const categories = [
           {
             slug: 'enums-with-generics',
             heading: 'Enums with Generics',
+          },
+          {
+            slug: 'methods-in-enums',
+            heading: 'Methods in Enums',
           },
           {
             slug: 'enum-forwarding-with-delegation',
