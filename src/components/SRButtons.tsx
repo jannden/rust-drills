@@ -106,7 +106,7 @@ export default function SRButtons({
   if (isScheduled) {
     return (
       <div className="rounded bg-stone-100 px-3 py-2 text-center text-xs text-slate-600 uppercase">
-        <p>Scheduled</p>
+        <p>Repeat at</p>
         <p>{formatDate(scheduledDate).hours}</p>
         <p>{formatDate(scheduledDate).days}</p>
       </div>

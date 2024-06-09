@@ -14,7 +14,9 @@ type Props = {
 
 export default async function Deck({ params }: Props) {
 const deck = categories
-  .flatMap((category) => category.decks.map((deck) => ({ ...deck, categorySlug: category.slug })))
+  .flatMap((category) =>
+    category.decks.map((deck) => ({ ...deck, categorySlug: category.slug, categoryTitle: category.title }))
+  )
   .find((deck) => deck.slug === params.slug)
 
 if (!deck) {
@@ -24,7 +26,7 @@ if (!deck) {
   return (
     <>
       <Heading
-        heading={`${deck.title}: ${deck.title}`}
+        heading={`${deck.categoryTitle}: ${deck.title}`}
         description={deck.subtitle}
         back={`/categories/${deck.categorySlug}`}
       />
