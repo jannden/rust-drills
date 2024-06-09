@@ -1,13 +1,11 @@
 ```rust
-fn modify_plan(plan: &mut String) {
-    plan.push_str(" and execute silently");
-    println!("Plan inside modify function: {:?}", plan);
-}
-
 fn main() {
-    let mut operation_plan = String::from("Steal the diamond");
-    modify_plan(&mut operation_plan); // Pass mutable reference to modify
-    println!("Final plan after modification: {:?}", operation_plan); // Reflects the changes made
-}
+    let mut heist_plan = String::from("The Heist Plan");
 
+    /* TODO: Create a mutable reference to heist_plan */
+
+    /* TODO: Modify heist_plan using the mutable reference */
+
+    println!("Updated Original: {:?}", heist_plan);
+}
 ```

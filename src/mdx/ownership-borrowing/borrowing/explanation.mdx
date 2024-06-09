@@ -2,19 +2,19 @@ Borrowing allows multiple parts of your code to access data without taking owner
 
 Immutable borrowing is made with the `&` symbol.
 
-Rusty lets other members have a look at the heist plan:
+Ryan lets other members have a look at the heist plan:
 
 ```rust
 fn main() {
-    let rustys_plan = String::from("The Heist Plan");
+    let ryans_plan = String::from("The Heist Plan");
 
-    let linus_looking = &rustys_plan; // Linus reads the plan
+    let linus_looking = &ryans_plan; // Linus reads the plan
 
     println!("Plan details: {}", linus_looking);
 }
 ```
 
-Here, `linus_looking` is a reference to `rustys_plan`. Linus borrows the plan to read it but doesn't own it nor can he change it.
+Here, `linus_looking` is a reference to `ryans_plan`. Linus borrows the plan to read it but doesn't own it nor can he change it.
 
 Let's make Linus more professional and have him explore the plan in a function, again without taking ownership:
 

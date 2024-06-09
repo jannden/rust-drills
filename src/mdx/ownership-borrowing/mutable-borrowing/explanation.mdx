@@ -1,10 +1,10 @@
 Mutable borrowing allows the original to be modified without giving away the ownership of it.
 
-Important: Only one person can take the pen and adjust the document at a time and nobody can observe while the change is being made.
+Important: When a mutable borrow is active, there cannot be any other borrow at the same time (whether mutable or immutable).
 
 Mutable borrowing is made with the `&mut` symbol.
 
-For example, the team decides to make a last-minute change to the plan. Basher takes the initiative:
+For example, the team decides to make a last-minute change to the plan. Only one person can take the pen and adjust the document at a time and nobody can observe while the change is being made. Basher takes the initiative:
 
 ```rust
 fn main() {

@@ -1,12 +1,15 @@
 ```rust
-fn review_data(data: &str) {
-    println!("Reviewing borrowed data: {}", data);
+fn analyze_plan(plan: &str) {
+    println!("Analyzing borrowed plan: {}", plan);
 }
 
 fn main() {
-    let original_data = String::from("Sensitive Information");
-    review_data(&original_data); // Borrow original_data without ownership transfer
-    println!("After review: {:?}", original_data); // original_data remains accessible
-}
+    let heist_plan = String::from("The Heist Plan");
 
+    // TODO: Borrow heist_plan temporarily
+    // TODO: Pass the borrowed reference to analyze_plan
+
+    // The original heist_plan wasn't consumed and can still be used
+    println!("Original plan: {:?}", heist_plan);
+}
 ```

@@ -1,29 +1,25 @@
 ```rust
 fn main() {
-    let mut resource = String::from("Resource");
+    let mut heist_plan = String::from("The Heist Plan");
 
-    // Demonstrate valid immutable borrowing
-    let borrow1 = &resource;
-    let borrow2 = &resource;
-    println!("Borrowed: {} and {}", borrow1, borrow2);
+    let plan_for_discussion = &heist_plan; // Immutable reference
+    let second_discussion = &heist_plan; // Another immutable reference is fine
 
-    // Invalid mutable borrowing (uncomment to see the error)
-    // let borrow_mut = &mut resource;
+    // TODO: Attempt to create a mutable reference while immutable references are active
 
-    // Show valid mutable borrowing after immutable ones are done
-    {
-        let borrow_mut = &mut resource;
-        borrow_mut.push_str(" extended");
-        println!("Mutably borrowed: {}", borrow_mut);
-    }
+    println!("Plan for discussion: {}", plan_for_discussion);
 
-    // Demonstrate a dangling reference (uncomment to see the error)
-    let dangling_ref;
-    {
-        let inner_resource = String::from("Inner");
-        // dangling_ref = &inner_resource;
-    }
-    // println!("Dangling reference: {}", dangling_ref);
+    // TODO: Demonstrate the second rule by creating a reference that remains valid within its scope
+
+    let plan_for_modification;
+
+    { // An inner scope starts
+        let heist_plan = String::from("The Heist Plan");
+
+        // Let's point plan_for_modification to heist_plan:
+        plan_for_modification = &heist_plan;
+    } // heist_plan goes out of scope and is dropped here
+
+    // TODO: Ensure references do not outlive the data they point to
 }
-
 ```
