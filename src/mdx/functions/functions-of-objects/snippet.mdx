@@ -1,27 +1,19 @@
 ```rust
-// Define your struct
-struct YourStruct {
-  // Define fields
+struct  Droid {
+  name: String,
 }
 
-impl YourStruct {
-  // Define an associated function
-  fn new(/* Parameters */) -> YourStruct {
-    // Implementation
-  }
+impl  Droid {
+  /* TODO: Define the necessary associated function 'new' */
 
-  // Define a method
-  fn your_method(&self) {
-    // Implementation
-  }
+  /* TODO: Define the necessary method 'hack_system' */
 }
 
 fn main() {
-  // Create an instance of your struct using the associated function
-  let your_instance = YourStruct::new(/* Arguments */);
+  // Create a new Droid using the associated function
+  let bb8 = Droid::new("BB-8");
 
-  // Call a method on your instance
-  your_instance.your_method();
+  // Let the droid use a method
+  bb8.hack_system();
 }
-
 ```

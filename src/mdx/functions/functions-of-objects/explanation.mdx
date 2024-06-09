@@ -31,3 +31,5 @@ fn main() {
 ```
 
 So what's the difference between an associated function and a method? Notice the `&self` part (or sometimes `&mut self`). I am simplifying a little here, but a method has access to the struct itself and can either read it or modify it. An associated function cannot.
+
+There is also a difference in how the functions are called. Methods are called on an instance of the struct, while associated functions are called on the struct itself.
