@@ -1,14 +1,19 @@
 ```rust
-enum YourEnum {
-  /* TODO: Define different variants for your scenario */
+enum MiddleEarthBeing {
+  Human(String),
+  Elf(String),
+  Dwarf(String),
+  Hobbit(String),
 }
 
 fn main() {
-  let your_vector = vec![
-    /* TODO: Populate your vector with different enum instances */
+  let council_members = vec![
+    MiddleEarthBeing::Human("Aragorn".to_string()),
+    MiddleEarthBeing::Elf("Legolas".to_string()),
+    MiddleEarthBeing::Dwarf("Gimli".to_string()),
+    MiddleEarthBeing::Hobbit("Frodo".to_string()),
   ];
 
-  /* TODO: Iterate over your vector and match each element to execute its unique action */
+  // TODO: Iterate over the vector and handle each variant with a match statement
 }
-
 ```
