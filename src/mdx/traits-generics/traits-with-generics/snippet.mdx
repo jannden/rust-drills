@@ -1,28 +1,19 @@
 ```rust
-// Define a trait with behavior
-trait YourTrait {
-    fn action(&self);
+trait Operation {
+    fn run(&self);
 }
 
-// Define a generic struct implementing the trait
-struct YourStruct<T> {
-    entity: T,
+struct Business<T> {
+    name: T,
 }
 
-impl<T> YourTrait for YourStruct<T> {
-    fn action(&self) {
-        // Define behavior here
-    }
-}
-
-// Define a function to operate on the trait
-fn operate<T: YourTrait>(item: T) {
-    item.action();
-}
+/* TODO: Implement the trait for the generic struct */
 
 fn main() {
-    let instance = YourStruct { entity: "Your Entity" };
-    operate(instance);
-}
+    let illegal_business = Business {
+        name: "Gambling",
+    };
 
+    illegal_business.run();
+}
 ```

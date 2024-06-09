@@ -1,36 +1,19 @@
 ```rust
-trait YourTrait {
-    type YourType;
+/* TODO: Define a trait with an associated type and a method called 'perform_duty' */
 
-    fn your_method(&self, param: Self::YourType);
-}
+struct ArthurShelby;
 
-struct YourStruct1;
+/* TODO: Implement the trait for ArthurShelby, specifying the associated type in the form of String and method implementation */
 
-impl YourTrait for YourStruct1 {
-    type YourType = String;
+struct FinnShelby;
 
-    fn your_method(&self, param: Self::YourType) {
-        println!("Using YourStruct1 with a String: {}", param);
-    }
-}
-
-struct YourStruct2;
-
-impl YourTrait for YourStruct2 {
-    type YourType = i32;
-
-    fn your_method(&self, param: Self::YourType) {
-        println!("Using YourStruct2 with an integer: {}", param);
-    }
-}
+/* TODO: Implement the trait for FinnShelby, specifying the associated type in the form of i32 and method implementation */
 
 fn main() {
-    let struct1 = YourStruct1;
-    let struct2 = YourStruct2;
+    let arthur = ArthurShelby;
+    let finn = FinnShelby;
 
-    struct1.your_method("a specific task".to_string());
-    struct2.your_method(42);
+    arthur.perform_duty(String::from("Negotiate with the New York gangs"));
+    finn.perform_duty(15);
 }
-
 ```

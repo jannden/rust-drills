@@ -280,12 +280,12 @@ export const categories = [
             heading: 'Generics',
           },
           {
-            slug: 'traits-with-generics',
-            heading: 'Traits with Generics',
-          },
-          {
             slug: 'generics-with-trait-bounds',
             heading: 'Generics with Trait Bounds',
+          },
+          {
+            slug: 'traits-with-generics',
+            heading: 'Traits with Generics',
           },
           {
             slug: 'associated-types-in-traits',

@@ -1,29 +1,23 @@
 ```rust
-trait BasicTrait {
-    fn base_behavior(&self) -> String;
+trait Shelby {
+    fn identity(&self) -> String;
 }
 
-trait SuperTrait: BasicTrait {
-    fn advanced_behavior(&self);
-}
+/* TODO: Define a supertrait trait named ShelbyLeader with a method make_decision */
 
-struct YourStruct;
+struct TommyShelby;
 
-impl BasicTrait for YourStruct {
-    fn base_behavior(&self) -> String {
-        "Basic Behavior".to_string()
+impl Shelby for TommyShelby {
+    fn identity(&self) -> String {
+        String::from("Tommy Shelby")
     }
 }
 
-impl SuperTrait for YourStruct {
-    fn advanced_behavior(&self) {
-        println!("{} performs an advanced behavior", self.base_behavior());
-    }
-}
+/* TODO: Implement the supertrait ShelbyLeader for TommyShelby */
 
 fn main() {
-    let instance = YourStruct;
-    instance.advanced_behavior();
+    let tommy = TommyShelby;
+    println!("I am {}", tommy.identity());
+    tommy.make_decision();
 }
-
 ```

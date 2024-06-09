@@ -3,33 +3,40 @@ Combining Traits and Generics brings together the best of both worlds.
 Let's expand Shelby's operations to include different types of businesses, each requiring a unique strategy.
 
 ```rust
-trait Operation {
-    fn run(&self);
+trait Operation {\
+    fn run(&self);\
 }
 
-struct Illegal<T> {
-    business: T,
+struct Business<T> {\
+    name: T,\
 }
 
-impl<T> Operation for Illegal<T> {
-    fn run(&self) {
-        println!("Running an illegal business.");
-    }
+impl<T> Operation for Business<T> {\
+    fn run(&self) {\
+        let _ = &self.name; // Accessing name\
+        println!("Business run successfully.");\
+    }\
 }
 
-fn operate_business<T: Operation>(business: T) {
-    business.run();
-}
-
-fn main() {
-    let illegal_business = Illegal {
-        business: "Gambling",
+fn main() {\
+    let illegal_business = Business {\
+        name: "Gambling",\
     };
 
-    operate_business(illegal_business);
+    illegal_business.run();\
 }
 ```
 
-In this example, the `Operation` trait is implemented for both legal and illegal business types using generics.
+In this example, the `Operation` trait is implemented for the `Business` struct which also uses generics.
 
-Usually, though, traits with generics rely on trait bounds.
+We can't do much with the `name` field of the struct though. Since it's generic, Rust doesn't know what it will be and what it can do. That's why usually, traits with generics rely on trait bounds.
+
+For example, we can require the generic field `name` to implement the `Display` trait from the standard library, so that Rust is sure it can be printed out.
+
+```rust
+impl<T: std::fmt::Display> Operation for Business<T> {\
+    fn run(&self) {\
+        println!("Business {} run successfully.", self.name);\
+    }\
+}
+```

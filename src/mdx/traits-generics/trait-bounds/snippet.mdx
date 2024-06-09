@@ -1,27 +1,22 @@
 ```rust
-// Define a trait with behavior
-trait YourTrait {
-    fn behavior(&self);
-}
-
-// Define a struct that implements this trait
-struct YourStruct;
-
-impl YourTrait for YourStruct {
-    fn behavior(&self) {
-        // Implementation
+trait Shelby {
+    fn speak(&self) {
+        println!("How are ya?");
     }
 }
 
-// Define a function with a trait bound parameter
-fn your_function(item: impl YourTrait) {
-    // Function logic that uses the trait method
-    item.behavior();
+struct FinnShelby;
+
+impl Shelby for FinnShelby {}
+
+/* TODO: At this line, create a function signature with a trait bound */
+    println!("Stranger: Nice to meet you!");
+    print!("Shelby: ");
+    shelby.speak();
 }
 
 fn main() {
-    let instance = YourStruct;
-    your_function(instance);
+    let finn = FinnShelby;
+    meet_and_greet(finn);
 }
-
 ```

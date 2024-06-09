@@ -1,8 +1,8 @@
-Using the Newtype pattern, write a new Rust program where you wrap an external type in a new struct and implement a trait for that struct. Choose a scenario where this pattern would be beneficial, possibly to extend or adapt functionality that you otherwise couldn't modify directly.
-
-
+Use the Newtype pattern to implement a trait for an external type by wrapping it in a new struct.
 
 **Plan:**
-1. Define an 'external' type, then create a Newtype wrapping this type.
-2. Define a trait with at least one method.
-3. Implement this trait for your Newtype, thereby extending or adapting the functionality of the external type. Start by defining your external type and the Newtype.
+1. Define an external type (or assume one is defined).
+2. Create a new struct that wraps the external type.
+3. Define a trait with a method.
+4. Implement the trait for the new struct.
+5. Use the new struct and its trait implementation in the `main` function.

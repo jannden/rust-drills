@@ -1,19 +1,12 @@
 ```rust
-// Define a trait with a default method
-trait YourTrait {
-    fn common_behavior(&self) {
-        // Default behavior implementation
-    }
-}
+/* TODO: Define a trait with a method and with a default implementation */
 
-// Define a struct that will use the default method
-struct YourStruct;
+struct FinnShelby;
 
-impl YourTrait for YourStruct {}
+impl Shelby for FinnShelby {}
 
 fn main() {
-    let instance = YourStruct;
-    instance.common_behavior();
+    let finn = FinnShelby;
+    finn.speak();
 }
-
 ```

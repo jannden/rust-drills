@@ -1,31 +1,16 @@
 ```rust
-// Define a common behavior trait
-trait YourTrait {
-    fn common_behavior(&self);
-}
+/* TODO: Define a trait with a method (without a default implementation) */
 
-// Define your structs
-struct YourStruct1;
-struct YourStruct2;
+struct ThomasShelby;
 
-// Implement the trait for your structs
-impl YourTrait for YourStruct1 {
-    fn common_behavior(&self) {
-        // Unique behavior for YourStruct1
-    }
-}
+struct ArthurShelby;
 
-impl YourTrait for YourStruct2 {
-    fn common_behavior(&self) {
-        // Unique behavior for YourStruct2
-    }
-}
+/* TODO: Implement the trait for ThomasShelby */
+/* TODO: Implement the trait for ArthurShelby */
 
 fn main() {
-    let instance1 = YourStruct1;
-    let instance2 = YourStruct2;
-    instance1.common_behavior();
-    instance2.common_behavior();
+  let tommy = ThomasShelby;
+  let arthur = ArthurShelby;
+  /* TODO: Call the trait method on instances of the structures */
 }
-
 ```
