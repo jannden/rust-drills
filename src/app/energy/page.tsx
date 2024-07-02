@@ -9,6 +9,7 @@ import { defaultAI } from '@/lib/config/ai'
 import { prisma } from '@/lib/prisma'
 import { calculateTotalTokens } from '@/lib/utils'
 import { categories } from '@/lib/config/content'
+import { getAllDecks } from '@/lib/server/getBySlugs'
 
 export default async function EnergyPage() {
   const user = await getClerkWithDb()
@@ -33,7 +34,7 @@ export default async function EnergyPage() {
   })
 
   const enhancedPrompts = prompts.map((p) => {
-    const allDecks = categories.flatMap((category) => category.decks)
+    const allDecks = getAllDecks()
     const deckTitle = allDecks.find((deck) => deck.slug === p.memory?.deckSlug)?.title ?? ''
     const allSnippetsWithDeckSlug = allDecks.flatMap((deck) =>
       deck.snippets.map((snippet) => ({ heading: snippet.heading, snippetSlug: snippet.slug, deckSlug: deck.slug }))

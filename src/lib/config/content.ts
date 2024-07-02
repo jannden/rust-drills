@@ -243,8 +243,8 @@ export const categories = [
             heading: 'Function Signatures',
           },
           {
-            slug: 'functions-of-objects',
-            heading: 'Functions of Objects',
+            slug: 'methods-and-associated-functions',
+            heading: 'Methods and Associated Functions',
           },
           {
             slug: 'error-handling',
@@ -286,6 +286,10 @@ export const categories = [
           {
             slug: 'traits-with-generics',
             heading: 'Traits with Generics',
+          },
+          {
+            slug: 'trait-objects',
+            heading: 'Trait Objects',
           },
           {
             slug: 'associated-types-in-traits',

@@ -1,4 +1,4 @@
-Functions of objects are called methods or associated functions. They can be likened to the specialized functions of droids in Star Wars. Each droid (object) has unique capabilities (functions).
+Methods and associated functions  can be likened to the specialized capabilities of droids in Star Wars.
 
 Let's use R2-D2's methods to hack into the Death Star's mainframe.
 
@@ -9,7 +9,7 @@ struct  Droid {
 
 impl  Droid {
   // Associated function to create a new Droid
-  fn  new(name: &str) -> Droid {
+  fn new(name: &str) -> Droid {
     Droid {
       name: name.to_string(),
     }

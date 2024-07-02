@@ -10,6 +10,7 @@ import Button, { ButtonType, ButtonVariant } from '@/components/Button'
 import { prisma } from '@/lib/prisma'
 import Snippet from '@/components/Snippet'
 import { categories } from '@/lib/config/content'
+import { getAllDecks } from '@/lib/server/getBySlugs'
 
 export default async function Profile() {
   const user = await getClerkWithDb()
@@ -30,7 +31,7 @@ export default async function Profile() {
 
   const overdueMemoriesInDecks = overdueMemories.reduce(
     (acc, memory) => {
-      const allDecks = categories.flatMap((category) => category.decks)
+      const allDecks = getAllDecks()
       const deck = allDecks.find((deck) => deck.slug === memory.deckSlug)
       if (!deck) {
         return acc
@@ -40,6 +41,7 @@ export default async function Profile() {
       if (existingDeck) {
         existingDeck.memories.push({
           id: memory.id,
+          categorySlug: memory.categorySlug,
           deckSlug: memory.deckSlug,
           snippetSlug: memory.snippetSlug,
         })
@@ -50,6 +52,7 @@ export default async function Profile() {
           memories: [
             {
               id: memory.id,
+              categorySlug: memory.categorySlug,
               deckSlug: memory.deckSlug,
               snippetSlug: memory.snippetSlug,
             },
@@ -59,7 +62,11 @@ export default async function Profile() {
 
       return acc
     },
-    [] as { slug: string; title: string; memories: { id: string; deckSlug: string; snippetSlug: string }[] }[]
+    [] as {
+      slug: string
+      title: string
+      memories: { id: string; categorySlug: string; deckSlug: string; snippetSlug: string }[]
+    }[]
   )
 
   return (
@@ -84,7 +91,12 @@ export default async function Profile() {
               <hr className="pb-8" />
               <Heading heading={deck.title} />
               {deck.memories.map((memory) => (
-                <Snippet key={memory.id} deckSlug={memory.deckSlug} snippetSlug={memory.snippetSlug} />
+                <Snippet
+                  key={memory.id}
+                  categorySlug={memory.categorySlug}
+                  deckSlug={memory.deckSlug}
+                  snippetSlug={memory.snippetSlug}
+                />
               ))}
             </div>
           ))}

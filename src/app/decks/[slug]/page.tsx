@@ -5,6 +5,7 @@ import Alert, { AlertVariant } from '@/components/Alert'
 import Heading from '@/components/Heading'
 import Snippet from '@/components/Snippet'
 import { categories } from '@/lib/config/content'
+import { getAllDecks } from '@/lib/server/getBySlugs'
 
 type Props = {
   params: {
@@ -13,15 +14,12 @@ type Props = {
 }
 
 export default async function Deck({ params }: Props) {
-const deck = categories
-  .flatMap((category) =>
-    category.decks.map((deck) => ({ ...deck, categorySlug: category.slug, categoryTitle: category.title }))
-  )
-  .find((deck) => deck.slug === params.slug)
+  const allDecks = getAllDecks()
+  const deck = allDecks.find((deck) => deck.slug === params.slug)
 
-if (!deck) {
-  return <Alert message="Deck not found." variant={AlertVariant.Red} />
-}
+  if (!deck) {
+    return <Alert message="Deck not found." variant={AlertVariant.Red} />
+  }
 
   return (
     <>
@@ -32,7 +30,12 @@ if (!deck) {
       />
 
       {deck.snippets.map((snippet) => (
-        <Snippet key={`${deck.slug}/${snippet.slug}`} deckSlug={deck.slug} snippetSlug={snippet.slug} />
+        <Snippet
+          key={`${deck.slug}/${snippet.slug}`}
+          categorySlug={deck.categorySlug}
+          deckSlug={deck.slug}
+          snippetSlug={snippet.slug}
+        />
       ))}
     </>
   )

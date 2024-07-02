@@ -1,0 +1,31 @@
+```rust
+trait Shelby {
+    fn speak(&self);
+}
+
+struct ArthurShelby;
+struct AdaShelby;
+
+impl Shelby for ArthurShelby {
+    fn speak(&self) {
+        println!("I'm Arthur Shelby");
+    }
+}
+
+impl Shelby for AdaShelby {
+    fn speak(&self) {
+        println!("I'm Ada Shelby");
+    }
+}
+
+/* TODO: Create the a function that accepts a trait object and calls it's method */
+
+fn main() {
+    let arthur = ArthurShelby;
+    let ada = AdaShelby;
+
+    /* TODO: Create a collection to store trait objects */
+
+    /* TODO: Iterate over the collection and pass each trait object to the function */
+}
+```

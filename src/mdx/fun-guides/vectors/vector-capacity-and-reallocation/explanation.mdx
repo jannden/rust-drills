@@ -1,0 +1,22 @@
+The journey through Middle-Earth is unpredictable, requiring flexibility in plans and resources. Similarly, a Vector in Rust has a capacity that can change dynamically.
+
+As the Fellowship prepares for its journey, the members must ensure they have enough supplies, much like managing the capacity of a Vector.
+
+```rust
+fn main() {
+  let mut supplies = Vec::with_capacity(5);
+
+  supplies.push("Lembas Bread");
+  supplies.push("Elven Rope");
+  // ... more items are added
+
+  println!("Total supplies: {}", supplies.len());
+  println!("Capacity of the backpack: {}", supplies.capacity());
+}
+```
+
+In this example, `Vec::with_capacity(5)` creates a Vector with an initial capacity for 5 items, ensuring the Fellowship has a pre-determined space for essential supplies. As items are added, Rust automatically increases the capacity if needed, just as the Fellowship might acquire more supplies along their journey.
+
+Without pre-allocating capacity, every time the vector exceeds its current capacity, it needs to reallocate memory to accommodate additional elements. This reallocation involves allocating new memory, copying the existing elements to the new memory location, and then deallocating the old memory. This can be an expensive operation, especially if it happens frequently.
+
+Also, note that the `capacity` of a vector is the amount of memory allocated for elements, while the `length` (or `len()`) is the number of elements currently in the vector.

@@ -1,0 +1,37 @@
+We can iterate over vectors so that we get access to each element.
+
+Let's imagine that the Ents decide to march against Saruman and each of them wants to announce it.
+
+```rust
+fn main() {
+  let ents = vec!["Treebeard", "Quickbeam", "Beechbone"];
+
+  // Iterating over the Ents
+  for ent in ents {
+    println!("I, {}, am marching to Isengard!", ent);
+  }
+
+  // The ents vector is consumed, so this would error out:
+  // println!("{:?}", ents);
+}
+```
+
+After the loop, the vector `ents` is no longer usable because it has been consumed by the iteration. The vector's ownership has been transferred to the loop.
+
+If we want to keep the vector intact, we can use the `iter` method:
+
+```rust
+fn main() {
+  let ents = vec!["Treebeard", "Quickbeam", "Beechbone"];
+
+  // Iterating over the Ents
+  for ent in ents.iter() {
+    println!("I, {}, am marching to Isengard!", ent);
+  }
+
+  // The ents vector is intact:
+  println!("{:?}", ents);
+}
+```
+
+Now, `ents.iter()` creates an iterator that borrows each element of the vector. The `for` loop iterates over these references. After the loop, the vector `ents` can still be used since its ownership has not been affected by the iteration.

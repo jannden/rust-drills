@@ -17,11 +17,12 @@ import Alert, { AlertVariant } from './Alert'
 import { SignedIn, SignedOut } from '@clerk/nextjs'
 
 export type Props = {
+  categorySlug: string
   deckSlug: string
   snippetSlug: string
 }
 
-export default async function Snippet({ deckSlug, snippetSlug }: Props) {
+export default async function Snippet({ categorySlug, deckSlug, snippetSlug }: Props) {
   const user = await getClerkWithDb()
 
   const snippet = await getSnippetBySlugs(deckSlug, snippetSlug)
@@ -40,7 +41,7 @@ export default async function Snippet({ deckSlug, snippetSlug }: Props) {
     })
   }
 
-  const content = await loadMdx(deckSlug, snippetSlug, ContentVariant.explanation)
+  const content = await loadMdx(categorySlug, deckSlug, snippetSlug, ContentVariant.explanation)
 
   return (
     <div

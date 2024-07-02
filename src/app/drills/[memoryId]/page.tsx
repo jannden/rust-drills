@@ -50,9 +50,14 @@ export default async function ChatDetailPage({ params }: Props) {
     return <Alert message="Snippet not found." variant={AlertVariant.Red} />
   }
 
-  const contentExplanation = await loadMdx(memory.deckSlug, memory.snippetSlug, ContentVariant.explanation)
-  const contentTask = await loadMdx(memory.deckSlug, memory.snippetSlug, ContentVariant.task)
-  const contentSnippet = await loadMdx(memory.deckSlug, memory.snippetSlug, ContentVariant.snippet)
+  const contentExplanation = await loadMdx(
+    memory.categorySlug,
+    memory.deckSlug,
+    memory.snippetSlug,
+    ContentVariant.explanation
+  )
+  const contentTask = await loadMdx(memory.categorySlug, memory.deckSlug, memory.snippetSlug, ContentVariant.task)
+  const contentSnippet = await loadMdx(memory.categorySlug, memory.deckSlug, memory.snippetSlug, ContentVariant.snippet)
 
   let promptId = memory.prompts?.[0]?.id
   if (!promptId) {

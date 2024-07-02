@@ -1,0 +1,123 @@
+Sometimes, you may want to use different types that implement the same trait interchangeably.
+
+Suppose we have Arthur and Ada as different types both implementing the trait Shelby:
+
+```rust
+trait Shelby {
+    fn speak(&self);
+}
+
+struct ArthurShelby;
+struct AdaShelby;
+
+impl Shelby for ArthurShelby {
+    fn speak(&self) {
+        println!("I'm Arthur Shelby");
+    }
+}
+
+impl Shelby for AdaShelby {
+    fn speak(&self) {
+        println!("I'm Ada Shelby");
+    }
+}
+```
+
+As before, we will create a function that lets them speak.
+
+```rust
+fn main() {
+    let arthur = ArthurShelby;
+    let ada = AdaShelby;
+
+    greet_shelby(arthur);
+    greet_shelby(ada);
+}
+
+fn greet_shelby<T: Shelby>(shelby: T) {
+    println!("Stranger: Nice to meet you!");
+    print!("Shelby: ");
+    shelby.speak();
+}
+```
+
+That's all fine. However, we had to call the `greet_shelby` function separately for Arthur and Ada.
+
+If we had more Shelbys, it would be more intuitive to store all Shelbys in a vector and then iterate over the vector and call the function within the iteration. For example:
+
+```rust
+// This won't work
+
+fn main() {
+    let arthur = ArthurShelby;
+    let ada = AdaShelby;
+
+    let shelbys = vec![&arthur, &ada];
+
+    for shelby in shelbys {
+        greet_shelby(shelby);
+    }
+}
+```
+
+Rust doesn't allow us to store different Shelby members in a single collection. We get the `mismatched types` error for the vector.
+
+So, we need to create a vector that holds references to a single trait, which is called a trait object. This allows us to use dynamic dispatch, where the method to call is determined at runtime.
+
+```rust
+fn main() {
+    let arthur = ArthurShelby;
+    let ada = AdaShelby;
+
+    let shelbys: Vec<&dyn Shelby> = vec![&arthur, &ada];
+
+    for shelby in shelbys {
+        greet_shelby(shelby);
+    }
+}
+```
+
+In this updated version, we use `&dyn Shelby` to create a trait object. This allows us to store references to different types that implement the `Shelby` trait in a single `Vec`.
+
+We also need to update the `greet_shelby` function so that it accepts a trait object instead of a generic parameter with trait bound:
+
+```rust
+fn greet_shelby(shelby: &dyn Shelby) {
+    println!("Stranger: Nice to meet you!");
+    print!("Shelby: ");
+    shelby.speak();
+}
+```
+
+The `greet_shelby` function now accepts a reference to a trait object (`&dyn Shelby`).
+
+Even more idiomatic code would be without the references. But we cannot use `dyn Shelby` without the reference in this context, because the size for values of our trait object cannot be known at compilation time.
+
+We can go around it by using the smart pointer `Box<>`:
+
+```rust
+fn main() {
+    let arthur = ArthurShelby;
+    let ada = AdaShelby;
+
+    let shelbys: Vec<Box<dyn Shelby>> = vec![Box::new(arthur), Box::new(ada)];
+
+    for shelby in shelbys {
+        greet_shelby(shelby);
+    }
+}
+
+fn greet_shelby(shelby: Box<dyn Shelby>) {
+    println!("Stranger: Nice to meet you!");
+    print!("Shelby: ");
+    shelby.speak();
+}
+```
+
+Notice that we have replaced `&dyn Shelby` with `Box<dyn Shelby>` and instead of storing references in the vector, we use `Box::new()`. What's the difference?
+
+`Box<>` is a smart pointer that points to a heap-allocated data and owns that data. This means when you use `Box<dyn Shelby>`, you're storing owned trait objects (instead of references) in the vector. This is useful when the trait objects need to live as long as the vector without the need to manage lifetimes explicitly. On the other hand, `&dyn Shelby` refers to a borrowed reference, which means the lifetime of the objects it points to must be managed outside the vector to ensure they live as long as the vector uses them.
+
+This was a rather complex chapter, but I wanted to cover all relevant aspects of trait objects in one place so that you have a good overview.
+
+To sum up, with trait objects, we achieve the flexibility to work with different types implementing the same trait. You will find this useful when you need to store a collection of heterogeneous types that share common behavior.

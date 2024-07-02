@@ -34,11 +34,11 @@ fn main() {
 }
 ```
 
-Here, `part_of_story` is a slice of `full_story`. It doesn't contain the whole story but just a fragment, specifically the encounter with the Leshen. Unlike the whole story (`String`), this is just a reference to a part of the original --- and as such cannot be changed.
+Here, `part_of_story` is a slice of `full_story`. It doesn't contain the whole story but just a fragment, specifically the encounter with the Leshen. Unlike the whole story (`String`), this is just a reference to a part of the original - and as such cannot be changed.
 
 **String Literal**
 
-Finally, a string literal in Rust is also of the type `&str`, but it is more like a story that has been written down into a chronicle in The Witcher's world. It is fixed and cannot be changed --- immutable and eternal.
+Finally, a string literal in Rust is also of the type `&str`, but it is more like a story that has been written down into a chronicle in The Witcher's world. It is fixed and cannot be changed.
 
 ```rust
 fn main() {
