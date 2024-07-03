@@ -57,6 +57,7 @@ export default async function Snippet({ categorySlug, deckSlug, snippetSlug }: P
         </div>
         <div className="flex flex-row flex-wrap items-center justify-between gap-6 lg:w-28 lg:flex-col">
           <SRButtons
+            categorySlug={categorySlug}
             deckSlug={snippet.deckSlug}
             snippetSlug={snippet.snippetSlug}
             dateTimePlanned={memory?.dateTimePlanned ? DateTime.fromJSDate(memory.dateTimePlanned).toISO() : null}

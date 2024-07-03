@@ -10,12 +10,14 @@ import { DateTime } from 'luxon'
 import { useState } from 'react'
 
 export default function SRButtons({
+  categorySlug,
   deckSlug,
   snippetSlug,
   dateTimePlanned,
   defaultIsLearned,
   showPlannedDate,
 }: {
+  categorySlug: string
   deckSlug: string
   snippetSlug: string
   dateTimePlanned: string | null
@@ -30,6 +32,7 @@ export default function SRButtons({
     setLoading(true)
 
     const reqBody: MemoryPUTRequestType = {
+      categorySlug,
       deckSlug,
       snippetSlug,
       numberOfMistakes,

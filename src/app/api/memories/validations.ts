@@ -18,6 +18,7 @@ export const MemoryInfo = z.object({
 export type MemoryInfoType = z.infer<typeof MemoryInfo>
 
 export const MemoryPUTRequest = z.object({
+  categorySlug: z.string(),
   deckSlug: z.string(),
   snippetSlug: z.string(),
   numberOfMistakes: z.number(),

@@ -30,7 +30,7 @@ export async function PUT(req: Request): Promise<NextResponse<MemoryPUTResponseT
     return NextResponse.json({ error: publicErrorMessage }, { status: 400 })
   }
 
-  const { deckSlug, snippetSlug, numberOfMistakes } = body.data
+  const { categorySlug, deckSlug, snippetSlug, numberOfMistakes } = body.data
 
   let foundMemory: Prisma.MemoryGetPayload<{ include: { user: true } }> | null = null
   try {
@@ -146,6 +146,7 @@ export async function PUT(req: Request): Promise<NextResponse<MemoryPUTResponseT
 
   const newMemory = {
     ...updatedMemory,
+    categorySlug,
     deckSlug,
     snippetSlug,
     userId: user.db.id,

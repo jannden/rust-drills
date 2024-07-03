@@ -47,6 +47,7 @@ export default async function DrillingSnippet({ params }: Props) {
   try {
     newMemory = await prisma.memory.create({
       data: {
+        categorySlug: snippet.categorySlug,
         snippetSlug: snippet.snippetSlug,
         deckSlug: snippet.deckSlug,
         userId: user.db.id,
